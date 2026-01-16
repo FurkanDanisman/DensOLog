@@ -61,18 +61,19 @@ Bandwidth selection for this method uses selectors available in base R (`stats`)
 
 ---
 
-### References
+## References
 
-KernSmooth
-	•	Wand, M. P., & Jones, M. C. (1995). Kernel Smoothing. Chapman & Hall.
-	•	Ripley, B. D. (maintainer). KernSmooth: Functions for Kernel Smoothing Supporting Wand & Jones (1995). R package.
+### KernSmooth
 
-binnednp
-	•	Barreiro-Ures, D., Francisco-Fernández, M., Cao, R., Fraguela, B. B., Doallo, R., González-Andújar, J. L., & Reyes, M. (2019). Analysis of interval-grouped data in weed science: The binnednp Rcpp package. (Preprint / and published version in Ecology & Evolution).
+	- Wand, M. P., & Jones, M. C. (1995). Kernel Smoothing. Chapman & Hall.
+	- Ripley, B. D. (maintainer). KernSmooth: Functions for Kernel Smoothing Supporting Wand & Jones (1995). R package.
 
-Nonlinear KDE for binned data
-	•	Blower, G., & Kelsall, J. E. (2002). Nonlinear kernel density estimation for binned data: convergence in entropy. Bernoulli, 8(4), 423–449.
+###  binnednp
+	- Barreiro-Ures, D., Francisco-Fernández, M., Cao, R., Fraguela, B. B., Doallo, R., González-Andújar, J. L., & Reyes, M. (2019). Analysis of interval-grouped data in weed science: The binnednp Rcpp package. (Preprint / and published version in Ecology & Evolution).
 
-Bandwidth selection (R base stats)
-	•	R stats documentation: Bandwidth Selectors for Kernel Density Estimation (e.g., bw.nrd, bw.SJ, etc.).
+###  Nonlinear KDE for binned data
+	- Blower, G., & Kelsall, J. E. (2002). Nonlinear kernel density estimation for binned data: convergence in entropy. Bernoulli, 8(4), 423–449.
+
+###  Bandwidth selection (R base stats)
+	- R stats documentation: Bandwidth Selectors for Kernel Density Estimation (e.g., bw.nrd, bw.SJ, etc.).
 (Includes references such as Silverman (1986), Scott (1992), and Sheather & Jones (1991).)
