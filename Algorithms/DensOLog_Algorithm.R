@@ -110,10 +110,10 @@ get_fhatn <- function(x, grid, B=10000, alpha=2, seednum=20180621){
   #  range(xstar)
   #  range(grid)
   
-  preProcess(xstar, xgrid = NULL)
-  preProcess(xstar, xgrid = grid)
+  # preProcess(xstar, xgrid = NULL)
+  # preProcess(xstar, xgrid = grid)
   
-  mle2 <- logConDens(xstar,xgrid = gw3,smoothed=TRUE,print = FALSE)
+  mle2 <- logConDens(xstar,smoothed=TRUE,print = FALSE)
   
   return(list(fhatn = mle2, sumphat=sum(phat), checkZ = min(alpha+beta,alpha-beta)))
   
@@ -157,7 +157,11 @@ get_fhatn_with_n <- function(n_i, grid, B=10000, alpha=2, seednum=20180621){
   #  alpha-beta
   
   nn<-B
-  # set.seed(seednum) # REMOVED BY FURKAN
+
+  old_seed <- .Random.seed
+  on.exit({ .Random.seed <<- old_seed }, add = TRUE)
+  set.seed(seednum)
+  
   ystar <- sample(mle1$x * delta, nn, phat, replace=TRUE) 
   zstar <- delta*rbeta(nn, alpha+beta, alpha-beta)
   
