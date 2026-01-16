@@ -7,17 +7,15 @@ This repository provides code to run DensOLog and compare it against **three bas
 
 ## What’s in this repo
 
-At a high level, the workflow is:
-
-1. **Generate / load binned data** (simulation or real example)
-2. **Fit estimators** (DensOLog + baselines)
-3. **Compare** via plots and metrics
-4. **Reproduce figures** from simulations and the application example
+1. DensOLog and three baseline (KernSmooth, binnednp, NKDEBD) algorithms.
+2. Simulation codes and results to compare methods.
+3. Code to compare methods visually.
+4. Application of DensOLog on real data and synthetic data. 
 
 ### Repository structure
 
 - `Algorithms/`  
-  Core implementations of **DensOLog** and the **3 comparison methods**, plus shared utilities (e.g., binning helpers, normalizations, evaluation metrics).
+  Algorithms of **DensOLog** and the **3 comparison methods**, plus shared utilities (e.g., binning helpers, normalizations, evaluation metrics).
 
 - `Simulations/`  
   Scripts to reproduce simulation studies: data generation, repeated runs, saving results, and summary tables.
@@ -27,7 +25,7 @@ At a high level, the workflow is:
 
 - `Application_Example/`  
   End-to-end example on a real (or illustrative) dataset: data prep → estimation → plots.
-
+  
 ---
 
 ## Methods compared
@@ -63,16 +61,18 @@ Bandwidth selection for this method uses selectors available in base R (`stats`)
 
 ---
 
-## Installation
+### References
 
-### Requirements
-- R (recommended: a recent R 4.x)
-- Packages commonly used in this project may include:
-  - `stats` (base R)
-  - `KernSmooth`
-  - `binnednp` (optional / if available)
-  - plotting/tidy helpers depending on your scripts (e.g., `ggplot2`, `dplyr`, etc.)
+KernSmooth
+	•	Wand, M. P., & Jones, M. C. (1995). Kernel Smoothing. Chapman & Hall.
+	•	Ripley, B. D. (maintainer). KernSmooth: Functions for Kernel Smoothing Supporting Wand & Jones (1995). R package.
 
-### Install dependencies (minimal)
-```r
-install.packages(c("KernSmooth"))
+binnednp
+	•	Barreiro-Ures, D., Francisco-Fernández, M., Cao, R., Fraguela, B. B., Doallo, R., González-Andújar, J. L., & Reyes, M. (2019). Analysis of interval-grouped data in weed science: The binnednp Rcpp package. (Preprint / and published version in Ecology & Evolution).
+
+Nonlinear KDE for binned data
+	•	Blower, G., & Kelsall, J. E. (2002). Nonlinear kernel density estimation for binned data: convergence in entropy. Bernoulli, 8(4), 423–449.
+
+Bandwidth selection (R base stats)
+	•	R stats documentation: Bandwidth Selectors for Kernel Density Estimation (e.g., bw.nrd, bw.SJ, etc.).
+(Includes references such as Silverman (1986), Scott (1992), and Sheather & Jones (1991).)
