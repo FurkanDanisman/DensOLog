@@ -65,7 +65,7 @@ EMemp_with_n = function(n_i,grid){
 # get_fhatn 
 
 
-get_fhatn <- function(x, grid, B=10000, alpha=2, seednum=20180621){
+get_fhatn_prior <- function(x, grid, B=10000, alpha=2, seednum=20180621){
   
   n    <- length(x)
   pn   <- (hist(x, breaks=grid, plot=FALSE)$counts)/n
@@ -119,6 +119,59 @@ get_fhatn <- function(x, grid, B=10000, alpha=2, seednum=20180621){
   
 }
 
+
+get_fhatn <- function(x, grid, B=10000, alpha=2, seednum=20180621){
+  
+  n  <- length(x)
+  pn <- hist(x, breaks=grid, plot=FALSE)$counts / n   # length = length(grid)-1
+  
+  delta <- diff(grid)[1]   # uniform
+  g0    <- grid[1]
+  
+  # Use left edges as discrete support
+  grid_left <- grid[-length(grid)]
+  y <- rep(grid_left, times = round(n * pn))
+  
+  # Map to integers on the grid lattice
+  y_int <- as.integer(round((y - g0) / delta))
+  
+  mle1 <- logConDiscrMLE(y_int, output = FALSE)
+  phat <- exp(mle1$psi) / sum(exp(mle1$psi))
+  
+  # Moments computed in ORIGINAL scale
+  mu_low  <- sum(pn * grid_left)
+  mu_high <- sum(pn * grid[-1])
+  mu_mid  <- (mu_low + mu_high) / 2
+  
+  sigma <- sd(y)
+  
+  #mids  <- (grid[-length(grid)] + grid[-1]) / 2
+  #mu    <- sum(pn * mids)
+  #sigma <- sqrt(sum(pn * (mids - mu)^2) + delta^2/12)
+  
+  mu_n <- EMemp(x, grid, start=2, sigma=sigma)$mu_hat
+  
+  Delta <- mu_n - mu_low
+  beta  <- 2 * alpha * (Delta/delta - 0.5)
+  
+  nn <- B
+  old_seed <- .Random.seed
+  on.exit({ .Random.seed <<- old_seed }, add = TRUE)
+  set.seed(seednum)
+  
+  # Sample discrete part on integer support, then map BACK with g0 + k*delta
+  ystar <- sample(mle1$x, nn, prob = phat, replace = TRUE)
+  ystar <- g0 + ystar * delta
+  
+  zstar <- delta * rbeta(nn, alpha + beta, alpha - beta)
+  xstar <- ystar + zstar
+  
+  mle2 <- logConDens(xstar, smoothed=TRUE, print=FALSE)
+  
+  list(fhatn = mle2, sumphat = sum(phat), checkZ = min(alpha+beta, alpha-beta))
+  
+}
+
 get_fhatn_with_n <- function(n_i, grid, B=10000, alpha=2, seednum=20180621){
   
   delta = max(diff(grid)) # Taking the interval gap if [a_i, b_i) => delta = b_i - a_i 
@@ -126,53 +179,46 @@ get_fhatn_with_n <- function(n_i, grid, B=10000, alpha=2, seednum=20180621){
   
   n = sum(n_i)
   pn <- n_i/n
-  a_i <- grid[-length(grid)]
-  m_bar <- sum(a_i * pn)  
-  y = rep(a_i,n_i)
-  length(y)
   
-  delta <- max(diff(grid)) # ADDED BY FURKAN
+  delta <- diff(grid)[1]   # uniform
+  g0    <- grid[1]
   
-  y = round(y/delta) # ADDED BY FURKAN - Turning y variables into integers (Way around for logConDiscMLE function to work)
+  # Use left edges as discrete support
+  grid_left <- grid[-length(grid)]
+  y <- rep(grid_left, times = round(n * pn))
   
-  mle1 <- logConDiscrMLE(y,output = FALSE)
-  #  mle1
-  phat <- exp(mle1$psi)/sum(exp(mle1$psi))
-  #  sum(phat)  
+  # Map to integers on the grid lattice
+  y_int <- as.integer(round((y - g0) / delta))
   
-  delta <- max(diff(grid))
+  mle1 <- logConDiscrMLE(y_int, output = FALSE)
+  phat <- exp(mle1$psi) / sum(exp(mle1$psi))
   
-  mu_low <- sum(pn*grid[-length(grid)])
-  mu_high <- sum(pn*grid[-1])
-  mu_mid <-(mu_low+mu_high)/2
+  # Moments computed in ORIGINAL scale
+  mu_low  <- sum(pn * grid_left)
+  mu_high <- sum(pn * grid[-1])
+  mu_mid  <- (mu_low + mu_high) / 2
   
-  mu_n <- Log_Con_Discr_Algorithm_method3_mu_hat(n_i,grid)
+  sigma <- sd(y)
   
-  Delta <- mu_n-mu_low
-  alpha <- alpha
-  beta <- 2*alpha*(Delta/delta-0.5)
+  mu_n <- EMemp_with_n(n_i,grid)$mu_hat
   
-  #  TODO   
-  #  alpha+beta
-  #  alpha-beta
+  Delta <- mu_n - mu_low
+  beta  <- 2 * alpha * (Delta/delta - 0.5)
   
-  nn<-B
-
+  nn <- B
   old_seed <- .Random.seed
   on.exit({ .Random.seed <<- old_seed }, add = TRUE)
   set.seed(seednum)
   
-  ystar <- sample(mle1$x * delta, nn, phat, replace=TRUE) 
-  zstar <- delta*rbeta(nn, alpha+beta, alpha-beta)
+  # Sample discrete part on integer support, then map BACK with g0 + k*delta
+  ystar <- sample(mle1$x, nn, prob = phat, replace = TRUE)
+  ystar <- g0 + ystar * delta
   
-  xstar <- ystar+zstar
-  #  mean(xstar)
-  #  mu_n
-  #  range(xstar)
-  #  range(grid)
+  zstar <- delta * rbeta(nn, alpha + beta, alpha - beta)
+  xstar <- ystar + zstar
   
-  mle2 <- logConDens(xstar, smoothed=TRUE,print = FALSE)
+  mle2 <- logConDens(xstar, smoothed=TRUE, print=FALSE)
   
-  return(list(fhatn = mle2, sumphat=sum(phat), checkZ = min(alpha+beta,alpha-beta)))
+  list(fhatn = mle2, sumphat = sum(phat), checkZ = min(alpha+beta, alpha-beta))
   
 }
