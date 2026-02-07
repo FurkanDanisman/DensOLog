@@ -1,7 +1,7 @@
 library(KernSmooth)
 library(binnednp)
 
-# ---------- Helper: validate bins ----------
+# Helper: validate bins 
 .validate_binned_input <- function(counts, breaks) {
   if (!is.numeric(counts) || !is.numeric(breaks)) stop("counts and breaks must be numeric.")
   if (length(breaks) != length(counts) + 1) stop("Need length(breaks) = length(counts)+1.")
@@ -11,7 +11,7 @@ library(binnednp)
   invisible(TRUE)
 }
 
-# ---------- Helper: validate a uniform, strictly increasing grid ----------
+# Helper: validate a uniform, strictly increasing grid 
 .validate_uniform_grid <- function(grid, name = "grid", rtol = 1e-8, atol = 1e-12) {
   if (!is.numeric(grid) || length(grid) < 2) stop(sprintf("%s must be numeric with length >= 2.", name))
   if (any(!is.finite(grid))) stop(sprintf("%s must be finite.", name))
@@ -32,7 +32,7 @@ library(binnednp)
   invisible(TRUE)
 }
 
-# ---------- Paper-suggested bandwidth ----------
+# Paper-suggested bandwidth
 simulate_pseudodata_uniform_in_bins <- function(counts, breaks, seed = NULL) {
   .validate_binned_input(counts, breaks)
   # if (!is.null(seed)) set.seed(seed)
@@ -54,7 +54,7 @@ simulate_pseudodata_uniform_in_bins <- function(counts, breaks, seed = NULL) {
   x
 }
 
-# ---------- SJ bandwidth for binned data (median over repetitions) ----------
+# SJ bandwidth for binned data (median over repetitions) 
 bw_SJ_from_binned <- function(counts, breaks, B = 50, seed = 1, bw_method = c("ste", "dpi")) {
   .validate_binned_input(counts, breaks)
   bw_method <- match.arg(bw_method)
@@ -67,7 +67,7 @@ bw_SJ_from_binned <- function(counts, breaks, B = 50, seed = 1, bw_method = c("s
   stats::median(hs, na.rm = TRUE)
 }
 
-# ---------- FFT convolution ----------
+# FFT convolution
 fft_convolve_real_open <- function(a, b) {
   n <- length(a) + length(b) - 1L
   nfft <- 2L^ceiling(log2(n))
@@ -77,7 +77,8 @@ fft_convolve_real_open <- function(a, b) {
   out[seq_len(n)]
 }
 
-# ---------- Main estimator: fixed point of T ----------
+# Main estimator: fixed point of T 
+
 # The algorithm evaluates the density on bin CENTERS derived from grid.
 nonlinear_kde_binned_BK2002 <- function(counts,
                                         breaks,
@@ -93,28 +94,19 @@ nonlinear_kde_binned_BK2002 <- function(counts,
   .validate_binned_input(counts, breaks)
   bw_method <- match.arg(bw_method)
   
-  # --- Interpret the user's grid as breaks (edges) and build centers ---
+  # Interpret the grid as breaks (edges) and build centers 
   .validate_uniform_grid(grid = grid, name = "grid (breaks)")
   grid_breaks <- grid
   x_grid <- (grid_breaks[-1] + grid_breaks[-length(grid_breaks)]) / 2  # centers
   dx <- x_grid[2] - x_grid[1]
   grid_n <- length(x_grid)
   
-  # --- Optional extension (off by default) ---
-  # If you ever want extension, we extend both breaks and centers consistently.
-  if (!is.null(extend) && extend > 0) {
-    # if h unknown yet, delay until after bandwidth selection
-    extend_requested <- TRUE
-  } else {
-    extend_requested <- FALSE
-  }
-  
   N <- sum(counts)
   p <- counts / N
   widths <- diff(breaks)
   m <- length(counts)
   
-  # Bandwidth selection (paper suggestion)
+  # Bandwidth selection
   if (is.null(h)) {
     h <- bw_SJ_from_binned(counts, breaks, B = bw_B, seed = bw_seed, bw_method = bw_method)
   }
@@ -141,7 +133,7 @@ nonlinear_kde_binned_BK2002 <- function(counts,
   }
   
   # Initial f0: histogram density on A, 0 outside
-  # NOTE: We assign bin densities to CENTER points that fall in each original break-interval.
+  # NOTE: Bin densities assigned to CENTER points that fall in each original break-interval.
   f <- numeric(grid_n)
   for (j in seq_len(m)) {
     in_bin <- (x_grid >= breaks[j]) & (x_grid < breaks[j + 1])
@@ -208,13 +200,14 @@ nonlinear_kde_binned_BK2002 <- function(counts,
     h = h,
     counts = counts,
     breaks = breaks,      # original histogram breaks used for binning counts
-    eval_breaks = grid_breaks, # breaks that define the evaluation grid (maybe extended)
+    eval_breaks = grid_breaks, # breaks that define the evaluation grid 
     dx = dx
   )
 }
 
 
-# ---------- Convenience plotting ----------
+# Convenience plotting 
+
 plot_binned_kde <- function(res, add_hist = TRUE, main = "Nonlinear binned KDE (BK2002)", ...) {
   x <- res$x
   fhat <- res$fhat
@@ -252,7 +245,7 @@ binned_np.func <- function(x, grid,
     sapply(x, function(xx) sum(w * dnorm((xx - t_mid) / h)) / h)
   }
   
-  # retry bw.dens.binned until it works
+  # retry bw.dens.binned if fails
   old_seed <- .Random.seed
   on.exit({ .Random.seed <<- old_seed }, add = TRUE)
   
@@ -318,8 +311,7 @@ dpik_with_fallback_jitter <- function(y, counts, breaks, grid,
                                       canonical = FALSE,
                                       truncate = TRUE) {
   
-  # sensible gridsize (avoid tying it to length(grid) if it's huge)
-  # but keep your choice if you insist:
+  # gridsize
   gs <- length(grid)
   
   try_dpik <- function(y_in) {
@@ -337,8 +329,6 @@ dpik_with_fallback_jitter <- function(y, counts, breaks, grid,
     try_dpik(y),
     error = function(e) {
       msg <- conditionMessage(e)
-      
-      # Only jitter for the specific failure you mentioned
       if (grepl("scale estimate is zero", msg, fixed = TRUE)) {
         # set.seed(seed)
         y2 <- simulate_pseudodata_uniform_in_bins(counts, breaks)
@@ -349,7 +339,6 @@ dpik_with_fallback_jitter <- function(y, counts, breaks, grid,
     }
   )
   
-  # also guard against pathological output
   if (!is.finite(h) || h <= 0) {
     # set.seed(seed)
     y2 <- simulate_pseudodata_uniform_in_bins(counts, breaks)
