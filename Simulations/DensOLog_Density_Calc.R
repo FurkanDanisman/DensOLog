@@ -18,6 +18,32 @@ L2_Distance_calc = function(x,grid,pdf,range){
   L2 = L2 + integral(function(u) pdf(u)^2, range[1], grid_narrow[1])
   L2 = L2 + integral(function(u) pdf(u)^2, grid_narrow[length(grid_narrow)], range[2])
   L2 = sqrt(L2)
+  L2
+  
+  return(L2)
+  
+}
+
+L2_Distance_calc_nonlogconc = function(x,grid,pdf,range){
+  
+  # Running the LCD Algorithm 
+  fhat2 <- get_fhatn(x, grid, alpha=2,log_conc = FALSE)
+  x_obs <- fhat2$fhatn$x  
+  delta = max(diff(grid))
+  rng <- range(x_obs, na.rm = TRUE)
+  grid_narrow <- grid[ grid >= rng[1] - delta & grid <= rng[2] + delta]
+  # grid_narrow = grid
+  true_density_values <- pdf(grid_narrow)
+  estimated_grid_density = evaluateLogConDens(grid_narrow,fhat2$fhatn)[,3]
+  
+  # Compute the absolute difference for L2 distance
+  sqr_differance <- (true_density_values - estimated_grid_density)^2
+  L2 = sum(sqr_differance*delta)
+  
+  L2 = L2 + integral(function(u) pdf(u)^2, range[1], grid_narrow[1])
+  L2 = L2 + integral(function(u) pdf(u)^2, grid_narrow[length(grid_narrow)], range[2])
+  L2 = sqrt(L2)
+  L2
   
   return(L2)
   
@@ -101,9 +127,9 @@ L2_from_kernsmooth <- function(x,grid, pdf, range) {
   counts <- hobj$counts
   centers <- (grid[-1] + grid[-length(grid)]) / 2
   
-  y <- rep(centers, times=counts)  # expand at centers (still discrete, but correct locations)
+  y <- rep(centers, times=counts)  # expand at centers
 
-  # 1) Bandwidth via dpik (your settings)
+  # 1) Bandwidth via dpik
   
   h <- dpik_with_fallback_jitter(
     y = y,
@@ -113,11 +139,7 @@ L2_from_kernsmooth <- function(x,grid, pdf, range) {
     seed = 1
   )
   
-  #h <- dpik(y, scalest="minim", level=2L, kernel="normal",
-  #          canonical=FALSE, gridsize=length(grid), range.x=range(grid), truncate=TRUE)
-  
-  
-  # 2) KDE via bkde (your settings)
+  # 2) KDE via bkde
   fit <- bkde(y, bandwidth = h,
               kernel = "normal", canonical = FALSE,
               gridsize = length(grid), range.x = range(grid),
