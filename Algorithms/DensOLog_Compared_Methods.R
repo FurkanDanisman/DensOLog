@@ -113,6 +113,7 @@ nonlinear_kde_binned_BK2002 <- function(counts,
   if (!is.finite(h) || h <= 0) stop("Bandwidth h must be positive and finite.")
   
   if (extend_requested) {
+    
     a0 <- min(grid_breaks)
     b0 <- max(grid_breaks)
     x_min <- a0 - extend * h
