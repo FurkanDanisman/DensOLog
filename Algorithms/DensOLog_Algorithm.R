@@ -120,7 +120,7 @@ get_fhatn_prior <- function(x, grid, B=10000, alpha=2, seednum=20180621){
 }
 
 
-get_fhatn <- function(x, grid, B=10000, alpha=2, seednum=20180621){
+get_fhatn <- function(x, grid, B=10000, alpha=2, seednum=20180621,log_conc = TRUE){
   
   n  <- length(x)
   pn <- hist(x, breaks=grid, plot=FALSE)$counts / n   # length = length(grid)-1
@@ -134,7 +134,6 @@ get_fhatn <- function(x, grid, B=10000, alpha=2, seednum=20180621){
   
   # Map to integers on the grid lattice
   y_int <- as.integer(round((y - g0) / delta))
-  
   mle1 <- logConDiscrMLE(y_int, output = FALSE)
   phat <- exp(mle1$psi) / sum(exp(mle1$psi))
   
@@ -144,7 +143,7 @@ get_fhatn <- function(x, grid, B=10000, alpha=2, seednum=20180621){
   mu_mid  <- (mu_low + mu_high) / 2
   
   sigma <- sd(y)
-  
+
   #mids  <- (grid[-length(grid)] + grid[-1]) / 2
   #mu    <- sum(pn * mids)
   #sigma <- sqrt(sum(pn * (mids - mu)^2) + delta^2/12)
@@ -166,11 +165,16 @@ get_fhatn <- function(x, grid, B=10000, alpha=2, seednum=20180621){
   zstar <- delta * rbeta(nn, alpha + beta, alpha - beta)
   xstar <- ystar + zstar
   
-  mle2 <- logConDens(xstar, smoothed=TRUE, print=FALSE)
+  if (log_conc == TRUE) {
+    mle2 <- logConDens(xstar, smoothed=TRUE, print=FALSE)
+  }else{
+    mle2 <- logConDens(xstar, smoothed=FALSE, print=FALSE) 
+  }
   
   list(fhatn = mle2, sumphat = sum(phat), checkZ = min(alpha+beta, alpha-beta))
   
 }
+
 
 get_fhatn_with_n <- function(n_i, grid, B=10000, alpha=2, seednum=20180621){
   
