@@ -176,8 +176,6 @@ for (i in 1:B) {
   
 }
 
-x_imp = x
-
 # Method-1 # 
 
 grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L1-n/L1-PDF-1-Normal-n-Method.pdf",width = 12, height = 10)
@@ -189,7 +187,7 @@ boxplot(res_norm_pdf_n_11_method1,res_norm_pdf_n_21_method1,res_norm_pdf_n_31_me
 #segments(x0 = 0.29, y0 = pdf_L1-norm_limit, x1 = 10^5, y1 = pdf_L1-norm_limit, col = "red", lty = 2)
 dev.off()
 
-par(mfrow = c(3,2))
+par(mfrow = c(2,2))
 
 par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(3,2),cex.lab=2,cex.axis=2,
     font.axis=1,cex.main=2)
@@ -1970,56 +1968,56 @@ colors4 <- rep("#E6A4C6",5)
 colors5 <- rep("#D55E00",5)
 
 # METHOD 1 #
-df_norm_n_method1  <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Sample_size/normal_sample_sim_data_method1.csv")
-df_beta_n_method1  <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Sample_size/beta_sample_sim_data_method1.csv")
-df_gamma_n_method1 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Sample_size/gamma_sample_sim_data_method1.csv")
-df_logis_n_method1 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Sample_size/logistic_sample_sim_data_method1.csv")
-df_t_n_method1     <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Sample_size/t_sample_sim_data_method1.csv")
+df_norm_n_method1  <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/normal_sample_sim_data_method1.csv")
+df_beta_n_method1  <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/beta_sample_sim_data_method1.csv")
+df_gamma_n_method1 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/gamma_sample_sim_data_method1.csv")
+df_logis_n_method1 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/logistic_sample_sim_data_method1.csv")
+df_t_n_method1     <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/t_sample_sim_data_method1.csv")
 
-df_norm_gw_method1  <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Grid_width/normal_grid_sim_data_method1.csv")
-df_beta_gw_method1  <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Grid_width/beta_grid_sim_data_method1.csv")
-df_gamma_gw_method1 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Grid_width/gamma_grid_sim_data_method1.csv")
-df_logis_gw_method1 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Grid_width/logistic_grid_sim_data_method1.csv")
-df_t_gw_method1     <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Grid_width/t_grid_sim_data_method1.csv")
+df_norm_gw_method1  <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/normal_grid_sim_data_method1.csv")
+df_beta_gw_method1  <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/beta_grid_sim_data_method1.csv")
+df_gamma_gw_method1 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/gamma_grid_sim_data_method1.csv")
+df_logis_gw_method1 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/logistic_grid_sim_data_method1.csv")
+df_t_gw_method1     <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/t_grid_sim_data_method1.csv")
 
 # METHOD 2 #
-df_norm_n_method2  <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Sample_size/normal_sample_sim_data_method2.csv")
-df_beta_n_method2  <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Sample_size/beta_sample_sim_data_method2.csv")
-df_gamma_n_method2 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Sample_size/gamma_sample_sim_data_method2.csv")
-df_logis_n_method2 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Sample_size/logistic_sample_sim_data_method2.csv")
-df_t_n_method2     <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Sample_size/t_sample_sim_data_method2.csv")
+df_norm_n_method2  <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/normal_sample_sim_data_method2.csv")
+df_beta_n_method2  <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/beta_sample_sim_data_method2.csv")
+df_gamma_n_method2 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/gamma_sample_sim_data_method2.csv")
+df_logis_n_method2 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/logistic_sample_sim_data_method2.csv")
+df_t_n_method2     <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/t_sample_sim_data_method2.csv")
 
-df_norm_gw_method2  <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Grid_width/normal_grid_sim_data_method2.csv")
-df_beta_gw_method2  <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Grid_width/beta_grid_sim_data_method2.csv")
-df_gamma_gw_method2 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Grid_width/gamma_grid_sim_data_method2.csv")
-df_logis_gw_method2 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Grid_width/logistic_grid_sim_data_method2.csv")
-df_t_gw_method2     <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Grid_width/t_grid_sim_data_method2.csv")
+df_norm_gw_method2  <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/normal_grid_sim_data_method2.csv")
+df_beta_gw_method2  <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/beta_grid_sim_data_method2.csv")
+df_gamma_gw_method2 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/gamma_grid_sim_data_method2.csv")
+df_logis_gw_method2 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/logistic_grid_sim_data_method2.csv")
+df_t_gw_method2     <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/t_grid_sim_data_method2.csv")
 
 # METHOD 3 #
-df_norm_n_method3  <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Sample_size/normal_sample_sim_data_method3.csv")
-df_beta_n_method3  <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Sample_size/beta_sample_sim_data_method3.csv")
-df_gamma_n_method3 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Sample_size/gamma_sample_sim_data_method3.csv")
-df_logis_n_method3 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Sample_size/logistic_sample_sim_data_method3.csv")
-df_t_n_method3     <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Sample_size/t_sample_sim_data_method3.csv")
+df_norm_n_method3  <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/normal_sample_sim_data_method3.csv")
+df_beta_n_method3  <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/beta_sample_sim_data_method3.csv")
+df_gamma_n_method3 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/gamma_sample_sim_data_method3.csv")
+df_logis_n_method3 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/logistic_sample_sim_data_method3.csv")
+df_t_n_method3     <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/t_sample_sim_data_method3.csv")
 
-df_norm_gw_method3  <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Grid_width/normal_grid_sim_data_method3.csv")
-df_beta_gw_method3  <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Grid_width/beta_grid_sim_data_method3.csv")
-df_gamma_gw_method3 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Grid_width/gamma_grid_sim_data_method3.csv")
-df_logis_gw_method3 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Grid_width/logistic_grid_sim_data_method3.csv")
-df_t_gw_method3     <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Grid_width/t_grid_sim_data_method3.csv")
+df_norm_gw_method3  <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/normal_grid_sim_data_method3.csv")
+df_beta_gw_method3  <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/beta_grid_sim_data_method3.csv")
+df_gamma_gw_method3 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/gamma_grid_sim_data_method3.csv")
+df_logis_gw_method3 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/logistic_grid_sim_data_method3.csv")
+df_t_gw_method3     <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/t_grid_sim_data_method3.csv")
 
 # METHOD 4 #
-df_norm_n_method4  <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Sample_size/normal_sample_sim_data_method4.csv")
-df_beta_n_method4  <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Sample_size/beta_sample_sim_data_method4.csv")
-df_gamma_n_method4 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Sample_size/gamma_sample_sim_data_method4.csv")
-df_logis_n_method4 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Sample_size/logistic_sample_sim_data_method4.csv")
-df_t_n_method4     <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Sample_size/t_sample_sim_data_method4.csv")
+df_norm_n_method4  <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/normal_sample_sim_data_method4.csv")
+df_beta_n_method4  <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/beta_sample_sim_data_method4.csv")
+df_gamma_n_method4 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/gamma_sample_sim_data_method4.csv")
+df_logis_n_method4 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/logistic_sample_sim_data_method4.csv")
+df_t_n_method4     <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/t_sample_sim_data_method4.csv")
 
-df_norm_gw_method4  <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Grid_width/normal_grid_sim_data_method4.csv")
-df_beta_gw_method4  <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Grid_width/beta_grid_sim_data_method4.csv")
-df_gamma_gw_method4 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Grid_width/gamma_grid_sim_data_method4.csv")
-df_logis_gw_method4 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Grid_width/logistic_grid_sim_data_method4.csv")
-df_t_gw_method4     <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Grid_width/t_grid_sim_data_method4.csv")
+df_norm_gw_method4  <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/normal_grid_sim_data_method4.csv")
+df_beta_gw_method4  <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/beta_grid_sim_data_method4.csv")
+df_gamma_gw_method4 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/gamma_grid_sim_data_method4.csv")
+df_logis_gw_method4 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/logistic_grid_sim_data_method4.csv")
+df_t_gw_method4     <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/t_grid_sim_data_method4.csv")
 
 
 ############################
@@ -2028,7 +2026,7 @@ df_t_gw_method4     <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/
 
 # Normal - Sample Size
 grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-Normal-n-Method1.pdf", width = 6, height = 6)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
+par(bg='white', mar = c(4, 5, 4, 1), xpd=TRUE,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
     font.axis=1,cex.main=2)
 boxplot(df_norm_n_method1$X1e2,
         df_norm_n_method1$X1e3,
@@ -2040,7 +2038,7 @@ boxplot(df_norm_n_method1$X1e2,
                   expression(10^4),
                   expression(10^5),
                   expression(10^6)),
-        xlab = 'Sample Size',
+        xlab = '',
         col = colors1, ylim=c(0,0.2))
 dev.off()
 
@@ -2051,7 +2049,7 @@ par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1)
 boxplot(df_norm_gw_method1$X2.5, df_norm_gw_method1$X2.0, df_norm_gw_method1$X1.5,
         df_norm_gw_method1$X1.0, df_norm_gw_method1$X0.5,
         names = c("2.5","2.0","1.5","1.0","0.5"),
-        xlab = 'Standardized Grid Width',
+        xlab = '',
         col = colors1, ylim=c(0,0.4))
 dev.off()
 
@@ -2064,9 +2062,9 @@ boxplot(df_beta_n_method1$X1e2,
         df_beta_n_method1$X1e4,
         df_beta_n_method1$X1e5,
         df_beta_n_method1$X1e6,
-        xlab = 'Sample Size',
-        names = c(expression(10^1),expression(10^2), expression(10^3), expression(10^4), expression(10^5)),
-        col = colors2, ylim=c(0,0.3))
+        xlab = '',
+        names = c(expression(10^2),expression(10^3), expression(10^4), expression(10^5), expression(10^6)),
+        col = colors2, ylim=c(0,0.45))
 # segments(x0 = 0.29, y0 = pdf_L2_beta_limit, x1 = 10^5, y1 = pdf_L2_beta_limit, col = "red", lty = 2)
 dev.off()
 
@@ -2077,8 +2075,8 @@ par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1)
 boxplot(df_beta_gw_method1$X2.5, df_beta_gw_method1$X2.0, df_beta_gw_method1$X1.5,
         df_beta_gw_method1$X1.0, df_beta_gw_method1$X0.5,
         names = c("2.5","2.0","1.5","1.0","0.5"),
-        xlab = 'Standardized Grid Width',
-        col = colors2, ylim=c(0,0.7))
+        xlab = '',
+        col = colors2, ylim=c(0,1))
 dev.off()
 
 # Gamma - Sample Size
@@ -2090,9 +2088,9 @@ boxplot(df_gamma_n_method1$X1e2,
         df_gamma_n_method1$X1e4,
         df_gamma_n_method1$X1e5,
         df_gamma_n_method1$X1e6,
-        xlab = 'Sample Size',
-        names = c(expression(10^1),expression(10^2), expression(10^3), expression(10^4), expression(10^5)),
-        col = colors3, ylim=c(0,0.3))
+        xlab = '',
+        names = c(expression(10^2), expression(10^3), expression(10^4), expression(10^5), expression(10^6)),
+        col = colors3, ylim=c(0,0.45))
 dev.off()
 
 # Gamma - Grid Width
@@ -2102,8 +2100,8 @@ par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1)
 boxplot(df_gamma_gw_method1$X2.5, df_gamma_gw_method1$X2.0, df_gamma_gw_method1$X1.5,
         df_gamma_gw_method1$X1.0, df_gamma_gw_method1$X0.5,
         names = c("2.5","2.0","1.5","1.0","0.5"),
-        xlab = 'Standardized Grid Width',
-        col = colors3, ylim=c(0,0.4))
+        xlab = '',
+        col = colors3, ylim=c(0,1))
 dev.off()
 
 # Logistic - Sample Size
@@ -2115,8 +2113,8 @@ boxplot(df_logis_n_method1$X1e2,
         df_logis_n_method1$X1e4,
         df_logis_n_method1$X1e5,
         df_logis_n_method1$X1e6,
-        xlab = 'Sample Size',
-        names = c(expression(10^1),expression(10^2), expression(10^3), expression(10^4), expression(10^5)),
+        xlab = '',
+        names = c(expression(10^2), expression(10^3), expression(10^4), expression(10^5), expression(10^6)),
         col = colors4, ylim=c(0,0.2))
 # segments(x0 = 0.29, y0 = 0, x1 = 10^5, y1 = 0, col = "red", lty = 2)
 dev.off()
@@ -2128,7 +2126,7 @@ par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1)
 boxplot(df_logis_gw_method1$X2.5, df_logis_gw_method1$X2.0, df_logis_gw_method1$X1.5,
         df_logis_gw_method1$X1.0, df_logis_gw_method1$X0.5,
         names = c("2.5","2.0","1.5","1.0","0.5"),
-        xlab = 'Standardized Grid Width',
+        xlab = '',
         col = colors4, ylim=c(0,0.4))
 dev.off()
 
@@ -2141,8 +2139,8 @@ boxplot(df_t_n_method1$X1e2,
         df_t_n_method1$X1e4,
         df_t_n_method1$X1e5,
         df_t_n_method1$X1e6,
-        xlab = 'Sample Size',
-        names = c(expression(10^1),expression(10^2), expression(10^3), expression(10^4), expression(10^5)),
+        xlab = '',
+        names = c(expression(10^2), expression(10^3), expression(10^4), expression(10^5), expression(10^6)),
         col = colors5, ylim=c(0,0.2))
 dev.off()
 
@@ -2153,7 +2151,7 @@ par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1)
 boxplot(df_t_gw_method1$X2.5, df_t_gw_method1$X2.0, df_t_gw_method1$X1.5,
         df_t_gw_method1$X1.0, df_t_gw_method1$X0.5,
         names = c("2.5","2.0","1.5","1.0","0.5"),
-        xlab = 'Standardized Grid Width',
+        xlab = '',
         col = colors5, ylim=c(0,0.5))
 dev.off()
 
@@ -2175,7 +2173,7 @@ boxplot(df_norm_n_method2$X1e2,
                   expression(10^4),
                   expression(10^5),
                   expression(10^6)),
-        xlab = 'Sample Size',
+        xlab = '',
         col = colors1, ylim=c(0,0.2))
 dev.off()
 
@@ -2186,7 +2184,7 @@ par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1)
 boxplot(df_norm_gw_method2$X2.5, df_norm_gw_method2$X2.0, df_norm_gw_method2$X1.5,
         df_norm_gw_method2$X1.0, df_norm_gw_method2$X0.5,
         names = c("2.5","2.0","1.5","1.0","0.5"),
-        xlab = 'Standardized Grid Width',
+        xlab = '',
         col = colors1, ylim=c(0,0.4))
 dev.off()
 
@@ -2199,9 +2197,9 @@ boxplot(df_beta_n_method2$X1e2,
         df_beta_n_method2$X1e4,
         df_beta_n_method2$X1e5,
         df_beta_n_method2$X1e6,
-        xlab = 'Sample Size',
-        names = c(expression(10^1),expression(10^2), expression(10^3), expression(10^4), expression(10^5)),
-        col = colors2, ylim=c(0,0.3))
+        xlab = '',
+        names = c(expression(10^2), expression(10^3), expression(10^4), expression(10^5), expression(10^6)),
+        col = colors2, ylim=c(0,0.45))
 dev.off()
 
 # Beta - Grid Width
@@ -2211,8 +2209,8 @@ par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1)
 boxplot(df_beta_gw_method2$X2.5, df_beta_gw_method2$X2.0, df_beta_gw_method2$X1.5,
         df_beta_gw_method2$X1.0, df_beta_gw_method2$X0.5,
         names = c("2.5","2.0","1.5","1.0","0.5"),
-        xlab = 'Standardized Grid Width',
-        col = colors2, ylim=c(0,0.7))
+        xlab = '',
+        col = colors2, ylim=c(0,1))
 dev.off()
 
 # Gamma - Sample Size
@@ -2224,9 +2222,9 @@ boxplot(df_gamma_n_method2$X1e2,
         df_gamma_n_method2$X1e4,
         df_gamma_n_method2$X1e5,
         df_gamma_n_method2$X1e6,
-        xlab = 'Sample Size',
-        names = c(expression(10^1),expression(10^2), expression(10^3), expression(10^4), expression(10^5)),
-        col = colors3, ylim=c(0,0.3))
+        xlab = '',
+        names = c(expression(10^2), expression(10^3), expression(10^4), expression(10^5), expression(10^6)),
+        col = colors3, ylim=c(0,0.45))
 dev.off()
 
 # Gamma - Grid Width
@@ -2236,8 +2234,8 @@ par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1)
 boxplot(df_gamma_gw_method2$X2.5, df_gamma_gw_method2$X2.0, df_gamma_gw_method2$X1.5,
         df_gamma_gw_method2$X1.0, df_gamma_gw_method2$X0.5,
         names = c("2.5","2.0","1.5","1.0","0.5"),
-        xlab = 'Standardized Grid Width',
-        col = colors3, ylim=c(0,0.4))
+        xlab = '',
+        col = colors3, ylim=c(0,1))
 dev.off()
 
 # Logistic - Sample Size
@@ -2249,9 +2247,9 @@ boxplot(df_logis_n_method2$X1e2,
         df_logis_n_method2$X1e4,
         df_logis_n_method2$X1e5,
         df_logis_n_method2$X1e6,
-        xlab = 'Sample Size',
-        names = c(expression(10^1),expression(10^2), expression(10^3), expression(10^4), expression(10^5)),
-        col = colors4, ylim=c(0,0.2))
+        xlab = '',
+        names = c(expression(10^2), expression(10^3), expression(10^4), expression(10^5), expression(10^6)),
+        col = colors4, ylim=c(0,0.15))
 dev.off()
 
 # Logistic - Grid Width
@@ -2261,7 +2259,7 @@ par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1)
 boxplot(df_logis_gw_method2$X2.5, df_logis_gw_method2$X2.0, df_logis_gw_method2$X1.5,
         df_logis_gw_method2$X1.0, df_logis_gw_method2$X0.5,
         names = c("2.5","2.0","1.5","1.0","0.5"),
-        xlab = 'Standardized Grid Width',
+        xlab = '',
         col = colors4, ylim=c(0,0.4))
 dev.off()
 
@@ -2274,8 +2272,8 @@ boxplot(df_t_n_method2$X1e2,
         df_t_n_method2$X1e4,
         df_t_n_method2$X1e5,
         df_t_n_method2$X1e6,
-        xlab = 'Sample Size',
-        names = c(expression(10^1),expression(10^2), expression(10^3), expression(10^4), expression(10^5)),
+        xlab = '',
+        names = c(expression(10^2), expression(10^3), expression(10^4), expression(10^5), expression(10^6)),
         col = colors5, ylim=c(0,0.2))
 dev.off()
 
@@ -2286,7 +2284,7 @@ par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1)
 boxplot(df_t_gw_method2$X2.5, df_t_gw_method2$X2.0, df_t_gw_method2$X1.5,
         df_t_gw_method2$X1.0, df_t_gw_method2$X0.5,
         names = c("2.5","2.0","1.5","1.0","0.5"),
-        xlab = 'Standardized Grid Width',
+        xlab = '',
         col = colors5, ylim=c(0,0.5))
 dev.off()
 
@@ -2308,7 +2306,7 @@ boxplot(df_norm_n_method3$X1e2,
                   expression(10^4),
                   expression(10^5),
                   expression(10^6)),
-        xlab = 'Sample Size',
+        xlab = '',
         col = colors1, ylim=c(0,0.2))
 dev.off()
 
@@ -2319,7 +2317,7 @@ par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1)
 boxplot(df_norm_gw_method3$X2.5, df_norm_gw_method3$X2.0, df_norm_gw_method3$X1.5,
         df_norm_gw_method3$X1.0, df_norm_gw_method3$X0.5,
         names = c("2.5","2.0","1.5","1.0","0.5"),
-        xlab = 'Standardized Grid Width',
+        xlab = '',
         col = colors1, ylim=c(0,0.4))
 dev.off()
 
@@ -2332,9 +2330,9 @@ boxplot(df_beta_n_method3$X1e2,
         df_beta_n_method3$X1e4,
         df_beta_n_method3$X1e5,
         df_beta_n_method3$X1e6,
-        xlab = 'Sample Size',
+        xlab = '',
         names = c(expression(10^1),expression(10^2), expression(10^3), expression(10^4), expression(10^5)),
-        col = colors2, ylim=c(0,0.3))
+        col = colors2, ylim=c(0,0.45))
 dev.off()
 
 # Beta - Grid Width
@@ -2344,8 +2342,8 @@ par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1)
 boxplot(df_beta_gw_method3$X2.5, df_beta_gw_method3$X2.0, df_beta_gw_method3$X1.5,
         df_beta_gw_method3$X1.0, df_beta_gw_method3$X0.5,
         names = c("2.5","2.0","1.5","1.0","0.5"),
-        xlab = 'Standardized Grid Width',
-        col = colors2, ylim=c(0,0.7))
+        xlab = '',
+        col = colors2, ylim=c(0,1))
 dev.off()
 
 # Gamma - Sample Size
@@ -2357,9 +2355,9 @@ boxplot(df_gamma_n_method3$X1e2,
         df_gamma_n_method3$X1e4,
         df_gamma_n_method3$X1e5,
         df_gamma_n_method3$X1e6,
-        xlab = 'Sample Size',
+        xlab = '',
         names = c(expression(10^1),expression(10^2), expression(10^3), expression(10^4), expression(10^5)),
-        col = colors3, ylim=c(0,0.3))
+        col = colors3, ylim=c(0,0.45))
 dev.off()
 
 # Gamma - Grid Width
@@ -2369,8 +2367,8 @@ par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1)
 boxplot(df_gamma_gw_method3$X2.5, df_gamma_gw_method3$X2.0, df_gamma_gw_method3$X1.5,
         df_gamma_gw_method3$X1.0, df_gamma_gw_method3$X0.5,
         names = c("2.5","2.0","1.5","1.0","0.5"),
-        xlab = 'Standardized Grid Width',
-        col = colors3, ylim=c(0,0.4))
+        xlab = '',
+        col = colors3, ylim=c(0,1))
 dev.off()
 
 # Logistic - Sample Size
@@ -2382,9 +2380,9 @@ boxplot(df_logis_n_method3$X1e2,
         df_logis_n_method3$X1e4,
         df_logis_n_method3$X1e5,
         df_logis_n_method3$X1e6,
-        xlab = 'Sample Size',
-        names = c(expression(10^1),expression(10^2), expression(10^3), expression(10^4), expression(10^5)),
-        col = colors4, ylim=c(0,0.2))
+        xlab = '',
+        names = c(expression(10^2), expression(10^3), expression(10^4), expression(10^5), expression(10^6)),
+        col = colors4, ylim=c(0,0.15))
 dev.off()
 
 # Logistic - Grid Width
@@ -2394,7 +2392,7 @@ par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1)
 boxplot(df_logis_gw_method3$X2.5, df_logis_gw_method3$X2.0, df_logis_gw_method3$X1.5,
         df_logis_gw_method3$X1.0, df_logis_gw_method3$X0.5,
         names = c("2.5","2.0","1.5","1.0","0.5"),
-        xlab = 'Standardized Grid Width',
+        xlab = '',
         col = colors4, ylim=c(0,0.4))
 dev.off()
 
@@ -2407,8 +2405,8 @@ boxplot(df_t_n_method3$X1e2,
         df_t_n_method3$X1e4,
         df_t_n_method3$X1e5,
         df_t_n_method3$X1e6,
-        xlab = 'Sample Size',
-        names = c(expression(10^1),expression(10^2), expression(10^3), expression(10^4), expression(10^5)),
+        xlab = '',
+        names = c(expression(10^2), expression(10^3), expression(10^4), expression(10^5), expression(10^6)),
         col = colors5, ylim=c(0,0.2))
 dev.off()
 
@@ -2419,7 +2417,7 @@ par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1)
 boxplot(df_t_gw_method3$X2.5, df_t_gw_method3$X2.0, df_t_gw_method3$X1.5,
         df_t_gw_method3$X1.0, df_t_gw_method3$X0.5,
         names = c("2.5","2.0","1.5","1.0","0.5"),
-        xlab = 'Standardized Grid Width',
+        xlab = '',
         col = colors5, ylim=c(0,0.5))
 dev.off()
 
@@ -2441,7 +2439,7 @@ boxplot(df_norm_n_method4$X1e2,
                   expression(10^4),
                   expression(10^5),
                   expression(10^6)),
-        xlab = 'Sample Size',
+        xlab = '',
         col = colors1, ylim=c(0,0.2))
 dev.off()
 
@@ -2452,7 +2450,7 @@ par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1)
 boxplot(df_norm_gw_method4$X2.5, df_norm_gw_method4$X2.0, df_norm_gw_method4$X1.5,
         df_norm_gw_method4$X1.0, df_norm_gw_method4$X0.5,
         names = c("2.5","2.0","1.5","1.0","0.5"),
-        xlab = 'Standardized Grid Width',
+        xlab = '',
         col = colors1, ylim=c(0,0.4))
 dev.off()
 
@@ -2465,9 +2463,9 @@ boxplot(df_beta_n_method4$X1e2,
         df_beta_n_method4$X1e4,
         df_beta_n_method4$X1e5,
         df_beta_n_method4$X1e6,
-        xlab = 'Sample Size',
-        names = c(expression(10^1),expression(10^2), expression(10^3), expression(10^4), expression(10^5)),
-        col = colors2, ylim=c(0,0.3))
+        xlab = '',
+        names = c(expression(10^2), expression(10^3), expression(10^4), expression(10^5), expression(10^6)),
+        col = colors2, ylim=c(0,0.45))
 dev.off()
 
 # Beta - Grid Width
@@ -2477,8 +2475,8 @@ par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1)
 boxplot(df_beta_gw_method4$X2.5, df_beta_gw_method4$X2.0, df_beta_gw_method4$X1.5,
         df_beta_gw_method4$X1.0, df_beta_gw_method4$X0.5,
         names = c("2.5","2.0","1.5","1.0","0.5"),
-        xlab = 'Standardized Grid Width',
-        col = colors2, ylim=c(0,0.7))
+        xlab = '',
+        col = colors2, ylim=c(0,1))
 dev.off()
 
 # Gamma - Sample Size
@@ -2490,9 +2488,9 @@ boxplot(df_gamma_n_method4$X1e2,
         df_gamma_n_method4$X1e4,
         df_gamma_n_method4$X1e5,
         df_gamma_n_method4$X1e6,
-        xlab = 'Sample Size',
-        names = c(expression(10^1),expression(10^2), expression(10^3), expression(10^4), expression(10^5)),
-        col = colors3, ylim=c(0,0.3))
+        xlab = '',
+        names = c(expression(10^2), expression(10^3), expression(10^4), expression(10^5), expression(10^6)),
+        col = colors3, ylim=c(0,0.45))
 dev.off()
 
 # Gamma - Grid Width
@@ -2502,8 +2500,8 @@ par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1)
 boxplot(df_gamma_gw_method4$X2.5, df_gamma_gw_method4$X2.0, df_gamma_gw_method4$X1.5,
         df_gamma_gw_method4$X1.0, df_gamma_gw_method4$X0.5,
         names = c("2.5","2.0","1.5","1.0","0.5"),
-        xlab = 'Standardized Grid Width',
-        col = colors3, ylim=c(0,0.4))
+        xlab = '',
+        col = colors3, ylim=c(0,1))
 dev.off()
 
 # Logistic - Sample Size
@@ -2515,9 +2513,9 @@ boxplot(df_logis_n_method4$X1e2,
         df_logis_n_method4$X1e4,
         df_logis_n_method4$X1e5,
         df_logis_n_method4$X1e6,
-        xlab = 'Sample Size',
-        names = c(expression(10^1),expression(10^2), expression(10^3), expression(10^4), expression(10^5)),
-        col = colors4, ylim=c(0,0.2))
+        xlab = '',
+        names = c(expression(10^2), expression(10^3), expression(10^4), expression(10^5), expression(10^6)),
+        col = colors4, ylim=c(0,0.15))
 dev.off()
 
 # Logistic - Grid Width
@@ -2527,7 +2525,7 @@ par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1)
 boxplot(df_logis_gw_method4$X2.5, df_logis_gw_method4$X2.0, df_logis_gw_method4$X1.5,
         df_logis_gw_method4$X1.0, df_logis_gw_method4$X0.5,
         names = c("2.5","2.0","1.5","1.0","0.5"),
-        xlab = 'Standardized Grid Width',
+        xlab = '',
         col = colors4, ylim=c(0,0.4))
 dev.off()
 
@@ -2540,8 +2538,8 @@ boxplot(df_t_n_method4$X1e2,
         df_t_n_method4$X1e4,
         df_t_n_method4$X1e5,
         df_t_n_method4$X1e6,
-        xlab = 'Sample Size',
-        names = c(expression(10^1),expression(10^2), expression(10^3), expression(10^4), expression(10^5)),
+        xlab = '',
+        names = c(expression(10^2), expression(10^3), expression(10^4), expression(10^5), expression(10^6)),
         col = colors5, ylim=c(0,0.2))
 dev.off()
 
@@ -2552,7 +2550,6 @@ par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1)
 boxplot(df_t_gw_method4$X2.5, df_t_gw_method4$X2.0, df_t_gw_method4$X1.5,
         df_t_gw_method4$X1.0, df_t_gw_method4$X0.5,
         names = c("2.5","2.0","1.5","1.0","0.5"),
-        xlab = 'Standardized Grid Width',
+        xlab = '',
         col = colors5, ylim=c(0,0.5))
 dev.off()
-
