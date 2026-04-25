@@ -114,6 +114,13 @@ laplace_grid3 <- seq(-MM3,MM3, by = laplace_deltas[1])
 laplace_grid4 <- seq(-MM4,MM4, by = laplace_deltas[1])
 laplace_grid5 <- seq(-MM5,MM5, by = laplace_deltas[1])
 
+make_breaks_cover <- function(x, grid) {
+  # grid is your proposed breaks (sorted, equally spaced)
+  step <- grid[2] - grid[1]
+  lo <- min(grid[1],  floor(min(x)/step) * step)
+  hi <- max(tail(grid,1), ceiling(max(x)/step) * step)
+  seq(lo-step, hi+step, by = step)
+}
 
 # Method # 
 
@@ -147,7 +154,7 @@ res_lap_pdf_n_32_method4 = rep(0,B)
 res_lap_pdf_n_42_method4 = rep(0,B)
 res_lap_pdf_n_52_method4 = rep(0,B)
 
-set.seed(10)
+set.seed(11)
 
 for (i in 1:B) {
   
@@ -157,7 +164,7 @@ for (i in 1:B) {
   laplace_grid1 <- make_breaks_cover(x, laplace_grid1)
   
   # res_lap_pdf_n_11_method[i] = L1_Distance_calc(x,laplace_grid,pdf_laplace,range_laplace)
-  res_lap_pdf_n_12_method[i] = L2_Distance_calc(x,laplace_grid1,pdf_laplace,range_laplace)
+  res_lap_pdf_n_12_method[i] = L2_Distance_calc_nonlogconc(x,laplace_grid1,pdf_laplace,range_laplace)
   res_lap_pdf_n_12_method2[i] = L2_from_res(x,laplace_grid1,pdf_laplace,range_laplace)
   res_lap_pdf_n_12_method3[i] = L2_binnednp(x,laplace_grid1,pdf_laplace,range_laplace)
   res_lap_pdf_n_12_method4[i] = L2_from_kernsmooth(x,laplace_grid1,pdf_laplace,range_laplace)
@@ -168,7 +175,7 @@ for (i in 1:B) {
   laplace_grid2 <- make_breaks_cover(x, laplace_grid2)
   
   # res_lap_pdf_n_21_method[i] = L1_Distance_calc(x,laplace_grid,pdf_laplace,range_laplace)
-  res_lap_pdf_n_22_method[i] = L2_Distance_calc(x,laplace_grid2,pdf_laplace,range_laplace)
+  res_lap_pdf_n_22_method[i] = L2_Distance_calc_nonlogconc(x,laplace_grid2,pdf_laplace,range_laplace)
   res_lap_pdf_n_22_method2[i] = L2_from_res(x,laplace_grid2,pdf_laplace,range_laplace)
   res_lap_pdf_n_22_method3[i] = L2_binnednp(x,laplace_grid2,pdf_laplace,range_laplace)
   res_lap_pdf_n_22_method4[i] = L2_from_kernsmooth(x,laplace_grid2,pdf_laplace,range_laplace)
@@ -179,7 +186,7 @@ for (i in 1:B) {
   laplace_grid3 <- make_breaks_cover(x, laplace_grid3)
   
   # res_lap_pdf_n_31_method[i] = L1_Distance_calc(x,laplace_grid,pdf_laplace,range_laplace)
-  res_lap_pdf_n_32_method[i] = L2_Distance_calc(x,laplace_grid3,pdf_laplace,range_laplace)
+  res_lap_pdf_n_32_method[i] = L2_Distance_calc_nonlogconc(x,laplace_grid3,pdf_laplace,range_laplace)
   res_lap_pdf_n_32_method2[i] = L2_from_res(x,laplace_grid3,pdf_laplace,range_laplace)
   res_lap_pdf_n_32_method3[i] = L2_binnednp(x,laplace_grid3,pdf_laplace,range_laplace)
   res_lap_pdf_n_32_method4[i] = L2_from_kernsmooth(x,laplace_grid3,pdf_laplace,range_laplace)
@@ -190,7 +197,7 @@ for (i in 1:B) {
   laplace_grid4 <- make_breaks_cover(x, laplace_grid4)
   
   # res_lap_pdf_n_41_method[i] = L1_Distance_calc(x,laplace_grid,pdf_laplace,range_laplace)
-  res_lap_pdf_n_42_method[i] = L2_Distance_calc(x,laplace_grid4,pdf_laplace,range_laplace)
+  res_lap_pdf_n_42_method[i] = L2_Distance_calc_nonlogconc(x,laplace_grid4,pdf_laplace,range_laplace)
   res_lap_pdf_n_42_method2[i] = L2_from_res(x,laplace_grid4,pdf_laplace,range_laplace)
   res_lap_pdf_n_42_method3[i] = L2_binnednp(x,laplace_grid4,pdf_laplace,range_laplace)
   res_lap_pdf_n_42_method4[i] = L2_from_kernsmooth(x,laplace_grid4,pdf_laplace,range_laplace)
@@ -201,7 +208,7 @@ for (i in 1:B) {
   laplace_grid5 <- make_breaks_cover(x, laplace_grid5)
   
   # res_lap_pdf_n_51_method[i] = L1_Distance_calc(x,laplace_grid,pdf_laplace,range_laplace)
-  res_lap_pdf_n_52_method[i] = L2_Distance_calc(x,laplace_grid5,pdf_laplace,range_laplace)
+  res_lap_pdf_n_52_method[i] = L2_Distance_calc_nonlogconc(x,laplace_grid5,pdf_laplace,range_laplace)
   res_lap_pdf_n_52_method2[i] = L2_from_res(x,laplace_grid5,pdf_laplace,range_laplace)
   res_lap_pdf_n_52_method3[i] = L2_binnednp(x,laplace_grid5,pdf_laplace,range_laplace)
   res_lap_pdf_n_52_method4[i] = L2_from_kernsmooth(x,laplace_grid5,pdf_laplace,range_laplace)
@@ -270,11 +277,11 @@ chisq_grid3 <- seq(0,MM3, by = chisqr_deltas[1])
 chisq_grid4 <- seq(0,MM4, by = chisqr_deltas[1])
 chisq_grid5 <- seq(0,MM5, by = chisqr_deltas[1])
 
-make_breaks_cover_0 <- function(x, grid) {
+make_breaks_cover_0 <- function(x, grid,location = 0) {
   # grid is your proposed breaks (sorted, equally spaced)
   step <- grid[2] - grid[1]
   hi <- max(tail(grid,1), ceiling(max(x)/step) * step)
-  seq(0, hi+step, by = step)
+  seq(location, hi+step, by = step)
 }
 
 # Method # 
@@ -317,7 +324,7 @@ for (i in 1:B) {
   x <- sort(rchisq(n[1], df))
   chisq_grid1 <- make_breaks_cover_0(x, chisq_grid1)
   
-  res_chisq_pdf_n_12_method[i] <- L2_Distance_calc(x, chisq_grid1, pdf_chisq, range_chisq)
+  res_chisq_pdf_n_12_method[i] <- L2_Distance_calc_nonlogconc(x, chisq_grid1, pdf_chisq, range_chisq)
   res_chisq_pdf_n_12_method2[i] <- L2_from_res(x, chisq_grid1, pdf_chisq, range_chisq)
   res_chisq_pdf_n_12_method3[i] <- L2_binnednp(x, chisq_grid1, pdf_chisq, range_chisq)
   res_chisq_pdf_n_12_method4[i] <- L2_from_kernsmooth(x, chisq_grid1, pdf_chisq, range_chisq)
@@ -326,7 +333,7 @@ for (i in 1:B) {
   x <- sort(rchisq(n[2], df))
   chisq_grid2 <- make_breaks_cover_0(x, chisq_grid2)
   
-  res_chisq_pdf_n_22_method[i] <- L2_Distance_calc(x, chisq_grid2, pdf_chisq, range_chisq)
+  res_chisq_pdf_n_22_method[i] <- L2_Distance_calc_nonlogconc(x, chisq_grid2, pdf_chisq, range_chisq)
   res_chisq_pdf_n_22_method2[i] <- L2_from_res(x, chisq_grid2, pdf_chisq, range_chisq)
   res_chisq_pdf_n_22_method3[i] <- L2_binnednp(x, chisq_grid2, pdf_chisq, range_chisq)
   res_chisq_pdf_n_22_method4[i] <- L2_from_kernsmooth(x, chisq_grid2, pdf_chisq, range_chisq)
@@ -335,7 +342,7 @@ for (i in 1:B) {
   x <- sort(rchisq(n[3], df))
   chisq_grid3 <- make_breaks_cover_0(x, chisq_grid3)
   
-  res_chisq_pdf_n_32_method[i] <- L2_Distance_calc(x, chisq_grid3, pdf_chisq, range_chisq)
+  res_chisq_pdf_n_32_method[i] <- L2_Distance_calc_nonlogconc(x, chisq_grid3, pdf_chisq, range_chisq)
   res_chisq_pdf_n_32_method2[i] <- L2_from_res(x, chisq_grid3, pdf_chisq, range_chisq)
   res_chisq_pdf_n_32_method3[i] <- L2_binnednp(x, chisq_grid3, pdf_chisq, range_chisq)
   res_chisq_pdf_n_32_method4[i] <- L2_from_kernsmooth(x, chisq_grid3, pdf_chisq, range_chisq)
@@ -344,7 +351,7 @@ for (i in 1:B) {
   x <- sort(rchisq(n[4], df))
   chisq_grid4 <- make_breaks_cover_0(x, chisq_grid4)
   
-  res_chisq_pdf_n_42_method[i] <- L2_Distance_calc(x, chisq_grid4, pdf_chisq, range_chisq)
+  res_chisq_pdf_n_42_method[i] <- L2_Distance_calc_nonlogconc(x, chisq_grid4, pdf_chisq, range_chisq)
   res_chisq_pdf_n_42_method2[i] <- L2_from_res(x, chisq_grid4, pdf_chisq, range_chisq)
   res_chisq_pdf_n_42_method3[i] <- L2_binnednp(x, chisq_grid4, pdf_chisq, range_chisq)
   res_chisq_pdf_n_42_method4[i] <- L2_from_kernsmooth(x, chisq_grid4, pdf_chisq, range_chisq)
@@ -353,7 +360,7 @@ for (i in 1:B) {
   x <- sort(rchisq(n[5], df))
   chisq_grid5 <- make_breaks_cover_0(x, chisq_grid5)
   
-  res_chisq_pdf_n_52_method[i] <- L2_Distance_calc(x, chisq_grid5, pdf_chisq, range_chisq)
+  res_chisq_pdf_n_52_method[i] <- L2_Distance_calc_nonlogconc(x, chisq_grid5, pdf_chisq, range_chisq)
   res_chisq_pdf_n_52_method2[i] <- L2_from_res(x, chisq_grid5, pdf_chisq, range_chisq)
   res_chisq_pdf_n_52_method3[i] <- L2_binnednp(x, chisq_grid5, pdf_chisq, range_chisq)
   res_chisq_pdf_n_52_method4[i] <- L2_from_kernsmooth(x, chisq_grid5, pdf_chisq, range_chisq)
@@ -454,7 +461,7 @@ for (i in 1:B) {
   x <- sort(rlnorm(n[1], mul, sigma))
   lnrom_grid1 <- make_breaks_cover(x, lnrom_grid1)
   
-  res_logn_pdf_n_12_method[i] <- L2_Distance_calc(x, lnrom_grid1, pdf_lnorm, range_lnorm)
+  res_logn_pdf_n_12_method[i] <- L2_Distance_calc_nonlogconc(x, lnrom_grid1, pdf_lnorm, range_lnorm)
   res_logn_pdf_n_12_method2[i] <- L2_from_res(x, lnrom_grid1, pdf_lnorm, range_lnorm)
   res_logn_pdf_n_12_method3[i] <- L2_binnednp(x, lnrom_grid1, pdf_lnorm, range_lnorm)
   res_logn_pdf_n_12_method4[i] <- L2_from_kernsmooth(x, lnrom_grid1, pdf_lnorm, range_lnorm)
@@ -463,7 +470,7 @@ for (i in 1:B) {
   x <- sort(rlnorm(n[2], mul, sigma))
   lnrom_grid2 <- make_breaks_cover(x, lnrom_grid2)
   
-  res_logn_pdf_n_22_method[i] <- L2_Distance_calc(x, lnrom_grid2, pdf_lnorm, range_lnorm)
+  res_logn_pdf_n_22_method[i] <- L2_Distance_calc_nonlogconc(x, lnrom_grid2, pdf_lnorm, range_lnorm)
   res_logn_pdf_n_22_method2[i] <- L2_from_res(x, lnrom_grid2, pdf_lnorm, range_lnorm)
   res_logn_pdf_n_22_method3[i] <- L2_binnednp(x, lnrom_grid2, pdf_lnorm, range_lnorm)
   res_logn_pdf_n_22_method4[i] <- L2_from_kernsmooth(x, lnrom_grid2, pdf_lnorm, range_lnorm)
@@ -472,7 +479,7 @@ for (i in 1:B) {
   x <- sort(rlnorm(n[3], mul, sigma))
   lnrom_grid3 <- make_breaks_cover(x, lnrom_grid3)
   
-  res_logn_pdf_n_32_method[i] <- L2_Distance_calc(x, lnrom_grid3, pdf_lnorm, range_lnorm)
+  res_logn_pdf_n_32_method[i] <- L2_Distance_calc_nonlogconc(x, lnrom_grid3, pdf_lnorm, range_lnorm)
   res_logn_pdf_n_32_method2[i] <- L2_from_res(x, lnrom_grid3, pdf_lnorm, range_lnorm)
   res_logn_pdf_n_32_method3[i] <- L2_binnednp(x, lnrom_grid3, pdf_lnorm, range_lnorm)
   res_logn_pdf_n_32_method4[i] <- L2_from_kernsmooth(x, lnrom_grid3, pdf_lnorm, range_lnorm)
@@ -481,7 +488,7 @@ for (i in 1:B) {
   x <- sort(rlnorm(n[4], mul, sigma))
   lnrom_grid4 <- make_breaks_cover(x, lnrom_grid4)
   
-  res_logn_pdf_n_42_method[i] <- L2_Distance_calc(x, lnrom_grid4, pdf_lnorm, range_lnorm)
+  res_logn_pdf_n_42_method[i] <- L2_Distance_calc_nonlogconc(x, lnrom_grid4, pdf_lnorm, range_lnorm)
   res_logn_pdf_n_42_method2[i] <- L2_from_res(x, lnrom_grid4, pdf_lnorm, range_lnorm)
   res_logn_pdf_n_42_method3[i] <- L2_binnednp(x, lnrom_grid4, pdf_lnorm, range_lnorm)
   res_logn_pdf_n_42_method4[i] <- L2_from_kernsmooth(x, lnrom_grid4, pdf_lnorm, range_lnorm)
@@ -490,7 +497,7 @@ for (i in 1:B) {
   x <- sort(rlnorm(n[5], mul, sigma))
   lnrom_grid5 <- make_breaks_cover(x, lnrom_grid5)
   
-  res_logn_pdf_n_52_method[i] <- L2_Distance_calc(x, lnrom_grid5, pdf_lnorm, range_lnorm)
+  res_logn_pdf_n_52_method[i] <- L2_Distance_calc_nonlogconc(x, lnrom_grid5, pdf_lnorm, range_lnorm)
   res_logn_pdf_n_52_method2[i] <- L2_from_res(x, lnrom_grid5, pdf_lnorm, range_lnorm)
   res_logn_pdf_n_52_method3[i] <- L2_binnednp(x, lnrom_grid5, pdf_lnorm, range_lnorm)
   res_logn_pdf_n_52_method4[i] <- L2_from_kernsmooth(x, lnrom_grid5, pdf_lnorm, range_lnorm)
@@ -587,7 +594,7 @@ for (i in 1:B) {
   x = (rweibull(n[1],shape))
   
   # res_wei_pdf_n_11_method[i] = L1_Distance_calc(x,weibull_grid,pdf_weibull,range_wei)
-  res_wei_pdf_n_12_method[i] = L2_Distance_calc(x,weibull_grid,pdf_weibull,range_wei)
+  res_wei_pdf_n_12_method[i] = L2_Distance_calc_nonlogconc(x,weibull_grid,pdf_weibull,range_wei)
   res_wei_pdf_n_12_method2[i] = L2_from_res(x,weibull_grid,pdf_weibull,range_wei)
   res_wei_pdf_n_12_method3[i] = L2_binnednp(x,weibull_grid,pdf_weibull,range_wei)
   res_wei_pdf_n_12_method4[i] = L2_from_kernsmooth(x,weibull_grid,pdf_weibull,range_wei)
@@ -597,7 +604,7 @@ for (i in 1:B) {
   x = (rweibull(n[2],shape))
   
   # res_wei_pdf_n_21_method[i] = L1_Distance_calc(x,weibull_grid,pdf_weibull,range_wei)
-  res_wei_pdf_n_22_method[i] = L2_Distance_calc(x,weibull_grid,pdf_weibull,range_wei)
+  res_wei_pdf_n_22_method[i] = L2_Distance_calc_nonlogconc(x,weibull_grid,pdf_weibull,range_wei)
   res_wei_pdf_n_22_method2[i] = L2_from_res(x,weibull_grid,pdf_weibull,range_wei)
   res_wei_pdf_n_22_method3[i] = L2_binnednp(x,weibull_grid,pdf_weibull,range_wei)
   res_wei_pdf_n_22_method4[i] = L2_from_kernsmooth(x,weibull_grid,pdf_weibull,range_wei)
@@ -607,7 +614,7 @@ for (i in 1:B) {
   x = (rweibull(n[3],shape))
   
   # res_wei_pdf_n_31_method[i] = L1_Distance_calc(x,weibull_grid,pdf_weibull,range_wei)
-  res_wei_pdf_n_32_method[i] = L2_Distance_calc(x,weibull_grid,pdf_weibull,range_wei)
+  res_wei_pdf_n_32_method[i] = L2_Distance_calc_nonlogconc(x,weibull_grid,pdf_weibull,range_wei)
   res_wei_pdf_n_32_method2[i] = L2_from_res(x,weibull_grid,pdf_weibull,range_wei)
   res_wei_pdf_n_32_method3[i] = L2_binnednp(x,weibull_grid,pdf_weibull,range_wei)
   res_wei_pdf_n_32_method4[i] = L2_from_kernsmooth(x,weibull_grid,pdf_weibull,range_wei)
@@ -617,7 +624,7 @@ for (i in 1:B) {
   x = (rweibull(n[4],shape))
   
   # res_wei_pdf_n_41_method[i] = L1_Distance_calc(x,weibull_grid,pdf_weibull,range_wei)
-  res_wei_pdf_n_42_method[i] = L2_Distance_calc(x,weibull_grid,pdf_weibull,range_wei)
+  res_wei_pdf_n_42_method[i] = L2_Distance_calc_nonlogconc(x,weibull_grid,pdf_weibull,range_wei)
   res_wei_pdf_n_42_method2[i] = L2_from_res(x,weibull_grid,pdf_weibull,range_wei)
   res_wei_pdf_n_42_method3[i] = L2_binnednp(x,weibull_grid,pdf_weibull,range_wei)
   res_wei_pdf_n_42_method4[i] = L2_from_kernsmooth(x,weibull_grid,pdf_weibull,range_wei)
@@ -627,7 +634,7 @@ for (i in 1:B) {
   x = (rweibull(n[5],shape))
   
   # res_wei_pdf_n_51_method[i] = L1_Distance_calc(x,weibull_grid,pdf_weibull,range_wei)
-  res_wei_pdf_n_52_method[i] = L2_Distance_calc(x,weibull_grid,pdf_weibull,range_wei)
+  res_wei_pdf_n_52_method[i] = L2_Distance_calc_nonlogconc(x,weibull_grid,pdf_weibull,range_wei)
   res_wei_pdf_n_52_method2[i] = L2_from_res(x,weibull_grid,pdf_weibull,range_wei)
   res_wei_pdf_n_52_method3[i] = L2_binnednp(x,weibull_grid,pdf_weibull,range_wei)
   res_wei_pdf_n_52_method4[i] = L2_from_kernsmooth(x,weibull_grid,pdf_weibull,range_wei)
@@ -735,7 +742,7 @@ for (i in 1:B) {
   x <- rpareto(n[1], location, shape_p)
   pareto_grid1 <- make_breaks_cover(x, pareto_grid1)
   
-  res_pareto_pdf_n_12_method[i] <- L2_Distance_calc(x, pareto_grid1, pdf_pareto, range_pareto)
+  res_pareto_pdf_n_12_method[i] <- L2_Distance_calc_nonlogconc(x, pareto_grid1, pdf_pareto, range_pareto)
   res_pareto_pdf_n_12_method2[i] <- L2_from_res(x, pareto_grid1, pdf_pareto, range_pareto)
   res_pareto_pdf_n_12_method3[i] <- L2_binnednp(x, pareto_grid1, pdf_pareto, range_pareto)
   res_pareto_pdf_n_12_method4[i] <- L2_from_kernsmooth(x, pareto_grid1, pdf_pareto, range_pareto)
@@ -744,7 +751,7 @@ for (i in 1:B) {
   x <- rpareto(n[2], location, shape_p)
   pareto_grid2 <- make_breaks_cover(x, pareto_grid2)
   
-  res_pareto_pdf_n_22_method[i] <- L2_Distance_calc(x, pareto_grid2, pdf_pareto, range_pareto)
+  res_pareto_pdf_n_22_method[i] <- L2_Distance_calc_nonlogconc(x, pareto_grid2, pdf_pareto, range_pareto)
   res_pareto_pdf_n_22_method2[i] <- L2_from_res(x, pareto_grid2, pdf_pareto, range_pareto)
   res_pareto_pdf_n_22_method3[i] <- L2_binnednp(x, pareto_grid2, pdf_pareto, range_pareto)
   res_pareto_pdf_n_22_method4[i] <- L2_from_kernsmooth(x, pareto_grid2, pdf_pareto, range_pareto)
@@ -753,7 +760,7 @@ for (i in 1:B) {
   x <- rpareto(n[3], location, shape_p)
   pareto_grid3 <- make_breaks_cover(x, pareto_grid3)
   
-  res_pareto_pdf_n_32_method[i] <- L2_Distance_calc(x, pareto_grid3, pdf_pareto, range_pareto)
+  res_pareto_pdf_n_32_method[i] <- L2_Distance_calc_nonlogconc(x, pareto_grid3, pdf_pareto, range_pareto)
   res_pareto_pdf_n_32_method2[i] <- L2_from_res(x, pareto_grid3, pdf_pareto, range_pareto)
   res_pareto_pdf_n_32_method3[i] <- L2_binnednp(x, pareto_grid3, pdf_pareto, range_pareto)
   res_pareto_pdf_n_32_method4[i] <- L2_from_kernsmooth(x, pareto_grid3, pdf_pareto, range_pareto)
@@ -762,7 +769,7 @@ for (i in 1:B) {
   x <- rpareto(n[4], location, shape_p)
   pareto_grid4 <- make_breaks_cover(x, pareto_grid4)
   
-  res_pareto_pdf_n_42_method[i] <- L2_Distance_calc(x, pareto_grid4, pdf_pareto, range_pareto)
+  res_pareto_pdf_n_42_method[i] <- L2_Distance_calc_nonlogconc(x, pareto_grid4, pdf_pareto, range_pareto)
   res_pareto_pdf_n_42_method2[i] <- L2_from_res(x, pareto_grid4, pdf_pareto, range_pareto)
   res_pareto_pdf_n_42_method3[i] <- L2_binnednp(x, pareto_grid4, pdf_pareto, range_pareto)
   res_pareto_pdf_n_42_method4[i] <- L2_from_kernsmooth(x, pareto_grid4, pdf_pareto, range_pareto)
@@ -771,7 +778,7 @@ for (i in 1:B) {
   x <- rpareto(n[5], location, shape_p)
   pareto_grid5 <- make_breaks_cover(x, pareto_grid5)
   
-  res_pareto_pdf_n_52_method[i] <- L2_Distance_calc(x, pareto_grid5, pdf_pareto, range_pareto)
+  res_pareto_pdf_n_52_method[i] <- L2_Distance_calc_nonlogconc(x, pareto_grid5, pdf_pareto, range_pareto)
   res_pareto_pdf_n_52_method2[i] <- L2_from_res(x, pareto_grid5, pdf_pareto, range_pareto)
   res_pareto_pdf_n_52_method3[i] <- L2_binnednp(x, pareto_grid5, pdf_pareto, range_pareto)
   res_pareto_pdf_n_52_method4[i] <- L2_from_kernsmooth(x, pareto_grid5, pdf_pareto, range_pareto)
@@ -876,7 +883,7 @@ for (i in 1:B) {
   # Laplace Distribution - GW1
   
   # res_lap_pdf_gw_11_method[i] = L1_Distance_calc(x,laplace_grids[[1]],pdf_laplace,range_laplace)
-  res_lap_pdf_gw_12_method[i] = L2_Distance_calc(x,laplace_grids[[1]],pdf_laplace,range_laplace)
+  res_lap_pdf_gw_12_method[i] = L2_Distance_calc_nonlogconc(x,laplace_grids[[1]],pdf_laplace,range_laplace)
   res_lap_pdf_gw_12_method2[i] = L2_from_res(x,laplace_grids[[1]],pdf_laplace,range_laplace)
   res_lap_pdf_gw_12_method3[i] = L2_binnednp(x,laplace_grids[[1]],pdf_laplace,range_laplace)
   res_lap_pdf_gw_12_method4[i] = L2_from_kernsmooth(x,laplace_grids[[1]],pdf_laplace,range_laplace)
@@ -884,7 +891,7 @@ for (i in 1:B) {
   # Laplace Distribution - GW2
   
   # res_lap_pdf_gw_21_method[i] = L1_Distance_calc(x,laplace_grids[[2]],pdf_laplace,range_laplace)
-  res_lap_pdf_gw_22_method[i] = L2_Distance_calc(x,laplace_grids[[2]],pdf_laplace,range_laplace)
+  res_lap_pdf_gw_22_method[i] = L2_Distance_calc_nonlogconc(x,laplace_grids[[2]],pdf_laplace,range_laplace)
   res_lap_pdf_gw_22_method2[i] = L2_from_res(x,laplace_grids[[2]],pdf_laplace,range_laplace)
   res_lap_pdf_gw_22_method3[i] = L2_binnednp(x,laplace_grids[[2]],pdf_laplace,range_laplace)
   res_lap_pdf_gw_22_method4[i] = L2_from_kernsmooth(x,laplace_grids[[2]],pdf_laplace,range_laplace)
@@ -892,7 +899,7 @@ for (i in 1:B) {
   # Laplace Distribution - GW3
   
   # res_lap_pdf_gw_31_method[i] = L1_Distance_calc(x,laplace_grids[[3]],pdf_laplace,range_laplace)
-  res_lap_pdf_gw_32_method[i] = L2_Distance_calc(x,laplace_grids[[3]],pdf_laplace,range_laplace)
+  res_lap_pdf_gw_32_method[i] = L2_Distance_calc_nonlogconc(x,laplace_grids[[3]],pdf_laplace,range_laplace)
   res_lap_pdf_gw_32_method2[i] = L2_from_res(x,laplace_grids[[3]],pdf_laplace,range_laplace)
   res_lap_pdf_gw_32_method3[i] = L2_binnednp(x,laplace_grids[[3]],pdf_laplace,range_laplace)
   res_lap_pdf_gw_32_method4[i] = L2_from_kernsmooth(x,laplace_grids[[3]],pdf_laplace,range_laplace)
@@ -900,7 +907,7 @@ for (i in 1:B) {
   # Laplace Distribution - GW4
   
   # res_lap_pdf_gw_41_method[i] = L1_Distance_calc(x,laplace_grids[[4]],pdf_laplace,range_laplace)
-  res_lap_pdf_gw_42_method[i] = L2_Distance_calc(x,laplace_grids[[4]],pdf_laplace,range_laplace)
+  res_lap_pdf_gw_42_method[i] = L2_Distance_calc_nonlogconc(x,laplace_grids[[4]],pdf_laplace,range_laplace)
   res_lap_pdf_gw_42_method2[i] = L2_from_res(x,laplace_grids[[4]],pdf_laplace,range_laplace)
   res_lap_pdf_gw_42_method3[i] = L2_binnednp(x,laplace_grids[[4]],pdf_laplace,range_laplace)
   res_lap_pdf_gw_42_method4[i] = L2_from_kernsmooth(x,laplace_grids[[4]],pdf_laplace,range_laplace)
@@ -908,7 +915,7 @@ for (i in 1:B) {
   # Laplace Distribution - GW5
   
   # res_lap_pdf_gw_51_method[i] = L1_Distance_calc(x,laplace_grids[[5]],pdf_laplace,range_laplace)
-  res_lap_pdf_gw_52_method[i] = L2_Distance_calc(x,laplace_grids[[5]],pdf_laplace,range_laplace)
+  res_lap_pdf_gw_52_method[i] = L2_Distance_calc_nonlogconc(x,laplace_grids[[5]],pdf_laplace,range_laplace)
   res_lap_pdf_gw_52_method2[i] = L2_from_res(x,laplace_grids[[5]],pdf_laplace,range_laplace)
   res_lap_pdf_gw_52_method3[i] = L2_binnednp(x,laplace_grids[[5]],pdf_laplace,range_laplace)
   res_lap_pdf_gw_52_method4[i] = L2_from_kernsmooth(x,laplace_grids[[5]],pdf_laplace,range_laplace)
@@ -1009,7 +1016,7 @@ for (i in 1:B) {
   # Chi-Square Distribution - GW1
   
   # res_chisq_pdf_gw_11_method[i] = L1_Distance_calc(x,chisqr_grids[[1]],pdf_chisq,range_chisq)
-  res_chisq_pdf_gw_12_method[i] = L2_Distance_calc(x,chisqr_grids[[1]],pdf_chisq,range_chisq)
+  res_chisq_pdf_gw_12_method[i] = L2_Distance_calc_nonlogconc(x,chisqr_grids[[1]],pdf_chisq,range_chisq)
   res_chisq_pdf_gw_12_method2[i] = L2_from_res(x,chisqr_grids[[1]],pdf_chisq,range_chisq)
   res_chisq_pdf_gw_12_method3[i] = L2_binnednp(x,chisqr_grids[[1]],pdf_chisq,range_chisq)
   res_chisq_pdf_gw_12_method4[i] = L2_from_kernsmooth(x,chisqr_grids[[1]],pdf_chisq,range_chisq)
@@ -1017,7 +1024,7 @@ for (i in 1:B) {
   # Chi-Square Distribution - GW2
   
   # res_chisq_pdf_gw_21_method[i] = L1_Distance_calc(x,chisqr_grids[[2]],pdf_chisq,range_chisq)
-  res_chisq_pdf_gw_22_method[i] = L2_Distance_calc(x,chisqr_grids[[2]],pdf_chisq,range_chisq)
+  res_chisq_pdf_gw_22_method[i] = L2_Distance_calc_nonlogconc(x,chisqr_grids[[2]],pdf_chisq,range_chisq)
   res_chisq_pdf_gw_22_method2[i] = L2_from_res(x,chisqr_grids[[2]],pdf_chisq,range_chisq)
   res_chisq_pdf_gw_22_method3[i] = L2_binnednp(x,chisqr_grids[[2]],pdf_chisq,range_chisq)
   res_chisq_pdf_gw_22_method4[i] = L2_from_kernsmooth(x,chisqr_grids[[2]],pdf_chisq,range_chisq)
@@ -1025,7 +1032,7 @@ for (i in 1:B) {
   # Chi-Square Distribution - GW3
   
   # res_chisq_pdf_gw_31_method[i] = L1_Distance_calc(x,chisqr_grids[[3]],pdf_chisq,range_chisq)
-  res_chisq_pdf_gw_32_method[i] = L2_Distance_calc(x,chisqr_grids[[3]],pdf_chisq,range_chisq)
+  res_chisq_pdf_gw_32_method[i] = L2_Distance_calc_nonlogconc(x,chisqr_grids[[3]],pdf_chisq,range_chisq)
   res_chisq_pdf_gw_32_method2[i] = L2_from_res(x,chisqr_grids[[3]],pdf_chisq,range_chisq)
   res_chisq_pdf_gw_32_method3[i] = L2_binnednp(x,chisqr_grids[[3]],pdf_chisq,range_chisq)
   res_chisq_pdf_gw_32_method4[i] = L2_from_kernsmooth(x,chisqr_grids[[3]],pdf_chisq,range_chisq)
@@ -1033,7 +1040,7 @@ for (i in 1:B) {
   # Chi-Square Distribution - GW4
   
   # res_chisq_pdf_gw_41_method[i] = L1_Distance_calc(x,chisqr_grids[[4]],pdf_chisq,range_chisq)
-  res_chisq_pdf_gw_42_method[i] = L2_Distance_calc(x,chisqr_grids[[4]],pdf_chisq,range_chisq)
+  res_chisq_pdf_gw_42_method[i] = L2_Distance_calc_nonlogconc(x,chisqr_grids[[4]],pdf_chisq,range_chisq)
   res_chisq_pdf_gw_42_method2[i] = L2_from_res(x,chisqr_grids[[4]],pdf_chisq,range_chisq)
   res_chisq_pdf_gw_42_method3[i] = L2_binnednp(x,chisqr_grids[[4]],pdf_chisq,range_chisq)
   res_chisq_pdf_gw_42_method4[i] = L2_from_kernsmooth(x,chisqr_grids[[4]],pdf_chisq,range_chisq)
@@ -1041,7 +1048,7 @@ for (i in 1:B) {
   # Chi-Square Distribution - GW5
   
   # res_chisq_pdf_gw_51_method[i] = L1_Distance_calc(x,chisqr_grids[[5]],pdf_chisq,range_chisq)
-  res_chisq_pdf_gw_52_method[i] = L2_Distance_calc(x,chisqr_grids[[5]],pdf_chisq,range_chisq)
+  res_chisq_pdf_gw_52_method[i] = L2_Distance_calc_nonlogconc(x,chisqr_grids[[5]],pdf_chisq,range_chisq)
   res_chisq_pdf_gw_52_method2[i] = L2_from_res(x,chisqr_grids[[5]],pdf_chisq,range_chisq)
   res_chisq_pdf_gw_52_method3[i] = L2_binnednp(x,chisqr_grids[[5]],pdf_chisq,range_chisq)
   res_chisq_pdf_gw_52_method4[i] = L2_from_kernsmooth(x,chisqr_grids[[5]],pdf_chisq,range_chisq)
@@ -1140,7 +1147,7 @@ for (i in 1:100) {
   # GW1
   # res_lnorm_pdf_gw_11_method[i] <- L1_Distance_calc(x, lnorm_grids[[1]], pdf_lnorm, range_lnorm)
   
-  res_lnorm_pdf_gw_12_method[i] <- L2_Distance_calc(x, lnorm_grids[[1]], pdf_lnorm, range_lnorm)
+  res_lnorm_pdf_gw_12_method[i] <- L2_Distance_calc_nonlogconc(x, lnorm_grids[[1]], pdf_lnorm, range_lnorm)
   res_lnorm_pdf_gw_12_method2[i] <- L2_from_res(x, lnorm_grids[[1]], pdf_lnorm, range_lnorm)
   res_lnorm_pdf_gw_12_method3[i] <- L2_binnednp(x, lnorm_grids[[1]], pdf_lnorm, range_lnorm)
   res_lnorm_pdf_gw_12_method4[i] <- L2_from_kernsmooth(x, lnorm_grids[[1]], pdf_lnorm, range_lnorm)
@@ -1148,7 +1155,7 @@ for (i in 1:100) {
   # GW2
   # res_lnorm_pdf_gw_21_method[i] <- L1_Distance_calc(x, lnorm_grids[[2]], pdf_lnorm, range_lnorm)
   
-  res_lnorm_pdf_gw_22_method[i] <- L2_Distance_calc(x, lnorm_grids[[2]], pdf_lnorm, range_lnorm)
+  res_lnorm_pdf_gw_22_method[i] <- L2_Distance_calc_nonlogconc(x, lnorm_grids[[2]], pdf_lnorm, range_lnorm)
   res_lnorm_pdf_gw_22_method2[i] <- L2_from_res(x, lnorm_grids[[2]], pdf_lnorm, range_lnorm)
   res_lnorm_pdf_gw_22_method3[i] <- L2_binnednp(x, lnorm_grids[[2]], pdf_lnorm, range_lnorm)
   res_lnorm_pdf_gw_22_method4[i] <- L2_from_kernsmooth(x, lnorm_grids[[2]], pdf_lnorm, range_lnorm)
@@ -1156,7 +1163,7 @@ for (i in 1:100) {
   # GW3
   # res_lnorm_pdf_gw_31_method[i] <- L1_Distance_calc(x, lnorm_grids[[3]], pdf_lnorm, range_lnorm)
   
-  res_lnorm_pdf_gw_32_method[i] <- L2_Distance_calc(x, lnorm_grids[[3]], pdf_lnorm, range_lnorm)
+  res_lnorm_pdf_gw_32_method[i] <- L2_Distance_calc_nonlogconc(x, lnorm_grids[[3]], pdf_lnorm, range_lnorm)
   res_lnorm_pdf_gw_32_method2[i] <- L2_from_res(x, lnorm_grids[[3]], pdf_lnorm, range_lnorm)
   res_lnorm_pdf_gw_32_method3[i] <- L2_binnednp(x, lnorm_grids[[3]], pdf_lnorm, range_lnorm)
   res_lnorm_pdf_gw_32_method4[i] <- L2_from_kernsmooth(x, lnorm_grids[[3]], pdf_lnorm, range_lnorm)
@@ -1164,7 +1171,7 @@ for (i in 1:100) {
   # GW4
   # res_lnorm_pdf_gw_41_method[i] <- L1_Distance_calc(x, lnorm_grids[[4]], pdf_lnorm, range_lnorm)
   
-  res_lnorm_pdf_gw_42_method[i] <- L2_Distance_calc(x, lnorm_grids[[4]], pdf_lnorm, range_lnorm)
+  res_lnorm_pdf_gw_42_method[i] <- L2_Distance_calc_nonlogconc(x, lnorm_grids[[4]], pdf_lnorm, range_lnorm)
   res_lnorm_pdf_gw_42_method2[i] <- L2_from_res(x, lnorm_grids[[4]], pdf_lnorm, range_lnorm)
   res_lnorm_pdf_gw_42_method3[i] <- L2_binnednp(x, lnorm_grids[[4]], pdf_lnorm, range_lnorm)
   res_lnorm_pdf_gw_42_method4[i] <- L2_from_kernsmooth(x, lnorm_grids[[4]], pdf_lnorm, range_lnorm)
@@ -1172,7 +1179,7 @@ for (i in 1:100) {
   # GW5
   # res_lnorm_pdf_gw_51_method[i] <- L1_Distance_calc(x, lnorm_grids[[5]], pdf_lnorm, range_lnorm)
   
-  res_lnorm_pdf_gw_52_method[i] <- L2_Distance_calc(x, lnorm_grids[[5]], pdf_lnorm, range_lnorm)
+  res_lnorm_pdf_gw_52_method[i] <- L2_Distance_calc_nonlogconc(x, lnorm_grids[[5]], pdf_lnorm, range_lnorm)
   res_lnorm_pdf_gw_52_method2[i] <- L2_from_res(x, lnorm_grids[[5]], pdf_lnorm, range_lnorm)
   res_lnorm_pdf_gw_52_method3[i] <- L2_binnednp(x, lnorm_grids[[5]], pdf_lnorm, range_lnorm)
   res_lnorm_pdf_gw_52_method4[i] <- L2_from_kernsmooth(x, lnorm_grids[[5]], pdf_lnorm, range_lnorm)
@@ -1271,7 +1278,7 @@ for (i in 1:B) {
   # Weibull Distribution - GW1
   
   # res_wei_pdf_gw_11_method[i] = L1_Distance_calc(x,weibull_grids[[1]],pdf_weibull,range_wei)
-  res_wei_pdf_gw_12_method[i] = L2_Distance_calc(x,weibull_grids[[1]],pdf_weibull,range_wei)
+  res_wei_pdf_gw_12_method[i] = L2_Distance_calc_nonlogconc(x,weibull_grids[[1]],pdf_weibull,range_wei)
   res_wei_pdf_gw_12_method2[i] = L2_from_res(x,weibull_grids[[1]],pdf_weibull,range_wei)
   res_wei_pdf_gw_12_method3[i] = L2_binnednp(x,weibull_grids[[1]],pdf_weibull,range_wei)
   res_wei_pdf_gw_12_method4[i] = L2_from_kernsmooth(x,weibull_grids[[1]],pdf_weibull,range_wei)
@@ -1279,7 +1286,7 @@ for (i in 1:B) {
   # Weibull Distribution - GW2
   
   # res_wei_pdf_gw_21_method[i] = L1_Distance_calc(x,weibull_grids[[2]],pdf_weibull,range_wei)
-  res_wei_pdf_gw_22_method[i] = L2_Distance_calc(x,weibull_grids[[2]],pdf_weibull,range_wei)
+  res_wei_pdf_gw_22_method[i] = L2_Distance_calc_nonlogconc(x,weibull_grids[[2]],pdf_weibull,range_wei)
   res_wei_pdf_gw_22_method2[i] = L2_from_res(x,weibull_grids[[2]],pdf_weibull,range_wei)
   res_wei_pdf_gw_22_method3[i] = L2_binnednp(x,weibull_grids[[2]],pdf_weibull,range_wei)
   res_wei_pdf_gw_22_method4[i] = L2_from_kernsmooth(x,weibull_grids[[2]],pdf_weibull,range_wei)
@@ -1287,7 +1294,7 @@ for (i in 1:B) {
   # Weibull Distribution - GW3
   
   # res_wei_pdf_gw_31_method[i] = L1_Distance_calc(x,weibull_grids[[3]],pdf_weibull,range_wei)
-  res_wei_pdf_gw_32_method[i] = L2_Distance_calc(x,weibull_grids[[3]],pdf_weibull,range_wei)
+  res_wei_pdf_gw_32_method[i] = L2_Distance_calc_nonlogconc(x,weibull_grids[[3]],pdf_weibull,range_wei)
   res_wei_pdf_gw_32_method2[i] = L2_from_res(x,weibull_grids[[3]],pdf_weibull,range_wei)
   res_wei_pdf_gw_32_method3[i] = L2_binnednp(x,weibull_grids[[3]],pdf_weibull,range_wei)
   res_wei_pdf_gw_32_method4[i] = L2_from_kernsmooth(x,weibull_grids[[3]],pdf_weibull,range_wei)
@@ -1295,7 +1302,7 @@ for (i in 1:B) {
   # Weibull Distribution - GW4
   
   # res_wei_pdf_gw_41_method[i] = L1_Distance_calc(x,weibull_grids[[4]],pdf_weibull,range_wei)
-  res_wei_pdf_gw_42_method[i] = L2_Distance_calc(x,weibull_grids[[4]],pdf_weibull,range_wei)
+  res_wei_pdf_gw_42_method[i] = L2_Distance_calc_nonlogconc(x,weibull_grids[[4]],pdf_weibull,range_wei)
   res_wei_pdf_gw_42_method2[i] = L2_from_res(x,weibull_grids[[4]],pdf_weibull,range_wei)
   res_wei_pdf_gw_42_method3[i] = L2_binnednp(x,weibull_grids[[4]],pdf_weibull,range_wei)
   res_wei_pdf_gw_42_method4[i] = L2_from_kernsmooth(x,weibull_grids[[4]],pdf_weibull,range_wei)
@@ -1303,7 +1310,7 @@ for (i in 1:B) {
   # Weibull Distribution - GW5
   
   # res_wei_pdf_gw_51_method[i] = L1_Distance_calc(x,weibull_grids[[5]],pdf_weibull,range_wei)
-  res_wei_pdf_gw_52_method[i] = L2_Distance_calc(x,weibull_grids[[5]],pdf_weibull,range_wei)
+  res_wei_pdf_gw_52_method[i] = L2_Distance_calc_nonlogconc(x,weibull_grids[[5]],pdf_weibull,range_wei)
   res_wei_pdf_gw_52_method2[i] = L2_from_res(x,weibull_grids[[5]],pdf_weibull,range_wei)
   res_wei_pdf_gw_52_method3[i] = L2_binnednp(x,weibull_grids[[5]],pdf_weibull,range_wei)
   res_wei_pdf_gw_52_method4[i] = L2_from_kernsmooth(x,weibull_grids[[5]],pdf_weibull,range_wei)
@@ -1354,7 +1361,9 @@ dev.off()
 
 # Pareto Distribution - Grid Width Simulation 
 
-MM = qpareto(0.9999999,location,shape_p) + 3
+MM <- ceiling(qpareto(0.9999,location,shape_p)) * 1.5
+pareto_grid <- seq(location,MM, by = pareto_deltas[1])
+
 pareto_grids = list(seq(location,MM, by = pareto_deltas[5]),
                     seq(location,MM, by = pareto_deltas[4]),
                     seq(location,MM, by = pareto_deltas[3]),
@@ -1393,51 +1402,60 @@ res_pareto_pdf_gw_32_method4 = rep(0,B)
 res_pareto_pdf_gw_42_method4 = rep(0,B)
 res_pareto_pdf_gw_52_method4 = rep(0,B)
 
+
 set.seed(10)
 
 for (i in 1:B) {
   
   x <- sort(rpareto(n, location, shape_p))
   
+  pareto_grid1 <- make_breaks_cover(x, pareto_grids[[1]])
+  pareto_grid2 <- make_breaks_cover(x, pareto_grids[[2]])
+  pareto_grid3 <- make_breaks_cover(x, pareto_grids[[3]])
+  pareto_grid4 <- make_breaks_cover(x, pareto_grids[[4]])
+  pareto_grid5 <- make_breaks_cover(x, pareto_grids[[5]])
+  
   # GW1
   # res_pareto_pdf_gw_11_method[i] <- L1_Distance_calc(x, pareto_grids[[1]], pdf_pareto, range_pareto)
   
-  res_pareto_pdf_gw_12_method[i] <- L2_Distance_calc(x, pareto_grids[[1]], pdf_pareto, range_pareto)
-  res_pareto_pdf_gw_12_method2[i] <- L2_from_res(x, pareto_grids[[1]], pdf_pareto, range_pareto)
-  res_pareto_pdf_gw_12_method3[i] <- L2_binnednp(x, pareto_grids[[1]], pdf_pareto, range_pareto)
-  res_pareto_pdf_gw_12_method4[i] <- L2_from_kernsmooth(x, pareto_grids[[1]], pdf_pareto, range_pareto)
+  res_pareto_pdf_gw_12_method[i] <- L2_Distance_calc_nonlogconc(x, pareto_grid1, pdf_pareto, range_pareto)
+  res_pareto_pdf_gw_12_method2[i] <- L2_from_res(x, pareto_grid1, pdf_pareto, range_pareto)
+  res_pareto_pdf_gw_12_method3[i] <- L2_binnednp(x,pareto_grid1, pdf_pareto, range_pareto)
+  res_pareto_pdf_gw_12_method4[i] <- L2_from_kernsmooth(x, pareto_grid1, pdf_pareto, range_pareto)
   
   # GW2
   # res_pareto_pdf_gw_21_method[i] <- L1_Distance_calc(x, pareto_grids[[2]], pdf_pareto, range_pareto)
   
-  res_pareto_pdf_gw_22_method[i] <- L2_Distance_calc(x, pareto_grids[[2]], pdf_pareto, range_pareto)
-  res_pareto_pdf_gw_22_method2[i] <- L2_from_res(x, pareto_grids[[2]], pdf_pareto, range_pareto)
-  res_pareto_pdf_gw_22_method3[i] <- L2_binnednp(x, pareto_grids[[2]], pdf_pareto, range_pareto)
-  res_pareto_pdf_gw_22_method4[i] <- L2_from_kernsmooth(x, pareto_grids[[2]], pdf_pareto, range_pareto)
+  res_pareto_pdf_gw_22_method[i] <- L2_Distance_calc_nonlogconc(x, pareto_grid2, pdf_pareto, range_pareto)
+  res_pareto_pdf_gw_22_method2[i] <- L2_from_res(x, pareto_grid2, pdf_pareto, range_pareto)
+  res_pareto_pdf_gw_22_method3[i] <- L2_binnednp(x, pareto_grid2, pdf_pareto, range_pareto)
+  res_pareto_pdf_gw_22_method4[i] <- L2_from_kernsmooth(x, pareto_grid2, pdf_pareto, range_pareto)
   
   # GW3
   # res_pareto_pdf_gw_31_method[i] <- L1_Distance_calc(x, pareto_grids[[3]], pdf_pareto, range_pareto)
   
-  res_pareto_pdf_gw_32_method[i] <- L2_Distance_calc(x, pareto_grids[[3]], pdf_pareto, range_pareto)
-  res_pareto_pdf_gw_32_method2[i] <- L2_from_res(x, pareto_grids[[3]], pdf_pareto, range_pareto)
-  res_pareto_pdf_gw_32_method3[i] <- L2_binnednp(x, pareto_grids[[3]], pdf_pareto, range_pareto)
-  res_pareto_pdf_gw_32_method4[i] <- L2_from_kernsmooth(x, pareto_grids[[3]], pdf_pareto, range_pareto)
+  res_pareto_pdf_gw_32_method[i] <- L2_Distance_calc_nonlogconc(x, pareto_grid3, pdf_pareto, range_pareto)
+  res_pareto_pdf_gw_32_method2[i] <- L2_from_res(x, pareto_grid3, pdf_pareto, range_pareto)
+  res_pareto_pdf_gw_32_method3[i] <- L2_binnednp(x, pareto_grid3, pdf_pareto, range_pareto)
+  res_pareto_pdf_gw_32_method4[i] <- L2_from_kernsmooth(x, pareto_grid3, pdf_pareto, range_pareto)
   
   # GW4
   # res_pareto_pdf_gw_41_method[i] <- L1_Distance_calc(x, pareto_grids[[4]], pdf_pareto, range_pareto)
   
-  res_pareto_pdf_gw_42_method[i] <- L2_Distance_calc(x, pareto_grids[[4]], pdf_pareto, range_pareto)
-  res_pareto_pdf_gw_42_method2[i] <- L2_from_res(x, pareto_grids[[4]], pdf_pareto, range_pareto)
-  res_pareto_pdf_gw_42_method3[i] <- L2_binnednp(x, pareto_grids[[4]], pdf_pareto, range_pareto)
-  res_pareto_pdf_gw_42_method4[i] <- L2_from_kernsmooth(x, pareto_grids[[4]], pdf_pareto, range_pareto)
+  res_pareto_pdf_gw_42_method[i] <- L2_Distance_calc_nonlogconc(x, pareto_grid4, pdf_pareto, range_pareto)
+  res_pareto_pdf_gw_42_method2[i] <- L2_from_res(x, pareto_grid4, pdf_pareto, range_pareto)
+  res_pareto_pdf_gw_42_method3[i] <- L2_binnednp(x, pareto_grid4, pdf_pareto, range_pareto)
+  res_pareto_pdf_gw_42_method4[i] <- L2_from_kernsmooth(x, pareto_grid4, pdf_pareto, range_pareto)
   
   # GW5
   # res_pareto_pdf_gw_51_method[i] <- L1_Distance_calc(x, pareto_grids[[5]], pdf_pareto, range_pareto)
   
-  res_pareto_pdf_gw_52_method[i] <- L2_Distance_calc(x, pareto_grids[[5]], pdf_pareto, range_pareto)
-  res_pareto_pdf_gw_52_method2[i] <- L2_from_res(x, pareto_grids[[5]], pdf_pareto, range_pareto)
-  res_pareto_pdf_gw_52_method3[i] <- L2_binnednp(x, pareto_grids[[5]], pdf_pareto, range_pareto)
-  res_pareto_pdf_gw_52_method4[i] <- L2_from_kernsmooth(x, pareto_grids[[5]], pdf_pareto, range_pareto)
+  res_pareto_pdf_gw_52_method[i] <- L2_Distance_calc_nonlogconc(x, pareto_grid5, pdf_pareto, range_pareto)
+  res_pareto_pdf_gw_52_method2[i] <- L2_from_res(x, pareto_grid5, pdf_pareto, range_pareto)
+  res_pareto_pdf_gw_52_method3[i] <- L2_binnednp(x, pareto_grid5, pdf_pareto, range_pareto)
+  res_pareto_pdf_gw_52_method4[i] <- L2_from_kernsmooth(x, pareto_grid5, pdf_pareto, range_pareto)
+  
+  print(i)
   
 }
 
@@ -1880,106 +1898,558 @@ colors10 = rep("#FB8072",5)
 
 # Load new data -----------------------------------------------------------
 
-df_lap_n   <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Sample_size/laplace_sample_sim_data.csv")
-df_chisq_n <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Sample_size/chisqr_sample_sim_data.csv")
-df_lnorm_n <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Sample_size/lnorm_sample_sim_data.csv")
-df_wei_n   <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Sample_size/weibull_sample_sim_data.csv")
-df_par_n   <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Sample_size/pareto_sample_sim_data.csv")
+df_lap_n_method1 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/laplace_sample_sim_data_method1.csv")
+df_lap_n_method2 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/laplace_sample_sim_data_method2.csv")
+df_lap_n_method3 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/laplace_sample_sim_data_method3.csv")
+df_lap_n_method4 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/laplace_sample_sim_data_method4.csv")
 
-df_lap_gw   <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Grid_width/laplace_grid_sim_data.csv")
-df_chisq_gw <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Grid_width/chisqr_grid_sim_data.csv")
-df_lnorm_gw <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Grid_width/lnorm_grid_sim_data.csv")
-df_wei_gw   <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Grid_width/weibull_grid_sim_data.csv")
-df_par_gw   <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/Data/Grid_width/pareto_grid_sim_data.csv")
+df_chisq_n_method1 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/chisqr_sample_sim_data_method1.csv")
+df_chisq_n_method2 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/chisqr_sample_sim_data_method2.csv")
+df_chisq_n_method3 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/chisqr_sample_sim_data_method3.csv")
+df_chisq_n_method4 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/chisqr_sample_sim_data_method4.csv")
+
+df_lnorm_n_method1 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/lnorm_sample_sim_data_method1.csv")
+df_lnorm_n_method2 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/lnorm_sample_sim_data_method2.csv")
+df_lnorm_n_method3 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/lnorm_sample_sim_data_method3.csv")
+df_lnorm_n_method4 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/lnorm_sample_sim_data_method4.csv")
+
+df_wei_n_method1 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/weibull_sample_sim_data_method1.csv")
+df_wei_n_method2 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/weibull_sample_sim_data_method2.csv")
+df_wei_n_method3 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/weibull_sample_sim_data_method3.csv")
+df_wei_n_method4 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/weibull_sample_sim_data_method4.csv")
+
+df_par_n_method1 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/pareto_sample_sim_data_method1.csv")
+df_par_n_method2 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/pareto_sample_sim_data_method2.csv")
+df_par_n_method3 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/pareto_sample_sim_data_method3.csv")
+df_par_n_method4 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/pareto_sample_sim_data_method4.csv")
+
+df_lap_gw_method1 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/laplace_grid_sim_data_method1.csv")
+df_lap_gw_method2 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/laplace_grid_sim_data_method2.csv")
+df_lap_gw_method3 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/laplace_grid_sim_data_method3.csv")
+df_lap_gw_method4 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/laplace_grid_sim_data_method4.csv")
+
+df_chisq_gw_method1 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/chisqr_grid_sim_data_method1.csv")
+df_chisq_gw_method2 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/chisqr_grid_sim_data_method2.csv")
+df_chisq_gw_method3 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/chisqr_grid_sim_data_method3.csv")
+df_chisq_gw_method4 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/chisqr_grid_sim_data_method4.csv")
+
+df_lnorm_gw_method1 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/lnorm_grid_sim_data_method1.csv")
+df_lnorm_gw_method2 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/lnorm_grid_sim_data_method2.csv")
+df_lnorm_gw_method3 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/lnorm_grid_sim_data_method3.csv")
+df_lnorm_gw_method4 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/lnorm_grid_sim_data_method4.csv")
+
+df_wei_gw_method1 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/weibull_grid_sim_data_method1.csv")
+df_wei_gw_method2 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/weibull_grid_sim_data_method2.csv")
+df_wei_gw_method3 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/weibull_grid_sim_data_method3.csv")
+df_wei_gw_method4 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/weibull_grid_sim_data_method4.csv")
+
+df_par_gw_method1 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/pareto_grid_sim_data_method1.csv")
+df_par_gw_method2 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/pareto_grid_sim_data_method2.csv")
+df_par_gw_method3 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/pareto_grid_sim_data_method3.csv")
+df_par_gw_method4 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/pareto_grid_sim_data_method4.csv")
 
 # Laplace -----------------------------------------------------------------
 
 # Sample Size
-grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-Laplace-n-Method.pdf", width = 6, height = 6)
+grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-Laplace-n-Method1.pdf", width = 6, height = 6)
 par(bg='white', mar = c(4, 5, 4, 1), xpd=T, cex=5, bty="l", font.lab=1, mfrow=c(1,1), cex.lab=2, cex.axis=2,
     font.axis=1, cex.main=2)
-boxplot(df_lap_n$X1e2, df_lap_n$X1e3, df_lap_n$X1e4, df_lap_n$X1e5, df_lap_n$X1e6,
+boxplot(df_lap_n_method1$X1e2, 
+        df_lap_n_method1$X1e3, 
+        df_lap_n_method1$X1e4, 
+        df_lap_n_method1$X1e5, 
+        df_lap_n_method1$X1e6,
         names = c(expression(10^2), expression(10^3), expression(10^4), expression(10^5), expression(10^6)),
-        xlab = 'Sample Size', col = colors6, ylim=c(0,0.4))
+        xlab = '', col = colors6, ylim=c(0,0.3))
+dev.off()
+
+grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-Laplace-n-Method2.pdf", width = 6, height = 6)
+par(bg='white', mar = c(4, 5, 4, 1), xpd=T, cex=5, bty="l", font.lab=1, mfrow=c(1,1), cex.lab=2, cex.axis=2,
+    font.axis=1, cex.main=2)
+boxplot(df_lap_n_method2$X1e2, 
+        df_lap_n_method2$X1e3, 
+        df_lap_n_method2$X1e4, 
+        df_lap_n_method2$X1e5, 
+        df_lap_n_method2$X1e6,
+        names = c(expression(10^2), expression(10^3), expression(10^4), expression(10^5), expression(10^6)),
+        xlab = '', col = colors6, ylim=c(0,0.3))
+dev.off()
+
+grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-Laplace-n-Method3.pdf", width = 6, height = 6)
+par(bg='white', mar = c(4, 5, 4, 1), xpd=T, cex=5, bty="l", font.lab=1, mfrow=c(1,1), cex.lab=2, cex.axis=2,
+    font.axis=1, cex.main=2)
+boxplot(df_lap_n_method3$X1e2, 
+        df_lap_n_method3$X1e3, 
+        df_lap_n_method3$X1e4, 
+        df_lap_n_method3$X1e5, 
+        df_lap_n_method3$X1e6,
+        names = c(expression(10^2), expression(10^3), expression(10^4), expression(10^5), expression(10^6)),
+        xlab = '', col = colors6, ylim=c(0,0.3))
+dev.off()
+
+grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-Laplace-n-Method4.pdf", width = 6, height = 6)
+par(bg='white', mar = c(4, 5, 4, 1), xpd=T, cex=5, bty="l", font.lab=1, mfrow=c(1,1), cex.lab=2, cex.axis=2,
+    font.axis=1, cex.main=2)
+boxplot(df_lap_n_method4$X1e2, 
+        df_lap_n_method4$X1e3, 
+        df_lap_n_method4$X1e4, 
+        df_lap_n_method4$X1e5, 
+        df_lap_n_method4$X1e6,
+        names = c(expression(10^2), expression(10^3), expression(10^4), expression(10^5), expression(10^6)),
+        xlab = '', col = colors6, ylim=c(0,0.3))
 dev.off()
 
 # Grid Width
-grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-Laplace-gw-Method.pdf", width = 6, height = 6)
+grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-Laplace-gw-Method1.pdf", width = 6, height = 6)
 par(bg='white', mar = c(4, 5, 4, 1), xpd=T, cex=5, bty="l", font.lab=1, mfrow=c(1,1), cex.lab=2, cex.axis=2,
     font.axis=1, cex.main=2)
-boxplot(df_lap_gw$X2.5, df_lap_gw$X2.0, df_lap_gw$X1.5, df_lap_gw$X1.0, df_lap_gw$X0.5,
+boxplot(df_lap_gw_method1$X2.5, 
+        df_lap_gw_method1$X2.0, 
+        df_lap_gw_method1$X1.5, 
+        df_lap_gw_method1$X1.0, 
+        df_lap_gw_method1$X0.5,
         names = c("2.5","2.0","1.5","1.0","0.5"),
-        xlab = 'Standardized Grid Width', col = colors6, ylim=c(0,0.8))
+        xlab = '', col = colors6, ylim=c(0,0.8))
 dev.off()
+
+grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-Laplace-gw-Method2.pdf", width = 6, height = 6)
+par(bg='white', mar = c(4, 5, 4, 1), xpd=T, cex=5, bty="l", font.lab=1, mfrow=c(1,1), cex.lab=2, cex.axis=2,
+    font.axis=1, cex.main=2)
+boxplot(df_lap_gw_method2$X2.5, 
+        df_lap_gw_method2$X2.0, 
+        df_lap_gw_method2$X1.5, 
+        df_lap_gw_method2$X1.0, 
+        df_lap_gw_method2$X0.5,
+        names = c("2.5","2.0","1.5","1.0","0.5"),
+        xlab = '', col = colors6, ylim=c(0,0.8))
+dev.off()
+
+
+grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-Laplace-gw-Method3.pdf", width = 6, height = 6)
+par(bg='white', mar = c(4, 5, 4, 1), xpd=T, cex=5, bty="l", font.lab=1, mfrow=c(1,1), cex.lab=2, cex.axis=2,
+    font.axis=1, cex.main=2)
+boxplot(df_lap_gw_method3$X2.5, 
+        df_lap_gw_method3$X2.0, 
+        df_lap_gw_method3$X1.5, 
+        df_lap_gw_method3$X1.0, 
+        df_lap_gw_method3$X0.5,
+        names = c("2.5","2.0","1.5","1.0","0.5"),
+        xlab = '', col = colors6, ylim=c(0,0.8))
+dev.off()
+
+grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-Laplace-gw-Method4.pdf", width = 6, height = 6)
+par(bg='white', mar = c(4, 5, 4, 1), xpd=T, cex=5, bty="l", font.lab=1, mfrow=c(1,1), cex.lab=2, cex.axis=2,
+    font.axis=1, cex.main=2)
+boxplot(df_lap_gw_method4$X2.5, 
+        df_lap_gw_method4$X2.0, 
+        df_lap_gw_method4$X1.5, 
+        df_lap_gw_method4$X1.0, 
+        df_lap_gw_method4$X0.5,
+        names = c("2.5","2.0","1.5","1.0","0.5"),
+        xlab = '', col = colors6, ylim=c(0,0.8))
+dev.off()
+
 
 # Chi-square --------------------------------------------------------------
 
-grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-Chisq-n-Method.pdf", width = 6, height = 6)
+grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-Chisq-n-Method1.pdf", width = 6, height = 6)
 par(bg='white', mar = c(4, 5, 4, 1), xpd=T, cex=5, bty="l", font.lab=1, mfrow=c(1,1), cex.lab=2, cex.axis=2,
     font.axis=1, cex.main=2)
-boxplot(df_chisq_n$X1e2, df_chisq_n$X1e3, df_chisq_n$X1e4, df_chisq_n$X1e5, df_chisq_n$X1e6,
+boxplot(df_chisq_n_method1$X1e2, 
+        df_chisq_n_method1$X1e3, 
+        df_chisq_n_method1$X1e4, 
+        df_chisq_n_method1$X1e5, 
+        df_chisq_n_method1$X1e6,
         names = c(expression(10^2), expression(10^3), expression(10^4), expression(10^5), expression(10^6)),
-        xlab = 'Sample Size', col = colors7, ylim=c(0,0.3))
+        xlab = '', col = colors7, ylim=c(0,0.2))
 dev.off()
 
-grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-Chisq-gw-Method.pdf", width = 6, height = 6)
+grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-Chisq-n-Method2.pdf", width = 6, height = 6)
 par(bg='white', mar = c(4, 5, 4, 1), xpd=T, cex=5, bty="l", font.lab=1, mfrow=c(1,1), cex.lab=2, cex.axis=2,
     font.axis=1, cex.main=2)
-boxplot(df_chisq_gw$X2.5, df_chisq_gw$X2.0, df_chisq_gw$X1.5, df_chisq_gw$X1.0, df_chisq_gw$X0.5,
+boxplot(df_chisq_n_method2$X1e2, 
+        df_chisq_n_method2$X1e3, 
+        df_chisq_n_method2$X1e4, 
+        df_chisq_n_method2$X1e5, 
+        df_chisq_n_method2$X1e6,
+        names = c(expression(10^2), expression(10^3), expression(10^4), expression(10^5), expression(10^6)),
+        xlab = '', col = colors7, ylim=c(0,0.2))
+dev.off()
+
+grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-Chisq-n-Method3.pdf", width = 6, height = 6)
+par(bg='white', mar = c(4, 5, 4, 1), xpd=T, cex=5, bty="l", font.lab=1, mfrow=c(1,1), cex.lab=2, cex.axis=2,
+    font.axis=1, cex.main=2)
+boxplot(df_chisq_n_method3$X1e2, 
+        df_chisq_n_method3$X1e3, 
+        df_chisq_n_method3$X1e4, 
+        df_chisq_n_method3$X1e5, 
+        df_chisq_n_method3$X1e6,
+        names = c(expression(10^2), expression(10^3), expression(10^4), expression(10^5), expression(10^6)),
+        xlab = '', col = colors7, ylim=c(0,0.2))
+dev.off()
+
+grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-Chisq-n-Method4.pdf", width = 6, height = 6)
+par(bg='white', mar = c(4, 5, 4, 1), xpd=T, cex=5, bty="l", font.lab=1, mfrow=c(1,1), cex.lab=2, cex.axis=2,
+    font.axis=1, cex.main=2)
+boxplot(df_chisq_n_method4$X1e2, 
+        df_chisq_n_method4$X1e3, 
+        df_chisq_n_method4$X1e4, 
+        df_chisq_n_method4$X1e5, 
+        df_chisq_n_method4$X1e6,
+        names = c(expression(10^2), expression(10^3), expression(10^4), expression(10^5), expression(10^6)),
+        xlab = '', col = colors7, ylim=c(0,0.2))
+dev.off()
+
+
+
+grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-Chisq-gw-Method1.pdf", width = 6, height = 6)
+par(bg='white', mar = c(4, 5, 4, 1), xpd=T, cex=5, bty="l", font.lab=1, mfrow=c(1,1), cex.lab=2, cex.axis=2,
+    font.axis=1, cex.main=2)
+boxplot(df_chisq_gw_method1$X2.5, 
+        df_chisq_gw_method1$X2.0, 
+        df_chisq_gw_method1$X1.5, 
+        df_chisq_gw_method1$X1.0, 
+        df_chisq_gw_method1$X0.5,
         names = c("2.5","2.0","1.5","1.0","0.5"),
-        xlab = 'Standardized Grid Width', col = colors7, ylim=c(0,0.3))
+        xlab = '', col = colors7, ylim=c(0,0.4))
+dev.off()
+
+
+grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-Chisq-gw-Method2.pdf", width = 6, height = 6)
+par(bg='white', mar = c(4, 5, 4, 1), xpd=T, cex=5, bty="l", font.lab=1, mfrow=c(1,1), cex.lab=2, cex.axis=2,
+    font.axis=1, cex.main=2)
+boxplot(df_chisq_gw_method2$X2.5, 
+        df_chisq_gw_method2$X2.0, 
+        df_chisq_gw_method2$X1.5, 
+        df_chisq_gw_method2$X1.0, 
+        df_chisq_gw_method2$X0.5,
+        names = c("2.5","2.0","1.5","1.0","0.5"),
+        xlab = '', col = colors7, ylim=c(0,0.4))
+dev.off()
+
+
+grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-Chisq-gw-Method3.pdf", width = 6, height = 6)
+par(bg='white', mar = c(4, 5, 4, 1), xpd=T, cex=5, bty="l", font.lab=1, mfrow=c(1,1), cex.lab=2, cex.axis=2,
+    font.axis=1, cex.main=2)
+boxplot(df_chisq_gw_method3$X2.5, 
+        df_chisq_gw_method3$X2.0, 
+        df_chisq_gw_method3$X1.5, 
+        df_chisq_gw_method3$X1.0, 
+        df_chisq_gw_method3$X0.5,
+        names = c("2.5","2.0","1.5","1.0","0.5"),
+        xlab = '', col = colors7, ylim=c(0,0.4))
+dev.off()
+
+
+grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-Chisq-gw-Method4.pdf", width = 6, height = 6)
+par(bg='white', mar = c(4, 5, 4, 1), xpd=T, cex=5, bty="l", font.lab=1, mfrow=c(1,1), cex.lab=2, cex.axis=2,
+    font.axis=1, cex.main=2)
+boxplot(df_chisq_gw_method4$X2.5, 
+        df_chisq_gw_method4$X2.0, 
+        df_chisq_gw_method4$X1.5, 
+        df_chisq_gw_method4$X1.0, 
+        df_chisq_gw_method4$X0.5,
+        names = c("2.5","2.0","1.5","1.0","0.5"),
+        xlab = '', col = colors7, ylim=c(0,0.4))
 dev.off()
 
 # Log-normal --------------------------------------------------------------
 
-grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-Lnorm-n-Method.pdf", width = 6, height = 6)
+grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-Lnorm-n-Method1.pdf", width = 6, height = 6)
 par(bg='white', mar = c(4, 5, 4, 1), xpd=T, cex=5, bty="l", font.lab=1, mfrow=c(1,1), cex.lab=2, cex.axis=2,
     font.axis=1, cex.main=2)
-boxplot(df_lnorm_n$X1e2, df_lnorm_n$X1e3, df_lnorm_n$X1e4, df_lnorm_n$X1e5, df_lnorm_n$X1e6,
+boxplot(df_lnorm_n_method1$X1e2, 
+        df_lnorm_n_method1$X1e3, 
+        df_lnorm_n_method1$X1e4, 
+        df_lnorm_n_method1$X1e5, 
+        df_lnorm_n_method1$X1e6,
         names = c(expression(10^2), expression(10^3), expression(10^4), expression(10^5), expression(10^6)),
-        xlab = 'Sample Size', col = colors8, ylim=c(0,0.25))
+        xlab = '', col = colors8, ylim=c(0,0.2))
 dev.off()
 
-grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-Lnorm-gw-Method.pdf", width = 6, height = 6)
+grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-Lnorm-n-Method2.pdf", width = 6, height = 6)
 par(bg='white', mar = c(4, 5, 4, 1), xpd=T, cex=5, bty="l", font.lab=1, mfrow=c(1,1), cex.lab=2, cex.axis=2,
     font.axis=1, cex.main=2)
-boxplot(df_lnorm_gw$X2.5, df_lnorm_gw$X2.0, df_lnorm_gw$X1.5, df_lnorm_gw$X1.0, df_lnorm_gw$X0.5,
+boxplot(df_lnorm_n_method2$X1e2, 
+        df_lnorm_n_method2$X1e3, 
+        df_lnorm_n_method2$X1e4, 
+        df_lnorm_n_method2$X1e5, 
+        df_lnorm_n_method2$X1e6,
+        names = c(expression(10^2), expression(10^3), expression(10^4), expression(10^5), expression(10^6)),
+        xlab = '', col = colors8, ylim=c(0,0.2))
+dev.off()
+
+grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-Lnorm-n-Method3.pdf", width = 6, height = 6)
+par(bg='white', mar = c(4, 5, 4, 1), xpd=T, cex=5, bty="l", font.lab=1, mfrow=c(1,1), cex.lab=2, cex.axis=2,
+    font.axis=1, cex.main=2)
+boxplot(df_lnorm_n_method3$X1e2, 
+        df_lnorm_n_method3$X1e3, 
+        df_lnorm_n_method3$X1e4, 
+        df_lnorm_n_method3$X1e5, 
+        df_lnorm_n_method3$X1e6,
+        names = c(expression(10^2), expression(10^3), expression(10^4), expression(10^5), expression(10^6)),
+        xlab = '', col = colors8, ylim=c(0,0.2))
+dev.off()
+
+grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-Lnorm-n-Method4.pdf", width = 6, height = 6)
+par(bg='white', mar = c(4, 5, 4, 1), xpd=T, cex=5, bty="l", font.lab=1, mfrow=c(1,1), cex.lab=2, cex.axis=2,
+    font.axis=1, cex.main=2)
+boxplot(df_lnorm_n_method4$X1e2, 
+        df_lnorm_n_method4$X1e3, 
+        df_lnorm_n_method4$X1e4, 
+        df_lnorm_n_method4$X1e5, 
+        df_lnorm_n_method4$X1e6,
+        names = c(expression(10^2), expression(10^3), expression(10^4), expression(10^5), expression(10^6)),
+        xlab = '', col = colors8, ylim=c(0,0.2))
+dev.off()
+
+
+grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-Lnorm-gw-Method1.pdf", width = 6, height = 6)
+par(bg='white', mar = c(4, 5, 4, 1), xpd=T, cex=5, bty="l", font.lab=1, mfrow=c(1,1), cex.lab=2, cex.axis=2,
+    font.axis=1, cex.main=2)
+boxplot(df_lnorm_gw_method1$X2.5, 
+        df_lnorm_gw_method1$X2.0, 
+        df_lnorm_gw_method1$X1.5, 
+        df_lnorm_gw_method1$X1.0, 
+        df_lnorm_gw_method1$X0.5,
         names = c("2.5","2.0","1.5","1.0","0.5"),
-        xlab = 'Standardized Grid Width', col = colors8, ylim=c(0,0.45))
+        xlab = '', col = colors8, ylim=c(0,0.2))
+dev.off()
+
+
+grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-Lnorm-gw-Method2.pdf", width = 6, height = 6)
+par(bg='white', mar = c(4, 5, 4, 1), xpd=T, cex=5, bty="l", font.lab=1, mfrow=c(1,1), cex.lab=2, cex.axis=2,
+    font.axis=1, cex.main=2)
+boxplot(df_lnorm_gw_method2$X2.5, 
+        df_lnorm_gw_method2$X2.0, 
+        df_lnorm_gw_method2$X1.5, 
+        df_lnorm_gw_method2$X1.0, 
+        df_lnorm_gw_method2$X0.5,
+        names = c("2.5","2.0","1.5","1.0","0.5"),
+        xlab = '', col = colors8, ylim=c(0,0.2))
+dev.off()
+
+
+grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-Lnorm-gw-Method3.pdf", width = 6, height = 6)
+par(bg='white', mar = c(4, 5, 4, 1), xpd=T, cex=5, bty="l", font.lab=1, mfrow=c(1,1), cex.lab=2, cex.axis=2,
+    font.axis=1, cex.main=2)
+boxplot(df_lnorm_gw_method3$X2.5, 
+        df_lnorm_gw_method3$X2.0, 
+        df_lnorm_gw_method3$X1.5, 
+        df_lnorm_gw_method3$X1.0, 
+        df_lnorm_gw_method3$X0.5,
+        names = c("2.5","2.0","1.5","1.0","0.5"),
+        xlab = '', col = colors8, ylim=c(0,0.20))
+dev.off()
+
+
+grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-Lnorm-gw-Method4.pdf", width = 6, height = 6)
+par(bg='white', mar = c(4, 5, 4, 1), xpd=T, cex=5, bty="l", font.lab=1, mfrow=c(1,1), cex.lab=2, cex.axis=2,
+    font.axis=1, cex.main=2)
+boxplot(df_lnorm_gw_method4$X2.5, 
+        df_lnorm_gw_method4$X2.0, 
+        df_lnorm_gw_method4$X1.5, 
+        df_lnorm_gw_method4$X1.0, 
+        df_lnorm_gw_method4$X0.5,
+        names = c("2.5","2.0","1.5","1.0","0.5"),
+        xlab = '', col = colors8, ylim=c(0,0.20))
 dev.off()
 
 # Weibull -----------------------------------------------------------------
 
-grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-Wei-n-Method.pdf", width = 6, height = 6)
+grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-Wei-n-Method1.pdf", width = 6, height = 6)
 par(bg='white', mar = c(4, 5, 4, 1), xpd=T, cex=5, bty="l", font.lab=1, mfrow=c(1,1), cex.lab=2, cex.axis=2,
     font.axis=1, cex.main=2)
-boxplot(df_wei_n$X1e2, df_wei_n$X1e3, df_wei_n$X1e4, df_wei_n$X1e5, df_wei_n$X1e6,
+boxplot(df_wei_n_method1$X1e2, 
+        df_wei_n_method1$X1e3, 
+        df_wei_n_method1$X1e4, 
+        df_wei_n_method1$X1e5, 
+        df_wei_n_method1$X1e6,
         names = c(expression(10^2), expression(10^3), expression(10^4), expression(10^5), expression(10^6)),
-        xlab = 'Sample Size', col = colors9, ylim=c(0,0.2))
+        xlab = '', col = colors9, ylim=c(0,0.2))
 dev.off()
 
-grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-Wei-gw-Method.pdf", width = 6, height = 6)
+grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-Wei-n-Method2.pdf", width = 6, height = 6)
 par(bg='white', mar = c(4, 5, 4, 1), xpd=T, cex=5, bty="l", font.lab=1, mfrow=c(1,1), cex.lab=2, cex.axis=2,
     font.axis=1, cex.main=2)
-boxplot(df_wei_gw$X2.5, df_wei_gw$X2.0, df_wei_gw$X1.5, df_wei_gw$X1.0, df_wei_gw$X0.5,
-        names = c("2.5","2.0","1.5","1.0","0.5"),
-        xlab = 'Standardized Grid Width', col = colors9, ylim=c(0,0.4))
+boxplot(df_wei_n_method2$X1e2, 
+        df_wei_n_method2$X1e3, 
+        df_wei_n_method2$X1e4, 
+        df_wei_n_method2$X1e5, 
+        df_wei_n_method2$X1e6,
+        names = c(expression(10^2), expression(10^3), expression(10^4), expression(10^5), expression(10^6)),
+        xlab = '', col = colors9, ylim=c(0,0.2))
 dev.off()
+
+grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-Wei-n-Method3.pdf", width = 6, height = 6)
+par(bg='white', mar = c(4, 5, 4, 1), xpd=T, cex=5, bty="l", font.lab=1, mfrow=c(1,1), cex.lab=2, cex.axis=2,
+    font.axis=1, cex.main=2)
+boxplot(df_wei_n_method3$X1e2, 
+        df_wei_n_method3$X1e3, 
+        df_wei_n_method3$X1e4, 
+        df_wei_n_method3$X1e5, 
+        df_wei_n_method3$X1e6,
+        names = c(expression(10^2), expression(10^3), expression(10^4), expression(10^5), expression(10^6)),
+        xlab = '', col = colors9, ylim=c(0,0.2))
+dev.off()
+
+grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-Wei-n-Method4.pdf", width = 6, height = 6)
+par(bg='white', mar = c(4, 5, 4, 1), xpd=T, cex=5, bty="l", font.lab=1, mfrow=c(1,1), cex.lab=2, cex.axis=2,
+    font.axis=1, cex.main=2)
+boxplot(df_wei_n_method4$X1e2, 
+        df_wei_n_method4$X1e3, 
+        df_wei_n_method4$X1e4, 
+        df_wei_n_method4$X1e5, 
+        df_wei_n_method4$X1e6,
+        names = c(expression(10^2), expression(10^3), expression(10^4), expression(10^5), expression(10^6)),
+        xlab = '', col = colors9, ylim=c(0,0.2))
+dev.off()
+
+
+grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-Wei-gw-Method1.pdf", width = 6, height = 6)
+par(bg='white', mar = c(4, 5, 4, 1), xpd=T, cex=5, bty="l", font.lab=1, mfrow=c(1,1), cex.lab=2, cex.axis=2,
+    font.axis=1, cex.main=2)
+boxplot(df_wei_gw_method1$X2.5, 
+        df_wei_gw_method1$X2.0, 
+        df_wei_gw_method1$X1.5,
+        df_wei_gw_method1$X1.0, 
+        df_wei_gw_method1$X0.5,
+        names = c("2.5","2.0","1.5","1.0","0.5"),
+        xlab = '', col = colors9, ylim=c(0,0.4))
+dev.off()
+
+grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-Wei-gw-Method2.pdf", width = 6, height = 6)
+par(bg='white', mar = c(4, 5, 4, 1), xpd=T, cex=5, bty="l", font.lab=1, mfrow=c(1,1), cex.lab=2, cex.axis=2,
+    font.axis=1, cex.main=2)
+boxplot(df_wei_gw_method2$X2.5, 
+        df_wei_gw_method2$X2.0, 
+        df_wei_gw_method2$X1.5,
+        df_wei_gw_method2$X1.0, 
+        df_wei_gw_method2$X0.5,
+        names = c("2.5","2.0","1.5","1.0","0.5"),
+        xlab = '', col = colors9, ylim=c(0,0.4))
+dev.off()
+
+grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-Wei-gw-Method3.pdf", width = 6, height = 6)
+par(bg='white', mar = c(4, 5, 4, 1), xpd=T, cex=5, bty="l", font.lab=1, mfrow=c(1,1), cex.lab=2, cex.axis=2,
+    font.axis=1, cex.main=2)
+boxplot(df_wei_gw_method3$X2.5, 
+        df_wei_gw_method3$X2.0, 
+        df_wei_gw_method3$X1.5,
+        df_wei_gw_method3$X1.0, 
+        df_wei_gw_method3$X0.5,
+        names = c("2.5","2.0","1.5","1.0","0.5"),
+        xlab = '', col = colors9, ylim=c(0,0.4))
+dev.off()
+
+grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-Wei-gw-Method4.pdf", width = 6, height = 6)
+par(bg='white', mar = c(4, 5, 4, 1), xpd=T, cex=5, bty="l", font.lab=1, mfrow=c(1,1), cex.lab=2, cex.axis=2,
+    font.axis=1, cex.main=2)
+boxplot(df_wei_gw_method4$X2.5, 
+        df_wei_gw_method4$X2.0, 
+        df_wei_gw_method4$X1.5,
+        df_wei_gw_method4$X1.0, 
+        df_wei_gw_method4$X0.5,
+        names = c("2.5","2.0","1.5","1.0","0.5"),
+        xlab = '', col = colors9, ylim=c(0,0.4))
+dev.off()
+
 
 # Pareto ------------------------------------------------------------------
 
-grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-Pareto-n-Method.pdf", width = 6, height = 6)
+grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-Pareto-n-Method1.pdf", width = 6, height = 6)
 par(bg='white', mar = c(4, 5, 4, 1), xpd=T, cex=5, bty="l", font.lab=1, mfrow=c(1,1), cex.lab=2, cex.axis=2,
     font.axis=1, cex.main=2)
-boxplot(df_par_n$X1e2, df_par_n$X1e3, df_par_n$X1e4, df_par_n$X1e5, df_par_n$X1e6,
+boxplot(df_par_n_method1$X1e2, 
+        df_par_n_method1$X1e3, 
+        df_par_n_method1$X1e4, 
+        df_par_n_method1$X1e5, 
+        df_par_n_method1$X1e6,
         names = c(expression(10^2), expression(10^3), expression(10^4), expression(10^5), expression(10^6)),
-        xlab = 'Sample Size', col = colors10, ylim=c(0,1.2))
+        xlab = '', col = colors10, ylim=c(0,0.5))
 dev.off()
 
-grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-Pareto-gw-Method.pdf", width = 6, height = 6)
+grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-Pareto-n-Method2.pdf", width = 6, height = 6)
 par(bg='white', mar = c(4, 5, 4, 1), xpd=T, cex=5, bty="l", font.lab=1, mfrow=c(1,1), cex.lab=2, cex.axis=2,
     font.axis=1, cex.main=2)
-boxplot(df_par_gw$X2.5, df_par_gw$X2.0, df_par_gw$X1.5, df_par_gw$X1.0, df_par_gw$X0.5,
+boxplot(df_par_n_method2$X1e2, 
+        df_par_n_method2$X1e3, 
+        df_par_n_method2$X1e4, 
+        df_par_n_method2$X1e5, 
+        df_par_n_method2$X1e6,
+        names = c(expression(10^2), expression(10^3), expression(10^4), expression(10^5), expression(10^6)),
+        xlab = '', col = colors10, ylim=c(0,0.5))
+dev.off()
+
+
+grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-Pareto-n-Method3.pdf", width = 6, height = 6)
+par(bg='white', mar = c(4, 5, 4, 1), xpd=T, cex=5, bty="l", font.lab=1, mfrow=c(1,1), cex.lab=2, cex.axis=2,
+    font.axis=1, cex.main=2)
+boxplot(df_par_n_method3$X1e2, 
+        df_par_n_method3$X1e3, 
+        df_par_n_method3$X1e4, 
+        df_par_n_method3$X1e5, 
+        df_par_n_method3$X1e6,
+        names = c(expression(10^2), expression(10^3), expression(10^4), expression(10^5), expression(10^6)),
+        xlab = '', col = colors10, ylim=c(0,0.5))
+dev.off()
+
+grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-Pareto-n-Method4.pdf", width = 6, height = 6)
+par(bg='white', mar = c(4, 5, 4, 1), xpd=T, cex=5, bty="l", font.lab=1, mfrow=c(1,1), cex.lab=2, cex.axis=2,
+    font.axis=1, cex.main=2)
+boxplot(df_par_n_method4$X1e2, 
+        df_par_n_method4$X1e3, 
+        df_par_n_method4$X1e4, 
+        df_par_n_method4$X1e5, 
+        df_par_n_method4$X1e6,
+        names = c(expression(10^2), expression(10^3), expression(10^4), expression(10^5), expression(10^6)),
+        xlab = '', col = colors10, ylim=c(0,0.5))
+dev.off()
+
+grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-Pareto-gw-Method1.pdf", width = 6, height = 6)
+par(bg='white', mar = c(4, 5, 4, 1), xpd=T, cex=5, bty="l", font.lab=1, mfrow=c(1,1), cex.lab=2, cex.axis=2,
+    font.axis=1, cex.main=2)
+boxplot(df_par_gw_method1$X2.5, 
+        df_par_gw_method1$X2.0, 
+        df_par_gw_method1$X1.5, 
+        df_par_gw_method1$X1.0, 
+        df_par_gw_method1$X0.5,
         names = c("2.5","2.0","1.5","1.0","0.5"),
-        xlab = 'Standardized Grid Width', col = colors10, ylim=c(0,4))
+        xlab = '', col = colors10, ylim=c(0,1.2))
+dev.off()
+
+grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-Pareto-gw-Method2.pdf", width = 6, height = 6)
+par(bg='white', mar = c(4, 5, 4, 1), xpd=T, cex=5, bty="l", font.lab=1, mfrow=c(1,1), cex.lab=2, cex.axis=2,
+    font.axis=1, cex.main=2)
+boxplot(df_par_gw_method2$X2.5, 
+        df_par_gw_method2$X2.0, 
+        df_par_gw_method2$X1.5, 
+        df_par_gw_method2$X1.0, 
+        df_par_gw_method2$X0.5,
+        names = c("2.5","2.0","1.5","1.0","0.5"),
+        xlab = '', col = colors10, ylim=c(0,1.2))
+dev.off()
+
+grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-Pareto-gw-Method3.pdf", width = 6, height = 6)
+par(bg='white', mar = c(4, 5, 4, 1), xpd=T, cex=5, bty="l", font.lab=1, mfrow=c(1,1), cex.lab=2, cex.axis=2,
+    font.axis=1, cex.main=2)
+boxplot(df_par_gw_method3$X2.5, 
+        df_par_gw_method3$X2.0, 
+        df_par_gw_method3$X1.5, 
+        df_par_gw_method3$X1.0, 
+        df_par_gw_method3$X0.5,
+        names = c("2.5","2.0","1.5","1.0","0.5"),
+        xlab = '', col = colors10, ylim=c(0,1.2))
+dev.off()
+
+grDevices::pdf("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-Pareto-gw-Method4.pdf", width = 6, height = 6)
+par(bg='white', mar = c(4, 5, 4, 1), xpd=T, cex=5, bty="l", font.lab=1, mfrow=c(1,1), cex.lab=2, cex.axis=2,
+    font.axis=1, cex.main=2)
+boxplot(df_par_gw_method4$X2.5, 
+        df_par_gw_method4$X2.0, 
+        df_par_gw_method4$X1.5, 
+        df_par_gw_method4$X1.0, 
+        df_par_gw_method4$X0.5,
+        names = c("2.5","2.0","1.5","1.0","0.5"),
+        xlab = '', col = colors10, ylim=c(0,1.2))
 dev.off()
