@@ -112,27 +112,6 @@ nonlinear_kde_binned_BK2002 <- function(counts,
   }
   if (!is.finite(h) || h <= 0) stop("Bandwidth h must be positive and finite.")
   
-  if (extend_requested) {
-    
-    a0 <- min(grid_breaks)
-    b0 <- max(grid_breaks)
-    x_min <- a0 - extend * h
-    x_max <- b0 + extend * h
-    
-    # Build extended breaks on same spacing dx
-    # Ensure breaks align to dx lattice
-    start_break <- x_min
-    end_break <- x_max
-    n_breaks <- as.integer(round((end_break - start_break) / dx)) + 1L
-    if (n_breaks < 3L) stop("Extended grid too small; reduce extend or check dx/h.")
-    grid_breaks <- seq(start_break, start_break + (n_breaks - 1L) * dx, by = dx)
-    
-    # Recompute centers
-    x_grid <- (grid_breaks[-1] + grid_breaks[-length(grid_breaks)]) / 2
-    dx <- x_grid[2] - x_grid[1]
-    grid_n <- length(x_grid)
-  }
-  
   # Initial f0: histogram density on A, 0 outside
   # NOTE: Bin densities assigned to CENTER points that fall in each original break-interval.
   f <- numeric(grid_n)
@@ -231,7 +210,7 @@ plot_binned_kde <- function(res, add_hist = TRUE, main = "Nonlinear binned KDE (
   }
 }
 
-binned_np.func <- function(x, grid,
+binned_np.func <- function(x, grid, length_grid = 1001, x_eval = NULL,
                            seed_start = 1L,
                            max_tries = 200L){
   
@@ -240,7 +219,9 @@ binned_np.func <- function(x, grid,
   w      <- counts / n
   
   t_mid  <- (grid[-length(grid)] + grid[-1]) / 2
-  x_eval <- grid
+  if (is.null(x_eval)) {
+    x_eval <- seq(min(grid),max(grid), length.out=length_grid)
+  }
   
   fhat_g <- function(x, h) {
     sapply(x, function(xx) sum(w * dnorm((xx - t_mid) / h)) / h)

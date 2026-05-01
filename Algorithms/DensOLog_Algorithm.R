@@ -95,7 +95,7 @@ get_fhatn_prior <- function(x, grid, B=10000, alpha=2, seednum=20180621){
   #  alpha-beta
   
   nn<-B
-
+  
   old_seed <- .Random.seed
   on.exit({ .Random.seed <<- old_seed }, add = TRUE)
   set.seed(seednum)
@@ -104,14 +104,6 @@ get_fhatn_prior <- function(x, grid, B=10000, alpha=2, seednum=20180621){
   zstar <- delta*rbeta(nn, alpha+beta, alpha-beta)
   
   xstar <- ystar+zstar
-
-  #  mean(xstar)
-  #  mu_n
-  #  range(xstar)
-  #  range(grid)
-  
-  # preProcess(xstar, xgrid = NULL)
-  # preProcess(xstar, xgrid = grid)
   
   mle2 <- logConDens(xstar,smoothed=TRUE,print = FALSE)
   
@@ -143,7 +135,7 @@ get_fhatn <- function(x, grid, B=10000, alpha=2, seednum=20180621,log_conc = TRU
   mu_mid  <- (mu_low + mu_high) / 2
   
   sigma <- sd(y)
-
+  
   #mids  <- (grid[-length(grid)] + grid[-1]) / 2
   #mu    <- sum(pn * mids)
   #sigma <- sqrt(sum(pn * (mids - mu)^2) + delta^2/12)
@@ -174,7 +166,6 @@ get_fhatn <- function(x, grid, B=10000, alpha=2, seednum=20180621,log_conc = TRU
   list(fhatn = mle2, sumphat = sum(phat), checkZ = min(alpha+beta, alpha-beta))
   
 }
-
 
 get_fhatn_with_n <- function(n_i, grid, B=10000, alpha=2, seednum=20180621){
   
@@ -226,3 +217,5 @@ get_fhatn_with_n <- function(n_i, grid, B=10000, alpha=2, seednum=20180621){
   list(fhatn = mle2, sumphat = sum(phat), checkZ = min(alpha+beta, alpha-beta))
   
 }
+
+

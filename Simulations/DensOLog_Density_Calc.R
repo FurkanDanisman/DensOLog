@@ -1,102 +1,52 @@
-L2_Distance_calc = function(x,grid,pdf,range){
+L2_Distance_calc_both = function(x,grid,pdf, length_grid = 1001){
   
-  # Running the LCD Algorithm 
-  
-  fhat2 <- get_fhatn(x, grid, alpha=2)
-  x_obs <- fhat2$fhatn$x  
-  delta = max(diff(grid))
-  rng <- range(x_obs, na.rm = TRUE)
-  grid_narrow <- grid[ grid >= rng[1] - delta & grid <= rng[2] + delta]
-  # grid_narrow = grid
-  true_density_values <- pdf(grid_narrow)
-  estimated_grid_density = evaluateLogConDens(grid_narrow, fhat2$fhatn, which=4)[,5]
-
-  # Compute the absolute difference for L2 distance
-  sqr_differance <- (true_density_values - estimated_grid_density)^2
-  L2 = sum(sqr_differance*delta)
-  
-  L2 = L2 + integral(function(u) pdf(u)^2, range[1], grid_narrow[1])
-  L2 = L2 + integral(function(u) pdf(u)^2, grid_narrow[length(grid_narrow)], range[2])
-  L2 = sqrt(L2)
-  L2
-  
-  return(L2)
-  
-}
-
-L2_Distance_calc_nonlogconc = function(x,grid,pdf,range){
-  
-  # Running the LCD Algorithm 
+  # Running the LCD Algorithm
   fhat2 <- get_fhatn(x, grid, alpha=2,log_conc = FALSE)
-  x_obs <- fhat2$fhatn$x  
-  delta = max(diff(grid))
-  rng <- range(x_obs, na.rm = TRUE)
-  grid_narrow <- grid[ grid >= rng[1] - delta & grid <= rng[2] + delta]
-  # grid_narrow = grid
-  true_density_values <- pdf(grid_narrow)
-  estimated_grid_density = evaluateLogConDens(grid_narrow,fhat2$fhatn)[,3]
   
-  # Compute the absolute difference for L2 distance
-  sqr_differance <- (true_density_values - estimated_grid_density)^2
-  L2 = sum(sqr_differance*delta)
+  est_grid <- seq(min(grid),max(grid), length.out=length_grid) # this is the evaluation grid
+  del <- min(diff(est_grid)) # this is the difference going into the Reimann sum
   
-  L2 = L2 + integral(function(u) pdf(u)^2, range[1], grid_narrow[1])
-  L2 = L2 + integral(function(u) pdf(u)^2, grid_narrow[length(grid_narrow)], range[2])
+  f0 <- pdf(est_grid)
+  
+  fhat <- evaluateLogConDens(est_grid, fhat2$fhatn, which=2)
+  fhat_smooth <- evaluateLogConDens(est_grid, fhat2$fhatn, which=4)
+  fhat_smooth[,5][is.na(fhat_smooth[,5])] = 0 
+  
+  L2        <- sum((f0-fhat[,3])^2)*del
+  L2_smooth <- sum((f0-fhat_smooth[,5])^2)*del
+  
   L2 = sqrt(L2)
-  L2
+  L2_smooth = sqrt(L2_smooth)
   
-  return(L2)
+  c(L2,L2_smooth)
+  
+  return(c(L2,L2_smooth))
   
 }
 
 
-L2_binnednp = function(x,grid,pdf,range){
+L2_binnednp = function(x, grid, pdf, length_grid = 1001){
   
-  # Running the LCD Algorithm 
+  # Running the LCD Algorithm
   
-  estimated_grid_density <- binned_np.func(x, grid)  
-  true_density_values <- pdf(grid)
-  delta = max(diff(grid))
+  est_grid <- seq(min(grid),max(grid), length.out=length_grid) # this is the evaluation grid
+  estimated_grid_density <- binned_np.func(x, grid, x_eval = est_grid)
+  true_density_values <- pdf(est_grid)
+  delta = max(diff(est_grid))
   
   # Compute the absolute difference for L2 distance
   sqr_differance <- (true_density_values - estimated_grid_density)^2
-  L2 = sum(sqr_differance*delta)
-  
-  #L2 = integral(pdf,range[1],grid[1])^2 + L2 
-  #L2 = integral(pdf,grid[length(grid)],range[2])^2 + L2
-  #L2 = sqrt(L2)
-  
-  L2 = L2 + integral(function(u) pdf(u)^2, range[1], grid[1])
-  L2 = L2 + integral(function(u) pdf(u)^2, grid[length(grid)], range[2])
+  L2 = sum(sqr_differance)*delta
   L2 = sqrt(L2)
   
   return(L2)
   
 }
 
-L2_binnednp2 = function(x,grid,pdf,range){
-  
-  # Running the LCD Algorithm 
-  
-  estimated_grid_density <- binned_np.func2(x, grid)  
-  true_density_values <- pdf(grid)
-  delta = max(diff(grid))
-  
-  # Compute the absolute difference for L2 distance
-  sqr_differance <- (true_density_values - estimated_grid_density)^2
-  L2 = sum(sqr_differance*delta)
-  
-  L2 = L2 + integral(function(u) pdf(u)^2, range[1], grid[1])
-  L2 = L2 + integral(function(u) pdf(u)^2, grid[length(grid)], range[2])
-  L2 = sqrt(L2)
-  
-  return(L2)
-  
-}
-
-L2_from_res <- function(x,grid, pdf, range) {
+L2_from_res <- function(x,grid, pdf, length_grid = 1001) {
   
   hobj <- hist(x, breaks = grid, plot = FALSE)
+  est_grid <- seq(min(grid),max(grid), length.out=length_grid) # this is the evaluation grid
   
   res <- nonlinear_kde_binned_BK2002(
     counts = hobj$counts,
@@ -104,31 +54,28 @@ L2_from_res <- function(x,grid, pdf, range) {
     grid = grid,
     h = NULL,        # <- forces SJ-from-binned as suggested in the paper
     bw_B = 50,
-    bw_method = "ste"
+    bw_method = "ste",
+    verbose = FALSE
   )
   
-  x <- res$x
-  fhat <- res$fhat
-  dx <- x[2] - x[1]   # assumes equally spaced grid (as in our implementation)
+  fhat <- approx(res$x, res$fhat, xout = est_grid, rule = 2)$y
+  dx <- est_grid[2] - est_grid[1]
   
-  true <- pdf(x)
+  true <- pdf(est_grid)
   L2_mid <- sum((true - fhat)^2) * dx
+  sqrt(L2_mid)
   
-  # tails (L2 uses integral of pdf^2 outside grid)
-  L2_left  <- integral(function(u) pdf(u)^2, range[1], x[1])
-  L2_right <- integral(function(u) pdf(u)^2, x[length(x)], range[2])
-  
-  sqrt(L2_left + L2_mid + L2_right)
 }
 
-L2_from_kernsmooth <- function(x,grid, pdf, range) {
+L2_from_kernsmooth <- function(x,grid, pdf, length_grid = 1001) {
   
   hobj <- hist(x, breaks=grid, plot=FALSE)
   counts <- hobj$counts
   centers <- (grid[-1] + grid[-length(grid)]) / 2
+  est_grid <- seq(min(grid),max(grid), length.out=length_grid) # this is the evaluation grid
   
   y <- rep(centers, times=counts)  # expand at centers
-
+  
   # 1) Bandwidth via dpik
   
   h <- dpik_with_fallback_jitter(
@@ -139,48 +86,19 @@ L2_from_kernsmooth <- function(x,grid, pdf, range) {
     seed = 1
   )
   
-  # 2) KDE via bkde
+  # 2) KDE via bkde on the observed grid, then evaluate its output on est_grid
   fit <- bkde(y, bandwidth = h,
               kernel = "normal", canonical = FALSE,
               gridsize = length(grid), range.x = range(grid),
               truncate = TRUE)
   
-  x   <- fit$x
-  fhat <- fit$y
-  dx  <- x[2] - x[1]   # bkde grid is equally spaced with gridsize
+  fhat <- approx(fit$x, fit$y, xout = est_grid, rule = 2)$y
+  dx  <- est_grid[2] - est_grid[1]
   
-  # 3) L2 on bkde grid
-  true <- pdf(x)
+  # 3) L2 on evaluation grid
+  true <- pdf(est_grid)
   L2_mid <- sum((true - fhat)^2) * dx
   
-  # 4) tails (truncate=TRUE => estimate is 0 outside [x[1], x[end]])
-  L2_left  <- integral(function(u) pdf(u)^2, range[1], x[1])
-  L2_right <- integral(function(u) pdf(u)^2, x[length(x)], range[2])
-  
-  sqrt(L2_left + L2_mid + L2_right)
+  sqrt(L2_mid)
   
 }
-
-L1_Distance_calc = function(x,grid,pdf,range){
-  
-  # Running the LCD Algorithm 
-  
-  fhat2 <- get_fhatn(x, grid, alpha=2)  
-  
-  true_density_values <- pdf(grid)
-  estimated_grid_density = evaluateLogConDens(grid, fhat2$fhatn, which=4)[,5]
-  delta = max(diff(grid))
-  
-  
-  # Compute the absolute difference for L1 distance
-  abs_difference <- abs(true_density_values - estimated_grid_density)
-  L1 <- sum(abs_difference*delta)
-  
-  L1 = integral(pdf,range[1],grid[1]) + L1
-  L1 = integral(pdf,grid[length(grid)],range[2]) + L1
-  
-  return(L1)
-  
-}
-
-
