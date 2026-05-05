@@ -12,25 +12,25 @@
 DensOLog(counts, grid, smooth = FALSE, B = 10000, alpha = 2,
   seed = 20180621, log_conc = TRUE)
 
-ddensolog(object, x, smooth = NULL)
+ddensolog(object, x)
 
-pdensolog(object, q, smooth = NULL, length_grid = 1001)
+pdensolog(object, q, length_grid = 1001)
 
-qdensolog(object, p, smooth = NULL, length_grid = 1001)
+qdensolog(object, p, length_grid = 1001)
 
 mean_densolog(object)
 
-evaluate_DensOLog(object, x, smooth = NULL)
+evaluate_DensOLog(object, x)
 
 Plot(object, ...)
 
-\method{plot}{DensOLog}(x, smooth = NULL, eval_grid = NULL, add = FALSE,
+\method{plot}{DensOLog}(x, eval_grid = NULL, add = FALSE,
   xlab = "x", ylab = "Density", col = "navy", lwd = 2, ...)
 }
 \arguments{
 \item{counts}{Integer observed frequencies for each bin.}
 \item{grid}{Numeric bin breaks. Must have length \code{length(counts) + 1}.}
-\item{smooth}{Logical; use the smoothed DensOLog estimate when \code{TRUE}.}
+\item{smooth}{Logical; store the fitted object as smoothed when \code{TRUE}.}
 \item{B}{Number of Monte Carlo draws used internally by DensOLog.}
 \item{alpha}{Shape parameter used in the beta perturbation.}
 \item{seed}{Random seed used internally.}

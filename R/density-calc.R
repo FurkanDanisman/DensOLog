@@ -1,8 +1,8 @@
-L2_DensOLog <- function(counts, grid, pdf, smooth = FALSE, length_grid = 1001, ...) {
-  fit <- DensOLog(counts, grid, smooth = smooth, ...)
+L2_DensOLog <- function(counts, grid, pdf, length_grid = 1001, ...) {
+  fit <- DensOLog(counts, grid, ...)
   eval_grid <- .eval_grid_from_breaks(grid, length_grid = length_grid)
   dx <- eval_grid[2L] - eval_grid[1L]
-  sqrt(sum((pdf(eval_grid) - ddensolog(fit, eval_grid, smooth = smooth))^2) * dx)
+  sqrt(sum((pdf(eval_grid) - ddensolog(fit, eval_grid))^2) * dx)
 }
 
 L2_BK2002 <- function(counts, grid, pdf, length_grid = 1001, ...) {

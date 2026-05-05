@@ -5,7 +5,7 @@
 \alias{L2_KernSmooth}
 \title{L2 error calculations}
 \usage{
-L2_DensOLog(counts, grid, pdf, smooth = FALSE, length_grid = 1001, ...)
+L2_DensOLog(counts, grid, pdf, length_grid = 1001, ...)
 
 L2_BK2002(counts, grid, pdf, length_grid = 1001, ...)
 
@@ -17,7 +17,6 @@ L2_KernSmooth(counts, grid, pdf, length_grid = 1001, ...)
 \item{counts}{Integer observed frequencies for each bin.}
 \item{grid}{Numeric bin breaks.}
 \item{pdf}{True density function used for comparison.}
-\item{smooth}{Logical; use smoothed DensOLog when \code{TRUE}.}
 \item{length_grid}{Number of evaluation grid points.}
 \item{...}{Additional arguments passed to the fitting function.}
 }

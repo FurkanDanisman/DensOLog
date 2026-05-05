@@ -87,14 +87,11 @@ DensOLog <- function(counts, grid, smooth = FALSE, B = 10000, alpha = 2,
   )
 }
 
-evaluate_DensOLog <- function(object, x, smooth = NULL) {
+evaluate_DensOLog <- function(object, x) {
   if (!inherits(object, "DensOLog")) {
     stop("object must be a DensOLog fit.", call. = FALSE)
   }
-  if (is.null(smooth)) {
-    smooth <- isTRUE(object$smooth)
-  }
-  if (smooth) {
+  if (isTRUE(object$smooth)) {
     out <- logcondens::evaluateLogConDens(x, object$fhatn, which = 4)
     ans <- out[, 5]
   } else {
@@ -105,13 +102,13 @@ evaluate_DensOLog <- function(object, x, smooth = NULL) {
   ans
 }
 
-ddensolog <- function(object, x, smooth = NULL) {
-  evaluate_DensOLog(object, x, smooth = smooth)
+ddensolog <- function(object, x) {
+  evaluate_DensOLog(object, x)
 }
 
-pdensolog <- function(object, q, smooth = NULL, length_grid = 1001) {
+pdensolog <- function(object, q, length_grid = 1001) {
   eval_grid <- .eval_grid_from_breaks(object$grid, length_grid = length_grid)
-  dens <- ddensolog(object, eval_grid, smooth = smooth)
+  dens <- ddensolog(object, eval_grid)
   dx <- diff(eval_grid)
   cdf <- c(0, cumsum((dens[-length(dens)] + dens[-1L]) * dx / 2))
   if (max(cdf) > 0) {
@@ -120,12 +117,12 @@ pdensolog <- function(object, q, smooth = NULL, length_grid = 1001) {
   stats::approx(eval_grid, cdf, xout = q, yleft = 0, yright = 1, rule = 2)$y
 }
 
-qdensolog <- function(object, p, smooth = NULL, length_grid = 1001) {
+qdensolog <- function(object, p, length_grid = 1001) {
   if (any(!is.finite(p)) || any(p < 0 | p > 1)) {
     stop("p must be finite probabilities in [0, 1].", call. = FALSE)
   }
   eval_grid <- .eval_grid_from_breaks(object$grid, length_grid = length_grid)
-  dens <- ddensolog(object, eval_grid, smooth = smooth)
+  dens <- ddensolog(object, eval_grid)
   dx <- diff(eval_grid)
   cdf <- c(0, cumsum((dens[-length(dens)] + dens[-1L]) * dx / 2))
   if (max(cdf) > 0) {
@@ -141,13 +138,13 @@ mean_densolog <- function(object) {
   object$mu_hat
 }
 
-plot.DensOLog <- function(x, smooth = NULL, eval_grid = NULL, add = FALSE,
+plot.DensOLog <- function(x, eval_grid = NULL, add = FALSE,
                           xlab = "x", ylab = "Density", col = "navy",
                           lwd = 2, ...) {
   if (is.null(eval_grid)) {
     eval_grid <- .eval_grid_from_breaks(x$grid)
   }
-  dens <- ddensolog(x, eval_grid, smooth = smooth)
+  dens <- ddensolog(x, eval_grid)
   if (add) {
     lines(eval_grid, dens, col = col, lwd = lwd, ...)
   } else {

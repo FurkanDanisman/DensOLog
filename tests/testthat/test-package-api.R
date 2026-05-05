@@ -7,6 +7,11 @@ test_that("comparison methods use counts and grid inputs", {
   expect_equal(mean_densolog(do), do$mu_hat)
   expect_true(is.finite(mean_densolog(do)))
 
+  do_s <- DensOLog(counts, grid, B = 200, smooth = TRUE)
+  expect_length(ddensolog(do, x_eval), length(x_eval))
+  expect_length(ddensolog(do_s, x_eval), length(x_eval))
+  expect_false(isTRUE(all.equal(ddensolog(do, x_eval), ddensolog(do_s, x_eval))))
+
   bk <- BK2002(counts, grid, bw_B = 2, max_iter = 2)
   expect_length(evaluate_BK2002(bk, x_eval), length(x_eval))
 
