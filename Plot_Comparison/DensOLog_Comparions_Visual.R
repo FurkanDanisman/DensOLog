@@ -11,9 +11,9 @@ x <- sort(rnorm(100, 0, 1))
 # Estimation 
 
 # DensOLog 
-fhat2 = get_fhatn(x,grid)
-grid2 <- seq(min(grid),max(grid), length.out=1001)
-fhat2plot <- evaluateLogConDens(grid2, fhat2$fhatn, which=4)
+fhat2 = get_fhatn(x,grid,log_conc = FALSE)
+eval_grid <- seq(min(grid),max(grid), length.out=1001)
+fhat2plot <- evaluateLogConDens(eval_grid, fhat2$fhatn, which=4)
 fhat_densolog <- fhat2plot[,5]
 
 # Res 
@@ -26,11 +26,11 @@ res <- nonlinear_kde_binned_BK2002(
   bw_B = 50,
   bw_method = "ste"
 )
-x_res <- res$x
-fhat_res <- res$fhat
+x_res <- eval_grid
+fhat_res <- approx(res$x, res$fhat, xout = eval_grid, rule = 2)$y
 
 # Binned 
-fhat_ndpe <- binned_np.func_for_plot(x, grid,grid2) 
+fhat_ndpe <- binned_np.func_for_plot(x, grid,eval_grid) 
 
 # KernelSmooth 
 hobj <- hist(x, breaks=grid, plot=FALSE)
@@ -50,8 +50,8 @@ fit <- bkde(y, bandwidth = h,
             gridsize = length(grid), range.x = range(grid),
             truncate = TRUE)
 
-x_ks   <- fit$x
-fhat_ks <- fit$y
+x_ks <- eval_grid
+fhat_ks <- approx(fit$x, fit$y, xout = eval_grid, rule = 2)$y
 
 # Plot 
 
@@ -63,19 +63,19 @@ par(mar=rep(0.5,4))
 # Base: true density as a curve (continuous), no grid dependence
 plot(0, 0, type = 'n', xlim=c(-4,4), ylim = c(0,0.5))
 plot(function(x) dnorm(x), xlim=c(-4,4), 
-     col="red", ylim=c(0,0.5),lwd = 1.5,add = TRUE)
+     col="black", ylim=c(0,0.5),lwd = 1.5,add = TRUE)
 
 abline(v=grid, col=gray(0.9), lty=2, lwd=0.5)
 
 # Overlay estimated densities on their own x grids
-lines(grid2,fhat_densolog,col = "orange",lwd = 1.5)
-lines(x_res,fhat_res,col = "darkviolet",lwd = 1.5)
-lines(grid2,fhat_ndpe,col = "dodgerblue",lwd = 1.5)
-lines(x_ks,fhat_ks,col = "forestgreen",lwd = 1.5)
+lines(eval_grid,fhat_densolog,col = "blue",lwd = 1.5)
+lines(x_res,fhat_res,col = "green",lwd = 1.5)
+lines(eval_grid,fhat_ndpe,col = "red",lwd = 1.5)
+lines(x_ks,fhat_ks,col = "purple",lwd = 1.5)
 
 legend("topright",
        legend = c("True Density", "Dens-OLog", "BK2002", "BinnedNP", "KernSmooth"),
-       col    = c("red", "orange", "darkviolet", "dodgerblue", "forestgreen"),
+       col    = c("black", "blue", "green", "red", "purple"),
        lwd    = 1.5,
        lty = 1,
        bty    = "n")
@@ -91,9 +91,9 @@ x <- sort(rnorm(500, 0, 1))
 # Estimation 
 
 # DensOLog 
-fhat2 = get_fhatn(x,grid)
-grid2 <- seq(min(grid),max(grid), length.out=1001)
-fhat2plot <- evaluateLogConDens(grid2, fhat2$fhatn, which=4)
+fhat2 = get_fhatn(x,grid,log_conc = FALSE)
+eval_grid <- seq(min(grid),max(grid), length.out=1001)
+fhat2plot <- evaluateLogConDens(eval_grid, fhat2$fhatn, which=4)
 fhat_densolog <- fhat2plot[,5]
 
 # Res 
@@ -106,11 +106,11 @@ res <- nonlinear_kde_binned_BK2002(
   bw_B = 50,
   bw_method = "ste"
 )
-x_res <- res$x
-fhat_res <- res$fhat
+x_res <- eval_grid
+fhat_res <- approx(res$x, res$fhat, xout = eval_grid, rule = 2)$y
 
 # Binned 
-fhat_ndpe <- binned_np.func_for_plot(x, grid,grid2) 
+fhat_ndpe <- binned_np.func_for_plot(x, grid,eval_grid) 
 
 # KernelSmooth 
 hobj <- hist(x, breaks=grid, plot=FALSE)
@@ -130,8 +130,8 @@ fit <- bkde(y, bandwidth = h,
             gridsize = length(grid), range.x = range(grid),
             truncate = TRUE)
 
-x_ks   <- fit$x
-fhat_ks <- fit$y
+x_ks <- eval_grid
+fhat_ks <- approx(fit$x, fit$y, xout = eval_grid, rule = 2)$y
 
 # Plot 
 
@@ -143,18 +143,18 @@ par(mar=rep(0.5,4))
 # Base: true density as a curve (continuous), no grid dependence
 plot(0, 0, type = 'n', xlim=c(-4,4), ylim = c(0,0.5))
 plot(function(x) dnorm(x), xlim=c(-4,4), 
-     col="red", ylim=c(0,0.5),lwd = 1.5,add = TRUE)
+     col="black", ylim=c(0,0.5),lwd = 1.5,add = TRUE)
 abline(v=grid, col=gray(0.9), lty=2, lwd=0.5)
 
 # Overlay estimated densities on their own x grids
-lines(grid2,fhat_densolog,col = "orange",lwd = 1.5)
-lines(x_res,fhat_res,col = "darkviolet",lwd = 1.5)
-lines(grid2,fhat_ndpe,col = "dodgerblue",lwd = 1.5)
-lines(x_ks,fhat_ks,col = "forestgreen",lwd = 1.5)
+lines(eval_grid,fhat_densolog,col = "blue",lwd = 1.5)
+lines(x_res,fhat_res,col = "green",lwd = 1.5)
+lines(eval_grid,fhat_ndpe,col = "red",lwd = 1.5)
+lines(x_ks,fhat_ks,col = "purple",lwd = 1.5)
 
 legend("topright",
        legend = c("True Density", "Dens-OLog", "BK2002", "BinnedNP", "KernSmooth"),
-       col    = c("red", "orange", "darkviolet", "dodgerblue", "forestgreen"),
+       col    = c("black", "blue", "green", "red", "purple"),
        lwd    = 1.5,
        lty = 1,
        bty    = "n")
@@ -171,9 +171,9 @@ x <- sort(rnorm(1000, 0, 1))
 # Estimation 
 
 # DensOLog 
-fhat2 = get_fhatn(x,grid)
-grid2 <- seq(min(grid),max(grid), length.out=1001)
-fhat2plot <- evaluateLogConDens(grid2, fhat2$fhatn, which=4)
+fhat2 = get_fhatn(x,grid,log_conc = FALSE)
+eval_grid <- seq(min(grid),max(grid), length.out=1001)
+fhat2plot <- evaluateLogConDens(eval_grid, fhat2$fhatn, which=4)
 fhat_densolog <- fhat2plot[,5]
 
 # Res 
@@ -186,11 +186,11 @@ res <- nonlinear_kde_binned_BK2002(
   bw_B = 50,
   bw_method = "ste"
 )
-x_res <- res$x
-fhat_res <- res$fhat
+x_res <- eval_grid
+fhat_res <- approx(res$x, res$fhat, xout = eval_grid, rule = 2)$y
 
 # Binned 
-fhat_ndpe <- binned_np.func_for_plot(x, grid,grid2) 
+fhat_ndpe <- binned_np.func_for_plot(x, grid,eval_grid) 
 
 # KernelSmooth 
 hobj <- hist(x, breaks=grid, plot=FALSE)
@@ -210,8 +210,8 @@ fit <- bkde(y, bandwidth = h,
             gridsize = length(grid), range.x = range(grid),
             truncate = TRUE)
 
-x_ks   <- fit$x
-fhat_ks <- fit$y
+x_ks <- eval_grid
+fhat_ks <- approx(fit$x, fit$y, xout = eval_grid, rule = 2)$y
 
 # Plot 
 
@@ -224,18 +224,18 @@ par(mar=rep(0.5,4))
 # Base: true density as a curve (continuous), no grid dependence
 plot(0, 0, type = 'n', xlim=c(-4,4), ylim = c(0,0.5))
 plot(function(x) dnorm(x), xlim=c(-4,4), 
-     col="red", ylim=c(0,0.5),lwd = 1.5,add = TRUE)
+     col="black", ylim=c(0,0.5),lwd = 1.5,add = TRUE)
 abline(v=grid, col=gray(0.9), lty=2, lwd=0.5)
 
 # Overlay estimated densities on their own x grids
-lines(grid2,fhat_densolog,col = "orange",lwd = 1.5)
-lines(x_res,fhat_res,col = "darkviolet",lwd = 1.5)
-lines(grid2,fhat_ndpe,col = "dodgerblue",lwd = 1.5)
-lines(x_ks,fhat_ks,col = "forestgreen",lwd = 1.5)
+lines(eval_grid,fhat_densolog,col = "blue",lwd = 1.5)
+lines(x_res,fhat_res,col = "green",lwd = 1.5)
+lines(eval_grid,fhat_ndpe,col = "red",lwd = 1.5)
+lines(x_ks,fhat_ks,col = "purple",lwd = 1.5)
 
 legend("topright",
        legend = c("True Density", "Dens-OLog", "BK2002", "BinnedNP", "KernSmooth"),
-       col    = c("red", "orange", "darkviolet", "dodgerblue", "forestgreen"),
+       col    = c("black", "blue", "green", "red", "purple"),
        lwd    = 1.5,
        lty = 1,
        bty    = "n")
@@ -250,14 +250,14 @@ dev.off()
 alpha=2;beta=5;
 set.seed(10)
 grid <- seq(0, 3, by = 0.1414)
-grid2 <- seq(min(grid),max(grid), length.out=1001)
+eval_grid <- seq(min(grid),max(grid), length.out=1001)
 x <- sort(rgamma(100, alpha, beta))
 
 # Estimation 
 
 # DensOLog 
-fhat2 = get_fhatn(x,grid)
-fhat2plot <- evaluateLogConDens(grid2, fhat2$fhatn, which=4)
+fhat2 = get_fhatn(x,grid,log_conc = FALSE)
+fhat2plot <- evaluateLogConDens(eval_grid, fhat2$fhatn, which=4)
 fhat_densolog <- fhat2plot[,5]
 
 # Res 
@@ -270,11 +270,11 @@ res <- nonlinear_kde_binned_BK2002(
   bw_B = 50,
   bw_method = "ste"
 )
-x_res <- res$x
-fhat_res <- res$fhat
+x_res <- eval_grid
+fhat_res <- approx(res$x, res$fhat, xout = eval_grid, rule = 2)$y
 
 # Binned 
-fhat_ndpe <- binned_np.func_for_plot(x, grid,grid2) 
+fhat_ndpe <- binned_np.func_for_plot(x, grid,eval_grid) 
 
 # KernelSmooth 
 hobj <- hist(x, breaks=grid, plot=FALSE)
@@ -294,8 +294,8 @@ fit <- bkde(y, bandwidth = h,
             gridsize = length(grid), range.x = range(grid),
             truncate = TRUE)
 
-x_ks   <- fit$x
-fhat_ks <- fit$y
+x_ks <- eval_grid
+fhat_ks <- approx(fit$x, fit$y, xout = eval_grid, rule = 2)$y
 
 # Plot 
 
@@ -307,19 +307,19 @@ par(mar=rep(0.5,4))
 # Base: true density as a curve (continuous), no grid dependence
 plot(0, 0, type = 'n', xlim=c(0,2.5), ylim = c(0,2))
 plot(function(x) dgamma(x,alpha,beta), xlim=c(0,2.5), 
-     col="red", ylim=c(0,2),lwd = 1.5,add = TRUE)
+     col="black", ylim=c(0,2),lwd = 1.5,add = TRUE)
 abline(v=grid, col=gray(0.9), lty=2, lwd=0.5)
 
 
 # Overlay estimated densities on their own x grids
-lines(grid2,fhat_densolog,col = "orange",lwd = 1.5)
-lines(x_res,fhat_res,col = "darkviolet",lwd = 1.5)
-lines(grid2,fhat_ndpe,col = "dodgerblue",lwd = 1.5)
-lines(x_ks,fhat_ks,col = "forestgreen",lwd = 1.5)
+lines(eval_grid,fhat_densolog,col = "blue",lwd = 1.5)
+lines(x_res,fhat_res,col = "green",lwd = 1.5)
+lines(eval_grid,fhat_ndpe,col = "red",lwd = 1.5)
+lines(x_ks,fhat_ks,col = "purple",lwd = 1.5)
 
 legend("topright",
        legend = c("True Density", "Dens-OLog", "BK2002", "BinnedNP", "KernSmooth"),
-       col    = c("red", "orange", "darkviolet", "dodgerblue", "forestgreen"),
+       col    = c("black", "blue", "green", "red", "purple"),
        lwd    = 1.5,
        lty = 1,
        bty    = "n")
@@ -332,14 +332,14 @@ dev.off()
 alpha=2;beta=5;
 set.seed(10)
 grid <- seq(0, 3, by = 0.1414)
-grid2 <- seq(min(grid),max(grid), length.out=1001)
+eval_grid <- seq(min(grid),max(grid), length.out=1001)
 x <- sort(rgamma(200, alpha, beta))
 
 # Estimation 
 
 # DensOLog 
-fhat2 = get_fhatn(x,grid)
-fhat2plot <- evaluateLogConDens(grid2, fhat2$fhatn, which=4)
+fhat2 = get_fhatn(x,grid,log_conc = FALSE)
+fhat2plot <- evaluateLogConDens(eval_grid, fhat2$fhatn, which=4)
 fhat_densolog <- fhat2plot[,5]
 
 # Res 
@@ -352,11 +352,11 @@ res <- nonlinear_kde_binned_BK2002(
   bw_B = 50,
   bw_method = "ste"
 )
-x_res <- res$x
-fhat_res <- res$fhat
+x_res <- eval_grid
+fhat_res <- approx(res$x, res$fhat, xout = eval_grid, rule = 2)$y
 
 # Binned 
-fhat_ndpe <- binned_np.func_for_plot(x, grid,grid2) 
+fhat_ndpe <- binned_np.func_for_plot(x, grid,eval_grid) 
 
 # KernelSmooth 
 hobj <- hist(x, breaks=grid, plot=FALSE)
@@ -376,8 +376,8 @@ fit <- bkde(y, bandwidth = h,
             gridsize = length(grid), range.x = range(grid),
             truncate = TRUE)
 
-x_ks   <- fit$x
-fhat_ks <- fit$y
+x_ks <- eval_grid
+fhat_ks <- approx(fit$x, fit$y, xout = eval_grid, rule = 2)$y
 
 # Plot 
 
@@ -389,19 +389,19 @@ par(mar=rep(0.5,4))
 # Base: true density as a curve (continuous), no grid dependence
 plot(0, 0, type = 'n', xlim=c(0,2.5), ylim = c(0,2))
 plot(function(x) dgamma(x,alpha,beta), xlim=c(0,2.5), 
-     col="red", ylim=c(0,2),lwd = 1.5,add = TRUE)
+     col="black", ylim=c(0,2),lwd = 1.5,add = TRUE)
 abline(v=grid, col=gray(0.9), lty=2, lwd=0.5)
 
 
 # Overlay estimated densities on their own x grids
-lines(grid2,fhat_densolog,col = "orange",lwd = 1.5)
-lines(x_res,fhat_res,col = "darkviolet",lwd = 1.5)
-lines(grid2,fhat_ndpe,col = "dodgerblue",lwd = 1.5)
-lines(x_ks,fhat_ks,col = "forestgreen",lwd = 1.5)
+lines(eval_grid,fhat_densolog,col = "blue",lwd = 1.5)
+lines(x_res,fhat_res,col = "green",lwd = 1.5)
+lines(eval_grid,fhat_ndpe,col = "red",lwd = 1.5)
+lines(x_ks,fhat_ks,col = "purple",lwd = 1.5)
 
 legend("topright",
        legend = c("True Density", "Dens-OLog", "BK2002", "BinnedNP", "KernSmooth"),
-       col    = c("red", "orange", "darkviolet", "dodgerblue", "forestgreen"),
+       col    = c("black", "blue", "green", "red", "purple"),
        lwd    = 1.5,
        lty = 1,
        bty    = "n")
@@ -413,14 +413,14 @@ dev.off()
 alpha=2;beta=5;
 set.seed(10)
 grid <- seq(0, 3, by = 0.1414)
-grid2 <- seq(min(grid),max(grid), length.out=1001)
+eval_grid <- seq(min(grid),max(grid), length.out=1001)
 x <- sort(rgamma(1000, alpha, beta))
 
 # Estimation 
 
 # DensOLog 
-fhat2 = get_fhatn(x,grid)
-fhat2plot <- evaluateLogConDens(grid2, fhat2$fhatn, which=4)
+fhat2 = get_fhatn(x,grid,log_conc = FALSE)
+fhat2plot <- evaluateLogConDens(eval_grid, fhat2$fhatn, which=4)
 fhat_densolog <- fhat2plot[,5]
 
 # Res 
@@ -433,11 +433,11 @@ res <- nonlinear_kde_binned_BK2002(
   bw_B = 50,
   bw_method = "ste"
 )
-x_res <- res$x
-fhat_res <- res$fhat
+x_res <- eval_grid
+fhat_res <- approx(res$x, res$fhat, xout = eval_grid, rule = 2)$y
 
 # Binned 
-fhat_ndpe <- binned_np.func_for_plot(x, grid,grid2) 
+fhat_ndpe <- binned_np.func_for_plot(x, grid,eval_grid) 
 
 # KernelSmooth 
 hobj <- hist(x, breaks=grid, plot=FALSE)
@@ -457,8 +457,8 @@ fit <- bkde(y, bandwidth = h,
             gridsize = length(grid), range.x = range(grid),
             truncate = TRUE)
 
-x_ks   <- fit$x
-fhat_ks <- fit$y
+x_ks <- eval_grid
+fhat_ks <- approx(fit$x, fit$y, xout = eval_grid, rule = 2)$y
 
 # Plot 
 
@@ -470,18 +470,18 @@ par(mar=rep(0.5,4))
 # Base: true density as a curve (continuous), no grid dependence
 plot(0, 0, type = 'n', xlim=c(0,2.5), ylim = c(0,2))
 plot(function(x) dgamma(x,alpha,beta), xlim=c(0,2.5), 
-     col="red", ylim=c(0,2),lwd = 1.5,add = TRUE)
+     col="black", ylim=c(0,2),lwd = 1.5,add = TRUE)
 abline(v=grid, col=gray(0.9), lty=2, lwd=0.5)
 
 # Overlay estimated densities on their own x grids
-lines(grid2,fhat_densolog,col = "orange",lwd = 1.5)
-lines(x_res,fhat_res,col = "darkviolet",lwd = 1.5)
-lines(grid2,fhat_ndpe,col = "dodgerblue",lwd = 1.5)
-lines(x_ks,fhat_ks,col = "forestgreen",lwd = 1.5)
+lines(eval_grid,fhat_densolog,col = "blue",lwd = 1.5)
+lines(x_res,fhat_res,col = "green",lwd = 1.5)
+lines(eval_grid,fhat_ndpe,col = "red",lwd = 1.5)
+lines(x_ks,fhat_ks,col = "purple",lwd = 1.5)
 
 legend("topright",
        legend = c("True Density", "Dens-OLog", "BK2002", "BinnedNP", "KernSmooth"),
-       col    = c("red", "orange", "darkviolet", "dodgerblue", "forestgreen"),
+       col    = c("black", "blue", "green", "red", "purple"),
        lwd    = 1.5,
        lty = 1,
        bty    = "n")
@@ -495,15 +495,15 @@ shape=2;location=2;
 shape_p = 4;
 set.seed(10)
 grid <- seq(location, 20, by = 0.4714)
-grid2 <- seq(min(grid),max(grid), length.out=1001)
+eval_grid <- seq(min(grid),max(grid), length.out=1001)
 
 x <- sort(rpareto(100,location = location,shape = shape_p))
 
 # Estimation 
 
 # DensOLog 
-fhat2 = get_fhatn(x,grid)
-fhat2plot <- evaluateLogConDens(grid2, fhat2$fhatn, which=4)
+fhat2 = get_fhatn(x,grid,log_conc = FALSE)
+fhat2plot <- evaluateLogConDens(eval_grid, fhat2$fhatn, which=4)
 fhat_densolog <- fhat2plot[,5]
 
 # Res 
@@ -516,11 +516,11 @@ res <- nonlinear_kde_binned_BK2002(
   bw_B = 50,
   bw_method = "ste"
 )
-x_res <- res$x
-fhat_res <- res$fhat
+x_res <- eval_grid
+fhat_res <- approx(res$x, res$fhat, xout = eval_grid, rule = 2)$y
 
 # Binned 
-fhat_ndpe <- binned_np.func_for_plot(x, grid,grid2) 
+fhat_ndpe <- binned_np.func_for_plot(x, grid,eval_grid) 
 
 # KernelSmooth 
 hobj <- hist(x, breaks=grid, plot=FALSE)
@@ -540,8 +540,8 @@ fit <- bkde(y, bandwidth = h,
             gridsize = length(grid), range.x = range(grid),
             truncate = TRUE)
 
-x_ks   <- fit$x
-fhat_ks <- fit$y
+x_ks <- eval_grid
+fhat_ks <- approx(fit$x, fit$y, xout = eval_grid, rule = 2)$y
 
 # Plot 
 
@@ -553,18 +553,18 @@ par(mar=rep(0.5,4))
 plot(0, 0, type = 'n', xlim=c(2,7), ylim = c(0,2))
 # Base: true density as a curve (continuous), no grid dependence
 plot(function(x) dpareto(x,location,shape_p), xlim=c(2,7), 
-     col="red", ylim=c(0,2),lwd = 1.5,add = TRUE)
+     col="black", ylim=c(0,2),lwd = 1.5,add = TRUE)
 abline(v=grid, col=gray(0.9), lty=2, lwd=0.5)
 
 # Overlay estimated densities on their own x grids
-lines(grid2,fhat_densolog,col = "orange",lwd = 1.5)
-lines(x_res,fhat_res,col = "darkviolet",lwd = 1.5)
-lines(grid2,fhat_ndpe,col = "dodgerblue",lwd = 1.5)
-lines(x_ks,fhat_ks,col = "forestgreen",lwd = 1.5)
+lines(eval_grid,fhat_densolog,col = "blue",lwd = 1.5)
+lines(x_res,fhat_res,col = "green",lwd = 1.5)
+lines(eval_grid,fhat_ndpe,col = "red",lwd = 1.5)
+lines(x_ks,fhat_ks,col = "purple",lwd = 1.5)
 
 legend("topright",
        legend = c("True Density", "Dens-OLog", "BK2002", "BinnedNP", "KernSmooth"),
-       col    = c("red", "orange", "darkviolet", "dodgerblue", "forestgreen"),
+       col    = c("black", "blue", "green", "red", "purple"),
        lwd    = 1.5,
        lty = 1,
        bty    = "n")
@@ -576,14 +576,14 @@ dev.off()
 
 set.seed(11)
 grid <- seq(location, 20, by = 0.4714)
-grid2 <- seq(min(grid),max(grid), length.out=1001)
+eval_grid <- seq(min(grid),max(grid), length.out=1001)
 x <- sort(rpareto(200,location = location,shape = shape_p))
 
 # Estimation 
 
 # DensOLog 
-fhat2 = get_fhatn(x,grid)
-fhat2plot <- evaluateLogConDens(grid2, fhat2$fhatn, which=4)
+fhat2 = get_fhatn(x,grid,log_conc = FALSE)
+fhat2plot <- evaluateLogConDens(eval_grid, fhat2$fhatn, which=4)
 fhat_densolog <- fhat2plot[,5]
 
 # Res 
@@ -596,11 +596,11 @@ res <- nonlinear_kde_binned_BK2002(
   bw_B = 50,
   bw_method = "ste"
 )
-x_res <- res$x
-fhat_res <- res$fhat
+x_res <- eval_grid
+fhat_res <- approx(res$x, res$fhat, xout = eval_grid, rule = 2)$y
 
 # Binned 
-fhat_ndpe <- binned_np.func_for_plot(x, grid,grid2) 
+fhat_ndpe <- binned_np.func_for_plot(x, grid,eval_grid) 
 
 # KernelSmooth 
 hobj <- hist(x, breaks=grid, plot=FALSE)
@@ -620,8 +620,8 @@ fit <- bkde(y, bandwidth = h,
             gridsize = length(grid), range.x = range(grid),
             truncate = TRUE)
 
-x_ks   <- fit$x
-fhat_ks <- fit$y
+x_ks <- eval_grid
+fhat_ks <- approx(fit$x, fit$y, xout = eval_grid, rule = 2)$y
 
 # Plot 
 
@@ -633,18 +633,18 @@ par(mar=rep(0.5,4))
 # Base: true density as a curve (continuous), no grid dependence
 plot(0, 0, type = 'n', xlim=c(2,7), ylim = c(0,2))
 plot(function(x) dpareto(x,location,shape_p), xlim=c(2,7), 
-     col="red", ylim=c(0,2),lwd = 1.5,add = TRUE)
+     col="black", ylim=c(0,2),lwd = 1.5,add = TRUE)
 abline(v=grid, col=gray(0.9), lty=2, lwd=0.5)
 
 # Overlay estimated densities on their own x grids
-lines(grid2,fhat_densolog,col = "orange",lwd = 1.5)
-lines(x_res,fhat_res,col = "darkviolet",lwd = 1.5)
-lines(grid2,fhat_ndpe,col = "dodgerblue",lwd = 1.5)
-lines(x_ks,fhat_ks,col = "forestgreen",lwd = 1.5)
+lines(eval_grid,fhat_densolog,col = "blue",lwd = 1.5)
+lines(x_res,fhat_res,col = "green",lwd = 1.5)
+lines(eval_grid,fhat_ndpe,col = "red",lwd = 1.5)
+lines(x_ks,fhat_ks,col = "purple",lwd = 1.5)
 
 legend("topright",
        legend = c("True Density", "Dens-OLog", "BK2002", "BinnedNP", "KernSmooth"),
-       col    = c("red", "orange", "darkviolet", "dodgerblue", "forestgreen"),
+       col    = c("black", "blue", "green", "red", "purple"),
        lwd    = 1.5,
        lty = 1,
        bty    = "n")
@@ -655,14 +655,14 @@ dev.off()
 
 set.seed(10)
 grid <- seq(location, 20, by = 0.4714)
-grid2 <- seq(min(grid),max(grid), length.out=1001)
+eval_grid <- seq(min(grid),max(grid), length.out=1001)
 x <- sort(rpareto(1000,location = location,shape = shape_p))
 
 # Estimation 
 
 # DensOLog 
-fhat2 = get_fhatn(x,grid)
-fhat2plot <- evaluateLogConDens(grid2, fhat2$fhatn, which=4)
+fhat2 = get_fhatn(x,grid,log_conc = FALSE)
+fhat2plot <- evaluateLogConDens(eval_grid, fhat2$fhatn, which=4)
 fhat_densolog <- fhat2plot[,5]
 
 # Res 
@@ -675,11 +675,11 @@ res <- nonlinear_kde_binned_BK2002(
   bw_B = 50,
   bw_method = "ste"
 )
-x_res <- res$x
-fhat_res <- res$fhat
+x_res <- eval_grid
+fhat_res <- approx(res$x, res$fhat, xout = eval_grid, rule = 2)$y
 
 # Binned 
-fhat_ndpe <- binned_np.func_for_plot(x, grid,grid2) 
+fhat_ndpe <- binned_np.func_for_plot(x, grid,eval_grid) 
 
 # KernelSmooth 
 hobj <- hist(x, breaks=grid, plot=FALSE)
@@ -699,8 +699,8 @@ fit <- bkde(y, bandwidth = h,
             gridsize = length(grid), range.x = range(grid),
             truncate = TRUE)
 
-x_ks   <- fit$x
-fhat_ks <- fit$y
+x_ks <- eval_grid
+fhat_ks <- approx(fit$x, fit$y, xout = eval_grid, rule = 2)$y
 
 # Plot 
 
@@ -712,18 +712,18 @@ par(mar=rep(0.5,4))
 # Base: true density as a curve (continuous), no grid dependence
 plot(0, 0, type = 'n', xlim=c(2,7), ylim = c(0,2))
 plot(function(x) dpareto(x,location,shape_p), xlim=c(2,7), 
-     col="red", ylim=c(0,2),lwd = 1.5,add = TRUE)
+     col="black", ylim=c(0,2),lwd = 1.5,add = TRUE)
 abline(v=grid, col=gray(0.9), lty=2, lwd=0.5)
 
 # Overlay estimated densities on their own x grids
-lines(grid2,fhat_densolog,col = "orange",lwd = 1.5)
-lines(x_res,fhat_res,col = "darkviolet",lwd = 1.5)
-lines(grid2,fhat_ndpe,col = "dodgerblue",lwd = 1.5)
-lines(x_ks,fhat_ks,col = "forestgreen",lwd = 1.5)
+lines(eval_grid,fhat_densolog,col = "blue",lwd = 1.5)
+lines(x_res,fhat_res,col = "green",lwd = 1.5)
+lines(eval_grid,fhat_ndpe,col = "red",lwd = 1.5)
+lines(x_ks,fhat_ks,col = "purple",lwd = 1.5)
 
 legend("topright",
        legend = c("True Density", "Dens-OLog", "BK2002", "BinnedNP", "KernSmooth"),
-       col    = c("red", "orange", "darkviolet", "dodgerblue", "forestgreen"),
+       col    = c("black", "blue", "green", "red", "purple"),
        lwd    = 1.5,
        lty = 1,
        bty    = "n")
@@ -736,15 +736,15 @@ dev.off()
 df=3
 set.seed(10)
 grid <- seq(0, 15, by = 1.2247)
-grid2 <- seq(min(grid),max(grid), length.out=1001)
+eval_grid <- seq(min(grid),max(grid), length.out=1001)
 
 x <- sort(rchisq(100, df))
 
 # Estimation 
 
 # DensOLog 
-fhat2 = get_fhatn(x,grid)
-fhat2plot <- evaluateLogConDens(grid2, fhat2$fhatn, which=4)
+fhat2 = get_fhatn(x,grid,log_conc = FALSE)
+fhat2plot <- evaluateLogConDens(eval_grid, fhat2$fhatn, which=4)
 fhat_densolog <- fhat2plot[,5]
 
 # Res 
@@ -757,11 +757,11 @@ res <- nonlinear_kde_binned_BK2002(
   bw_B = 50,
   bw_method = "ste"
 )
-x_res <- res$x
-fhat_res <- res$fhat
+x_res <- eval_grid
+fhat_res <- approx(res$x, res$fhat, xout = eval_grid, rule = 2)$y
 
 # Binned 
-fhat_ndpe <- binned_np.func_for_plot(x, grid,grid2) 
+fhat_ndpe <- binned_np.func_for_plot(x, grid,eval_grid) 
 
 # KernelSmooth 
 hobj <- hist(x, breaks=grid, plot=FALSE)
@@ -781,8 +781,8 @@ fit <- bkde(y, bandwidth = h,
             gridsize = length(grid), range.x = range(grid),
             truncate = TRUE)
 
-x_ks   <- fit$x
-fhat_ks <- fit$y
+x_ks <- eval_grid
+fhat_ks <- approx(fit$x, fit$y, xout = eval_grid, rule = 2)$y
 
 # Plot 
 
@@ -794,18 +794,18 @@ par(mar=rep(0.5,4))
 # Base: true density as a curve (continuous), no grid dependence
 plot(0, 0, type = 'n', xlim=c(0,10), ylim = c(0,0.5))
 plot(function(x) dchisq(x,df), xlim=c(0,10), 
-     col="red", ylim=c(0,0.5),lwd = 1.5,add = TRUE)
+     col="black", ylim=c(0,0.5),lwd = 1.5,add = TRUE)
 abline(v=grid, col=gray(0.9), lty=2, lwd=0.5)
 
 # Overlay estimated densities on their own x grids
-lines(grid2,fhat_densolog,col = "orange",lwd = 1.5)
-lines(x_res,fhat_res,col = "darkviolet",lwd = 1.5)
-lines(grid2,fhat_ndpe,col = "dodgerblue",lwd = 1.5)
-lines(x_ks,fhat_ks,col = "forestgreen",lwd = 1.5)
+lines(eval_grid,fhat_densolog,col = "blue",lwd = 1.5)
+lines(x_res,fhat_res,col = "green",lwd = 1.5)
+lines(eval_grid,fhat_ndpe,col = "red",lwd = 1.5)
+lines(x_ks,fhat_ks,col = "purple",lwd = 1.5)
 
 legend("topright",
        legend = c("True Density", "Dens-OLog", "BK2002", "BinnedNP", "KernSmooth"),
-       col    = c("red", "orange", "darkviolet", "dodgerblue", "forestgreen"),
+       col    = c("black", "blue", "green", "red", "purple"),
        lwd    = 1.5,
        lty = 1,
        bty    = "n")
@@ -816,15 +816,15 @@ dev.off()
 
 set.seed(10)
 grid <- seq(0, 20, by = 1.2247)
-grid2 <- seq(min(grid),max(grid), length.out=1001)
+eval_grid <- seq(min(grid),max(grid), length.out=1001)
 
 x <- sort(rchisq(200, df))
 
 # Estimation 
 
 # DensOLog 
-fhat2 = get_fhatn(x,grid)
-fhat2plot <- evaluateLogConDens(grid2, fhat2$fhatn, which=4)
+fhat2 = get_fhatn(x,grid,log_conc = FALSE)
+fhat2plot <- evaluateLogConDens(eval_grid, fhat2$fhatn, which=4)
 fhat_densolog <- fhat2plot[,5]
 
 # Res 
@@ -837,11 +837,11 @@ res <- nonlinear_kde_binned_BK2002(
   bw_B = 50,
   bw_method = "ste"
 )
-x_res <- res$x
-fhat_res <- res$fhat
+x_res <- eval_grid
+fhat_res <- approx(res$x, res$fhat, xout = eval_grid, rule = 2)$y
 
 # Binned 
-fhat_ndpe <- binned_np.func_for_plot(x, grid,grid2) 
+fhat_ndpe <- binned_np.func_for_plot(x, grid,eval_grid) 
 
 # KernelSmooth 
 hobj <- hist(x, breaks=grid, plot=FALSE)
@@ -861,8 +861,8 @@ fit <- bkde(y, bandwidth = h,
             gridsize = length(grid), range.x = range(grid),
             truncate = TRUE)
 
-x_ks   <- fit$x
-fhat_ks <- fit$y
+x_ks <- eval_grid
+fhat_ks <- approx(fit$x, fit$y, xout = eval_grid, rule = 2)$y
 
 # Plot 
 
@@ -874,18 +874,18 @@ par(mar=rep(0.5,4))
 # Base: true density as a curve (continuous), no grid dependence
 plot(0, 0, type = 'n', xlim=c(0,19), ylim = c(0,0.5))
 plot(function(x) dchisq(x,df), xlim=c(0,10), 
-     col="red", ylim=c(0,0.5),lwd = 1.5,add = TRUE)
+     col="black", ylim=c(0,0.5),lwd = 1.5,add = TRUE)
 abline(v=grid, col=gray(0.9), lty=2, lwd=0.5)
 
 # Overlay estimated densities on their own x grids
-lines(grid2,fhat_densolog,col = "orange",lwd = 1.5)
-lines(x_res,fhat_res,col = "darkviolet",lwd = 1.5)
-lines(grid2,fhat_ndpe,col = "dodgerblue",lwd = 1.5)
-lines(x_ks,fhat_ks,col = "forestgreen",lwd = 1.5)
+lines(eval_grid,fhat_densolog,col = "blue",lwd = 1.5)
+lines(x_res,fhat_res,col = "green",lwd = 1.5)
+lines(eval_grid,fhat_ndpe,col = "red",lwd = 1.5)
+lines(x_ks,fhat_ks,col = "purple",lwd = 1.5)
 
 legend("topright",
        legend = c("True Density", "Dens-OLog", "BK2002", "BinnedNP", "KernSmooth"),
-       col    = c("red", "orange", "darkviolet", "dodgerblue", "forestgreen"),
+       col    = c("black", "blue", "green", "red", "purple"),
        lwd    = 1.5,
        lty = 1,
        bty    = "n")
@@ -896,15 +896,15 @@ dev.off()
 
 set.seed(10)
 grid <- seq(0, 20, by = 1.2247)
-grid2 <- seq(min(grid),max(grid), length.out=1001)
+eval_grid <- seq(min(grid),max(grid), length.out=1001)
 
 x <- sort(rchisq(1000, df))
 
 # Estimation 
 
 # DensOLog 
-fhat2 = get_fhatn(x,grid)
-fhat2plot <- evaluateLogConDens(grid2, fhat2$fhatn, which=4)
+fhat2 = get_fhatn(x,grid,log_conc = FALSE)
+fhat2plot <- evaluateLogConDens(eval_grid, fhat2$fhatn, which=4)
 fhat_densolog <- fhat2plot[,5]
 
 # Res 
@@ -917,11 +917,11 @@ res <- nonlinear_kde_binned_BK2002(
   bw_B = 50,
   bw_method = "ste"
 )
-x_res <- res$x
-fhat_res <- res$fhat
+x_res <- eval_grid
+fhat_res <- approx(res$x, res$fhat, xout = eval_grid, rule = 2)$y
 
 # Binned 
-fhat_ndpe <- binned_np.func_for_plot(x, grid,grid2) 
+fhat_ndpe <- binned_np.func_for_plot(x, grid,eval_grid) 
 
 # KernelSmooth 
 hobj <- hist(x, breaks=grid, plot=FALSE)
@@ -941,8 +941,8 @@ fit <- bkde(y, bandwidth = h,
             gridsize = length(grid), range.x = range(grid),
             truncate = TRUE)
 
-x_ks   <- fit$x
-fhat_ks <- fit$y
+x_ks <- eval_grid
+fhat_ks <- approx(fit$x, fit$y, xout = eval_grid, rule = 2)$y
 
 # Plot 
 
@@ -954,18 +954,18 @@ par(mar=rep(0.5,4))
 # Base: true density as a curve (continuous), no grid dependence
 plot(0, 0, type = 'n', xlim=c(0,19), ylim = c(0,0.5))
 plot(function(x) dchisq(x,df), xlim=c(0,10), 
-     col="red", ylim=c(0,0.5),lwd = 1.5,add = TRUE)
+     col="black", ylim=c(0,0.5),lwd = 1.5,add = TRUE)
 abline(v=grid, col=gray(0.9), lty=2, lwd=0.5)
 
 # Overlay estimated densities on their own x grids
-lines(grid2,fhat_densolog,col = "orange",lwd = 1.5)
-lines(x_res,fhat_res,col = "darkviolet",lwd = 1.5)
-lines(grid2,fhat_ndpe,col = "dodgerblue",lwd = 1.5)
-lines(x_ks,fhat_ks,col = "forestgreen",lwd = 1.5)
+lines(eval_grid,fhat_densolog,col = "blue",lwd = 1.5)
+lines(x_res,fhat_res,col = "green",lwd = 1.5)
+lines(eval_grid,fhat_ndpe,col = "red",lwd = 1.5)
+lines(x_ks,fhat_ks,col = "purple",lwd = 1.5)
 
 legend("topright",
        legend = c("True Density", "Dens-OLog", "BK2002", "BinnedNP", "KernSmooth"),
-       col    = c("red", "orange", "darkviolet", "dodgerblue", "forestgreen"),
+       col    = c("black", "blue", "green", "red", "purple"),
        lwd    = 1.5,
        lty = 1,
        bty    = "n")

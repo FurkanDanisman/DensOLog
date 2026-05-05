@@ -24,6 +24,22 @@ L2_Distance_calc_both = function(x,grid,pdf, length_grid = 1001){
   
 }
 
+L2_baseline = function(x,grid,pdf, length_grid = 1001){
+  
+  est_grid <- seq(min(grid),max(grid), length.out=length_grid) # this is the evaluation grid
+  del <- min(diff(est_grid)) # this is the difference going into the Reimann sum
+  
+  f0 <- pdf(est_grid)
+  
+  fhat <- 0
+  
+  L2 <- sum((f0-fhat)^2)*del
+  L2 = sqrt(L2)
+  
+  return(L2)
+  
+}
+
 
 L2_binnednp = function(x, grid, pdf, length_grid = 1001){
   

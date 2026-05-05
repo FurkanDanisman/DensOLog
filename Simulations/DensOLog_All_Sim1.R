@@ -1,11 +1,11 @@
 # Parameters
 
-# Change the density calculation
-# Run Normal and Gamma and send it
+# Change the density calculation + 
+# Run Normal and Gamma and send it + 
 # Make a Package for all
-# Refer in the paper that you wrote the code
-# Redo figure 4 and change the color according to the Figure 1
-# Check if they are multivariate or not. Check if they can have non-uniform grid or not
+# Refer in the paper that you wrote the code +
+# Redo figure 4 and change the color according to the Figure 1 + 
+# Check if they are multivariate or not. Check if they can have non-uniform grid or not + 
 
 
 alpha=2;beta=5;
@@ -211,11 +211,6 @@ for (i in 1:B) {
 
 par(mfrow = c(3,2))
 
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(3,2),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-Normal-n-Method1.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
 boxplot(res_norm_pdf_n_12_method1,
         res_norm_pdf_n_22_method1,
         res_norm_pdf_n_32_method1,
@@ -227,13 +222,7 @@ boxplot(res_norm_pdf_n_12_method1,
                   expression(10^5),
                   expression(10^6)),
         col = colors1,ylim=c(0,0.2))
-dev.off()
 
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(3,2),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-Normal-n-Method1.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
 boxplot(smoothed_res_norm_pdf_n_12_method1,
         smoothed_res_norm_pdf_n_22_method1,
         smoothed_res_norm_pdf_n_32_method1,
@@ -245,11 +234,7 @@ boxplot(smoothed_res_norm_pdf_n_12_method1,
                   expression(10^5),
                   expression(10^6)),
         col = colors1,ylim=c(0,0.2))
-dev.off()
 
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-Normal-n-Method2.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
 boxplot(res_norm_pdf_n_12_method2,
         res_norm_pdf_n_22_method2,
         res_norm_pdf_n_32_method2,
@@ -261,11 +246,7 @@ boxplot(res_norm_pdf_n_12_method2,
                   expression(10^5),
                   expression(10^6)),
         col = colors1,ylim=c(0,0.2))
-dev.off()
 
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-Normal-n-Method3.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
 boxplot(res_norm_pdf_n_12_method3,
         res_norm_pdf_n_22_method3,
         res_norm_pdf_n_32_method3,
@@ -278,11 +259,6 @@ boxplot(res_norm_pdf_n_12_method3,
                   expression(10^6)),
         col = colors1,ylim=c(0,0.2))
 
-dev.off()
-
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-Normal-n-Method4.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
 boxplot(res_norm_pdf_n_12_method4,
         res_norm_pdf_n_22_method4,
         res_norm_pdf_n_32_method4,
@@ -294,7 +270,6 @@ boxplot(res_norm_pdf_n_12_method4,
                   expression(10^5),
                   expression(10^6)),
         col = colors1,ylim=c(0,0.2))
-dev.off()
 
 
 # Beta Distribution - Sample Size Simulation
@@ -421,18 +396,10 @@ for (i in 1:B) {
 
 # Method #
 
-par(mfrow = c(2,2))
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-Beta-n-Method1.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
 boxplot(res_beta_pdf_n_12_method1,res_beta_pdf_n_22_method1,res_beta_pdf_n_32_method1,res_beta_pdf_n_42_method1,res_beta_pdf_n_52_method1,
         names = c(expression(10^1),expression(10^2), expression(10^3), expression(10^4), expression(10^5)),
         col = colors2,ylim=c(0,0.3))
-dev.off()
 
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-Beta-n-Method1.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
 boxplot(smoothed_res_beta_pdf_n_12_method1,
         smoothed_res_beta_pdf_n_22_method1,
         smoothed_res_beta_pdf_n_32_method1,
@@ -440,33 +407,18 @@ boxplot(smoothed_res_beta_pdf_n_12_method1,
         smoothed_res_beta_pdf_n_52_method1,
         names = c(expression(10^1),expression(10^2), expression(10^3), expression(10^4), expression(10^5)),
         col = colors2,ylim=c(0,0.3))
-dev.off()
 
-
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-Beta-n-Method2.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
 boxplot(res_beta_pdf_n_12_method2,res_beta_pdf_n_22_method2,res_beta_pdf_n_32_method2,res_beta_pdf_n_42_method2,res_beta_pdf_n_52_method2,
         names = c(expression(10^1),expression(10^2), expression(10^3), expression(10^4), expression(10^5)),
         col = colors2,ylim=c(0,0.3))
-dev.off()
 
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-Beta-n-Method3.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
 boxplot(res_beta_pdf_n_12_method3,res_beta_pdf_n_22_method3,res_beta_pdf_n_32_method3,res_beta_pdf_n_42_method3,res_beta_pdf_n_52_method3,
         names = c(expression(10^1),expression(10^2), expression(10^3), expression(10^4), expression(10^5)),
         col = colors2,ylim=c(0,1))
-dev.off()
 
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-Beta-n-Method4.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
 boxplot(res_beta_pdf_n_12_method4,res_beta_pdf_n_22_method4,res_beta_pdf_n_32_method4,res_beta_pdf_n_42_method4,res_beta_pdf_n_52_method4,
         names = c(expression(10^1),expression(10^2), expression(10^3), expression(10^4), expression(10^5)),
         col = colors2,ylim=c(0,0.3))
-dev.off()
-
 
 # Gamma Distribution - Sample Size Simulation
 
@@ -591,47 +543,183 @@ for (i in 1:B) {
 
 # Method-1 #
 
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-Gamma-n-Method1.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
 boxplot(smoothed_res_gamma_pdf_n_12_method1,smoothed_res_gamma_pdf_n_22_method1,
         smoothed_res_gamma_pdf_n_32_method1,smoothed_res_gamma_pdf_n_42_method1,
         smoothed_res_gamma_pdf_n_52_method1,
         names = c(expression(10^1),expression(10^2), expression(10^3), expression(10^4), expression(10^5)),
-        col = colors3,ylim=c(0,0.3))
-dev.off()
+        col = colors3,ylim=c(0,0.4))
 
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-Gamma-n-Method1.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
 boxplot(res_gamma_pdf_n_12_method1,res_gamma_pdf_n_22_method1,res_gamma_pdf_n_32_method1,res_gamma_pdf_n_42_method1,res_gamma_pdf_n_52_method1,
         names = c(expression(10^1),expression(10^2), expression(10^3), expression(10^4), expression(10^5)),
-        col = colors3,ylim=c(0,0.3))
-dev.off()
+        col = colors3,ylim=c(0,0.4))
 
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-Gamma-n-Method2.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
 boxplot(res_gamma_pdf_n_12_method2,res_gamma_pdf_n_22_method2,res_gamma_pdf_n_32_method2,res_gamma_pdf_n_42_method2,res_gamma_pdf_n_52_method2,
         names = c(expression(10^1),expression(10^2), expression(10^3), expression(10^4), expression(10^5)),
-        col = colors3,ylim=c(0,0.3))
-dev.off()
+        col = colors3,ylim=c(0,0.4))
 
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-Gamma-n-Method3.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
 boxplot(res_gamma_pdf_n_12_method3,res_gamma_pdf_n_22_method3,res_gamma_pdf_n_32_method3,res_gamma_pdf_n_42_method3,res_gamma_pdf_n_52_method3,
         names = c(expression(10^1),expression(10^2), expression(10^3), expression(10^4), expression(10^5)),
-        col = colors3,ylim=c(0,0.3))
-dev.off()
+        col = colors3,ylim=c(0,0.4))
 
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-Gamma-n-Method4.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
 boxplot(res_gamma_pdf_n_12_method4,res_gamma_pdf_n_22_method4,res_gamma_pdf_n_32_method4,res_gamma_pdf_n_42_method4,res_gamma_pdf_n_52_method4,
         names = c(expression(10^1),expression(10^2), expression(10^3), expression(10^4), expression(10^5)),
-        col = colors3,ylim=c(0,0.3))
-dev.off()
+        col = colors3,ylim=c(0,0.4))
+
+
+# LaTeX summary tables for L2 errors: Normal and Gamma
+# Assumes all res_* objects already exist in your R session.
+
+make_summary_table <- function(method_vectors, stat = c("mean", "median"), digits = 4) {
+  stat <- match.arg(stat)
+  
+  stat_fun <- switch(
+    stat,
+    mean = function(z) mean(z, na.rm = TRUE),
+    median = function(z) median(z, na.rm = TRUE)
+  )
+  
+  out <- sapply(method_vectors, function(vs) {
+    sapply(vs, stat_fun)
+  })
+  
+  out <- t(out)
+  out <- round(out, digits)
+  out
+}
+
+print_latex_table <- function(tab, caption = "", label = "", digits = 4) {
+  n_cols <- colnames(tab)
+  
+  cat("\\begin{table}[ht]\n")
+  cat("\\centering\n")
+  cat("\\begin{tabular}{l", paste(rep("c", length(n_cols)), collapse = ""), "}\n", sep = "")
+  cat("\\hline\n")
+  cat("Method & ", paste(n_cols, collapse = " & "), " \\\\\n", sep = "")
+  cat("\\hline\n")
+  
+  for (i in seq_len(nrow(tab))) {
+    vals <- formatC(tab[i, ], format = "f", digits = digits)
+    cat(rownames(tab)[i], " & ", paste(vals, collapse = " & "), " \\\\\n", sep = "")
+  }
+  
+  cat("\\hline\n")
+  cat("\\end{tabular}\n")
+  if (nzchar(caption)) cat("\\caption{", caption, "}\n", sep = "")
+  if (nzchar(label)) cat("\\label{", label, "}\n", sep = "")
+  cat("\\end{table}\n\n")
+}
+
+n_names <- c("$10^1$", "$10^2$", "$10^3$", "$10^4$", "$10^5$")
+
+normal_methods <- list(
+  "DensOLog" = list(
+    res_norm_pdf_n_12_method1,
+    res_norm_pdf_n_22_method1,
+    res_norm_pdf_n_32_method1,
+    res_norm_pdf_n_42_method1,
+    res_norm_pdf_n_52_method1
+  ),
+  "DensOLog Smoothed" = list(
+    smoothed_res_norm_pdf_n_12_method1,
+    smoothed_res_norm_pdf_n_22_method1,
+    smoothed_res_norm_pdf_n_32_method1,
+    smoothed_res_norm_pdf_n_42_method1,
+    smoothed_res_norm_pdf_n_52_method1
+  ),
+  "Method 2" = list(
+    res_norm_pdf_n_12_method2,
+    res_norm_pdf_n_22_method2,
+    res_norm_pdf_n_32_method2,
+    res_norm_pdf_n_42_method2,
+    res_norm_pdf_n_52_method2
+  ),
+  "Method 3" = list(
+    res_norm_pdf_n_12_method3,
+    res_norm_pdf_n_22_method3,
+    res_norm_pdf_n_32_method3,
+    res_norm_pdf_n_42_method3,
+    res_norm_pdf_n_52_method3
+  ),
+  "Method 4" = list(
+    res_norm_pdf_n_12_method4,
+    res_norm_pdf_n_22_method4,
+    res_norm_pdf_n_32_method4,
+    res_norm_pdf_n_42_method4,
+    res_norm_pdf_n_52_method4
+  )
+)
+
+gamma_methods <- list(
+  "DensOLog" = list(
+    res_gamma_pdf_n_12_method1,
+    res_gamma_pdf_n_22_method1,
+    res_gamma_pdf_n_32_method1,
+    res_gamma_pdf_n_42_method1,
+    res_gamma_pdf_n_52_method1
+  ),
+  "DensOLog Smoothed" = list(
+    smoothed_res_gamma_pdf_n_12_method1,
+    smoothed_res_gamma_pdf_n_22_method1,
+    smoothed_res_gamma_pdf_n_32_method1,
+    smoothed_res_gamma_pdf_n_42_method1,
+    smoothed_res_gamma_pdf_n_52_method1
+  ),
+  "Method 2" = list(
+    res_gamma_pdf_n_12_method2,
+    res_gamma_pdf_n_22_method2,
+    res_gamma_pdf_n_32_method2,
+    res_gamma_pdf_n_42_method2,
+    res_gamma_pdf_n_52_method2
+  ),
+  "Method 3" = list(
+    res_gamma_pdf_n_12_method3,
+    res_gamma_pdf_n_22_method3,
+    res_gamma_pdf_n_32_method3,
+    res_gamma_pdf_n_42_method3,
+    res_gamma_pdf_n_52_method3
+  ),
+  "Method 4" = list(
+    res_gamma_pdf_n_12_method4,
+    res_gamma_pdf_n_22_method4,
+    res_gamma_pdf_n_32_method4,
+    res_gamma_pdf_n_42_method4,
+    res_gamma_pdf_n_52_method4
+  )
+)
+
+normal_mean <- make_summary_table(normal_methods, stat = "mean")
+normal_median <- make_summary_table(normal_methods, stat = "median")
+gamma_mean <- make_summary_table(gamma_methods, stat = "mean")
+gamma_median <- make_summary_table(gamma_methods, stat = "median")
+
+colnames(normal_mean) <- n_names
+colnames(normal_median) <- n_names
+colnames(gamma_mean) <- n_names
+colnames(gamma_median) <- n_names
+
+print_latex_table(
+  normal_mean,
+  caption = "Mean L2 error for the normal distribution.",
+  label = "tab:normal_mean_l2"
+)
+
+print_latex_table(
+  normal_median,
+  caption = "Median L2 error for the normal distribution.",
+  label = "tab:normal_median_l2"
+)
+
+print_latex_table(
+  gamma_mean,
+  caption = "Mean L2 error for the gamma distribution.",
+  label = "tab:gamma_mean_l2"
+)
+
+print_latex_table(
+  gamma_median,
+  caption = "Median L2 error for the gamma distribution.",
+  label = "tab:gamma_median_l2"
+)
 
 # Logistic Distribution - Sample Size Simulation
 
@@ -756,47 +844,25 @@ for (i in 1:B) {
 
 # Method #
 
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L1-n/L1-PDF-1-Logistic-n-Method.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
 boxplot(res_logis_pdf_n_11_method1,res_logis_pdf_n_21_method1,res_logis_pdf_n_31_method1,res_logis_pdf_n_41_method1,res_logis_pdf_n_51_method1,
         names = c(expression(10^1),expression(10^2), expression(10^3), expression(10^4), expression(10^5)),
         col = colors4,ylim=c(0,1.2))
-# segments(x0 = 0.29, y0 = 0, x1 = 10^5, y1 = 0, col = "red", lty = 2)
-dev.off()
 
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-Logistic-n-Method1.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
 boxplot(res_logis_pdf_n_12_method1,res_logis_pdf_n_22_method1,res_logis_pdf_n_32_method1,res_logis_pdf_n_42_method1,res_logis_pdf_n_52_method1,
         names = c(expression(10^1),expression(10^2), expression(10^3), expression(10^4), expression(10^5)),
         col = colors4,ylim=c(0,0.2))
-# segments(x0 = 0.29, y0 = 0, x1 = 10^5, y1 = 0, col = "red", lty = 2)
-dev.off()
 
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-Logistic-n-Method2.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
 boxplot(res_logis_pdf_n_12_method2,res_logis_pdf_n_22_method2,res_logis_pdf_n_32_method2,res_logis_pdf_n_42_method2,res_logis_pdf_n_52_method2,
         names = c(expression(10^1),expression(10^2), expression(10^3), expression(10^4), expression(10^5)),
         col = colors4,ylim=c(0,0.2))
-dev.off()
 
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-Logistic-n-Method3.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
 boxplot(res_logis_pdf_n_12_method3,res_logis_pdf_n_22_method3,res_logis_pdf_n_32_method3,res_logis_pdf_n_42_method3,res_logis_pdf_n_52_method3,
         names = c(expression(10^1),expression(10^2), expression(10^3), expression(10^4), expression(10^5)),
         col = colors4,ylim=c(0,0.2))
-dev.off()
 
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-Logistic-n-Method4.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
 boxplot(res_logis_pdf_n_12_method4,res_logis_pdf_n_22_method4,res_logis_pdf_n_32_method4,res_logis_pdf_n_42_method4,res_logis_pdf_n_52_method4,
         names = c(expression(10^1),expression(10^2), expression(10^3), expression(10^4), expression(10^5)),
         col = colors4,ylim=c(0,0.2))
-dev.off()
 
 # Student's t Distribution - Sample Size Simulation
 
@@ -960,45 +1026,35 @@ for (i in 1:B) {
 
 # Method-1 #
 
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L1-n/L1-PDF-1-t-n-Method.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
-boxplot(res_t_pdf_n_11_method1,res_t_pdf_n_21_method1,res_t_pdf_n_31_method1,res_t_pdf_n_41_method1,res_t_pdf_n_51_method1,
+boxplot(res_t_pdf_n_12_method1,
+        res_t_pdf_n_22_method1,
+        res_t_pdf_n_32_method1,
+        res_t_pdf_n_42_method1,
+        res_t_pdf_n_52_method1,
         names = c(expression(10^1),expression(10^2), expression(10^3), expression(10^4), expression(10^5)),
         col = colors5,ylim=c(0,1.2))
-dev.off()
 
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-t-n-Method1.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
-boxplot(res_t_pdf_n_12_method1,res_t_pdf_n_22_method1,res_t_pdf_n_32_method1,res_t_pdf_n_42_method1,res_t_pdf_n_52_method1,
+
+boxplot(smoothed_res_t_pdf_n_12_method1,
+        smoothed_res_t_pdf_n_22_method1,
+        smoothed_res_t_pdf_n_32_method1,
+        smoothed_res_t_pdf_n_42_method1,
+        smoothed_res_t_pdf_n_52_method1,
         names = c(expression(10^1),expression(10^2), expression(10^3), expression(10^4), expression(10^5)),
         col = colors5,ylim=c(0,0.2))
 dev.off()
 
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-t-n-Method2.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
 boxplot(res_t_pdf_n_12_method2,res_t_pdf_n_22_method2,res_t_pdf_n_32_method2,res_t_pdf_n_42_method2,res_t_pdf_n_52_method2,
         names = c(expression(10^1),expression(10^2), expression(10^3), expression(10^4), expression(10^5)),
         col = colors5,ylim=c(0,0.2))
-dev.off()
 
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-t-n-Method3.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
 boxplot(res_t_pdf_n_12_method3,res_t_pdf_n_22_method3,res_t_pdf_n_32_method3,res_t_pdf_n_42_method3,res_t_pdf_n_52_method3,
         names = c(expression(10^1),expression(10^2), expression(10^3), expression(10^4), expression(10^5)),
         col = colors5,ylim=c(0,0.2))
-dev.off()
 
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-t-n-Method4.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
 boxplot(res_t_pdf_n_12_method4,res_t_pdf_n_22_method4,res_t_pdf_n_32_method4,res_t_pdf_n_42_method4,res_t_pdf_n_52_method4,
         names = c(expression(10^1),expression(10^2), expression(10^3), expression(10^4), expression(10^5)),
         col = colors5,ylim=c(0,0.2))
-dev.off()
 
 n = c(10^3)
 B = 100
@@ -1122,46 +1178,25 @@ for (i in 1:B) {
 
 # Method-1 #
 
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L1-GW/L1-PDF-1-Normal-gw-Method.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
 boxplot(res_norm_pdf_gw_11_method1,res_norm_pdf_gw_21_method1,res_norm_pdf_gw_31_method1,res_norm_pdf_gw_41_method1,res_norm_pdf_gw_51_method1,
         names = c("2.5","2.0","1.5","1.0","0.5"),
         col = colors1,ylim=c(0,0.7))
-dev.off()
 
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-Normal-gw-Method1.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
 boxplot(res_norm_pdf_gw_12_method1,res_norm_pdf_gw_22_method1,res_norm_pdf_gw_32_method1,res_norm_pdf_gw_42_method1,res_norm_pdf_gw_52_method1,
         names = c("2.5","2.0","1.5","1.0","0.5"),
         col = colors1,ylim=c(0,0.4))
-dev.off()
 
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-Normal-gw-Method2.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
 boxplot(res_norm_pdf_gw_12_method2,res_norm_pdf_gw_22_method2,res_norm_pdf_gw_32_method2,res_norm_pdf_gw_42_method2,res_norm_pdf_gw_52_method2,
         names = c("2.5","2.0","1.5","1.0","0.5"),
         col = colors1,ylim=c(0,0.4))
-dev.off()
 
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-Normal-gw-Method3.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
 boxplot(res_norm_pdf_gw_12_method3,res_norm_pdf_gw_22_method3,res_norm_pdf_gw_32_method3,res_norm_pdf_gw_42_method3,res_norm_pdf_gw_52_method3,
         names = c("2.5","2.0","1.5","1.0","0.5"),
         col = colors1,ylim=c(0,0.4))
-dev.off()
 
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-Normal-gw-Method4.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
 boxplot(res_norm_pdf_gw_12_method4,res_norm_pdf_gw_22_method4,res_norm_pdf_gw_32_method4,res_norm_pdf_gw_42_method4,res_norm_pdf_gw_52_method4,
         names = c("2.5","2.0","1.5","1.0","0.5"),
         col = colors1,ylim=c(0,0.4))
-dev.off()
-
 
 # Beta Distribution - Grid Width Simulation
 
@@ -1283,45 +1318,25 @@ for (i in 1:B) {
 
 # Method-1 #
 
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L1-GW/L1-PDF-1-Beta-gw-Method.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
 boxplot(res_beta_pdf_gw_11_method1,res_beta_pdf_gw_21_method1,res_beta_pdf_gw_31_method1,res_beta_pdf_gw_41_method1,res_beta_pdf_gw_51_method1,
         names = c("2.5","2.0","1.5","1.0","0.5"),
         col = colors2,ylim=c(0,0.7))
-dev.off()
 
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-Beta-gw-Method1.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
 boxplot(res_beta_pdf_gw_12_method1,res_beta_pdf_gw_22_method1,res_beta_pdf_gw_32_method1,res_beta_pdf_gw_42_method1,res_beta_pdf_gw_52_method1,
         names = c("2.5","2.0","1.5","1.0","0.5"),
         col = colors2,ylim=c(0,0.7))
-dev.off()
 
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-Beta-gw-Method2.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
 boxplot(res_beta_pdf_gw_12_method2,res_beta_pdf_gw_22_method2,res_beta_pdf_gw_32_method2,res_beta_pdf_gw_42_method2,res_beta_pdf_gw_52_method2,
         names = c("2.5","2.0","1.5","1.0","0.5"),
         col = colors2,ylim=c(0,0.7))
-dev.off()
 
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-Beta-gw-Method3.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
 boxplot(res_beta_pdf_gw_12_method3,res_beta_pdf_gw_22_method3,res_beta_pdf_gw_32_method3,res_beta_pdf_gw_42_method3,res_beta_pdf_gw_52_method3,
         names = c("2.5","2.0","1.5","1.0","0.5"),
         col = colors2,ylim=c(0,0.7))
-dev.off()
 
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-Beta-gw-Method4.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
 boxplot(res_beta_pdf_gw_12_method4,res_beta_pdf_gw_22_method4,res_beta_pdf_gw_32_method4,res_beta_pdf_gw_42_method4,res_beta_pdf_gw_52_method4,
         names = c("2.5","2.0","1.5","1.0","0.5"),
         col = colors2,ylim=c(0,0.7))
-dev.off()
 
 
 # Gamma Distribution - Grid Width Simulation
@@ -1443,45 +1458,25 @@ for (i in 1:B) {
 
 # Method #
 
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L1-GW/L1-PDF-1-Gamma-gw-Method.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
 boxplot(res_gamma_pdf_gw_11_method1,res_gamma_pdf_gw_21_method1,res_gamma_pdf_gw_31_method1,res_gamma_pdf_gw_41_method1,res_gamma_pdf_gw_51_method1,
         names = c("1 (7)", "0.8 (8)", "0.6 (11)", "0.4 (16)", "0.2 (31)"),
         col = colors3,ylim=c(0,0.9))
-dev.off()
 
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-Gamma-gw-Method1.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
 boxplot(res_gamma_pdf_gw_12_method1,res_gamma_pdf_gw_22_method1,res_gamma_pdf_gw_32_method1,res_gamma_pdf_gw_42_method1,res_gamma_pdf_gw_52_method1,
         names = c("2.5","2.0","1.5","1.0","0.5"),
         col = colors3,ylim=c(0,0.4))
-dev.off()
 
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-Gamma-gw-Method2.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
 boxplot(res_gamma_pdf_gw_12_method2,res_gamma_pdf_gw_22_method2,res_gamma_pdf_gw_32_method2,res_gamma_pdf_gw_42_method2,res_gamma_pdf_gw_52_method2,
         names = c("2.5","2.0","1.5","1.0","0.5"),
         col = colors3,ylim=c(0,0.4))
-dev.off()
 
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-Gamma-gw-Method3.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
 boxplot(res_gamma_pdf_gw_12_method3,res_gamma_pdf_gw_22_method3,res_gamma_pdf_gw_32_method3,res_gamma_pdf_gw_42_method3,res_gamma_pdf_gw_52_method3,
         names = c("2.5","2.0","1.5","1.0","0.5"),
         col = colors3,ylim=c(0,0.4))
-dev.off()
 
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-Gamma-gw-Method4.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
 boxplot(res_gamma_pdf_gw_12_method4,res_gamma_pdf_gw_22_method4,res_gamma_pdf_gw_32_method4,res_gamma_pdf_gw_42_method4,res_gamma_pdf_gw_52_method4,
         names = c("2.5","2.0","1.5","1.0","0.5"),
         col = colors3,ylim=c(0,0.4))
-dev.off()
 
 
 # Logistic Distribution - Grid Width Simulation
@@ -1542,16 +1537,35 @@ res_logis_pdf_gw_32_method4 = rep(0,B)
 res_logis_pdf_gw_42_method4 = rep(0,B)
 res_logis_pdf_gw_52_method4 = rep(0,B)
 
+library(R.utils)
+
+safe_L2_Distance_calc_both <- function(x, grid, pdf, timeout = 120) {
+  withTimeout(
+    L2_Distance_calc_both(x, grid, pdf),
+    timeout = timeout,
+    onTimeout = "error"
+  )
+}
+
 set.seed(10)
 
-for (i in 1:B) {
+i = 1
+
+while (i<=B) {
   
   x = sort(rlogis(n))
   
   # Logistic Distribution - GW1
   
   # res_logis_pdf_gw_11_method1[i] = L1_Distance_calc(x,logistic_grids[[1]],pdf_logistic)
-  err_densolog = L2_Distance_calc_both(x,logistic_grids[[1]],pdf_logistic)
+  err_densolog <- try(
+    R.utils::withTimeout(L2_Distance_calc_both(x, logistic_grids[[1]], pdf_logistic),
+                         timeout = 120, onTimeout = "error"),
+    silent = TRUE
+  )
+  
+  if (inherits(err_densolog, "try-error")) next  # draw new x, same i
+  
   res_logis_pdf_gw_12_method1[i] = err_densolog[1]
   smoothed_res_logis_pdf_gw_12_method1[i] = err_densolog[2]
   res_logis_pdf_gw_12_method2[i] = L2_from_res(x,logistic_grids[[1]],pdf_logistic)
@@ -1598,51 +1612,32 @@ for (i in 1:B) {
   res_logis_pdf_gw_52_method3[i] = L2_binnednp(x,logistic_grids[[5]],pdf_logistic)
   res_logis_pdf_gw_52_method4[i] = L2_from_kernsmooth(x,logistic_grids[[5]],pdf_logistic)
   
+  i = i + 1
   print(i)
   
 }
 
 # Method #
 
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L1-GW/L1-PDF-1-Logistic-gw-Method.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
 boxplot(res_logis_pdf_gw_11_method1,res_logis_pdf_gw_21_method1,res_logis_pdf_gw_31_method1,res_logis_pdf_gw_41_method1,res_logis_pdf_gw_51_method1,
         names = c("2.5","2.0","1.5","1.0","0.5"),
         col = colors4,ylim=c(0,1.2))
-dev.off()
 
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-Logistic-gw-Method1.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
 boxplot(res_logis_pdf_gw_12_method1,res_logis_pdf_gw_22_method1,res_logis_pdf_gw_32_method1,res_logis_pdf_gw_42_method1,res_logis_pdf_gw_52_method1,
         names = c("2.5","2.0","1.5","1.0","0.5"),
         col = colors4,ylim=c(0,0.4))
-dev.off()
 
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-Logistic-gw-Method2.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
 boxplot(res_logis_pdf_gw_12_method2,res_logis_pdf_gw_22_method2,res_logis_pdf_gw_32_method2,res_logis_pdf_gw_42_method2,res_logis_pdf_gw_52_method2,
         names = c("2.5","2.0","1.5","1.0","0.5"),
         col = colors4,ylim=c(0,0.4))
-dev.off()
 
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-Logistic-gw-Method3.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
 boxplot(res_logis_pdf_gw_12_method3,res_logis_pdf_gw_22_method3,res_logis_pdf_gw_32_method3,res_logis_pdf_gw_42_method3,res_logis_pdf_gw_52_method3,
         names = c("2.5","2.0","1.5","1.0","0.5"),
         col = colors4,ylim=c(0,0.4))
-dev.off()
 
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-Logistic-gw-Method4.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
 boxplot(res_logis_pdf_gw_12_method4,res_logis_pdf_gw_22_method4,res_logis_pdf_gw_32_method4,res_logis_pdf_gw_42_method4,res_logis_pdf_gw_52_method4,
         names = c("2.5","2.0","1.5","1.0","0.5"),
         col = colors4,ylim=c(0,0.4))
-dev.off()
 
 # Student's t Distribution - Grid Width Simulation
 
@@ -1703,7 +1698,9 @@ res_t_pdf_gw_52_method4 = rep(0,B)
 
 set.seed(10)
 
-for (i in 1:B) {
+i = 1 
+
+while (i <= B) {
   
   x = sort(rt(n,df = df))
   # t_grids[[1]] <- make_breaks_cover(x, t_grids[[1]])   # use the matching grid (t_grid1...t_grid5)
@@ -1714,8 +1711,14 @@ for (i in 1:B) {
   
   # t Distribution - GW1
   
-  # res_t_pdf_gw_11_method1[i] = L1_Distance_calc(x,t_grids[[1]],pdf_t)
-  err_densolog = L2_Distance_calc_both(x,t_grids[[1]],pdf_t)
+  err_densolog <- try(
+    R.utils::withTimeout(L2_Distance_calc_both(x, t_grids[[1]], pdf_t),
+                         timeout = 60, onTimeout = "error"),
+    silent = TRUE
+  )
+  
+  if (inherits(err_densolog, "try-error")) next  # draw new x, same i
+  
   res_t_pdf_gw_12_method1[i] = err_densolog[1]
   smoothed_res_t_pdf_gw_12_method1[i] = err_densolog[2]
   res_t_pdf_gw_12_method2[i] = L2_from_res(x,t_grids[[1]],pdf_t)
@@ -1724,18 +1727,29 @@ for (i in 1:B) {
   
   # t Distribution - GW2
   
-  # res_t_pdf_gw_21_method1[i] = L1_Distance_calc(x,t_grids[[2]],pdf_t)
-  err_densolog = L2_Distance_calc_both(x,t_grids[[2]],pdf_t)
+  err_densolog <- try(
+    R.utils::withTimeout(L2_Distance_calc_both(x, t_grids[[2]], pdf_t),
+                         timeout = 60, onTimeout = "error"),
+    silent = TRUE
+  )
+  if (inherits(err_densolog, "try-error")) next  # draw new x, same i
+  
   res_t_pdf_gw_22_method1[i] = err_densolog[1]
   smoothed_res_t_pdf_gw_22_method1[i] = err_densolog[2]
   res_t_pdf_gw_22_method2[i] = L2_from_res(x,t_grids[[2]],pdf_t)
   res_t_pdf_gw_22_method3[i] = L2_binnednp(x,t_grids[[2]],pdf_t)
   res_t_pdf_gw_22_method4[i] = L2_from_kernsmooth(x,t_grids[[2]],pdf_t)
   
+  
   # t Distribution - GW3
   
-  # res_t_pdf_gw_31_method1[i] = L1_Distance_calc(x,t_grids[[3]],pdf_t)
-  err_densolog = L2_Distance_calc_both(x,t_grids[[3]],pdf_t)
+  err_densolog <- try(
+    R.utils::withTimeout(L2_Distance_calc_both(x, t_grids[[3]], pdf_t),
+                         timeout = 60, onTimeout = "error"),
+    silent = TRUE
+  )
+  if (inherits(err_densolog, "try-error")) next  # draw new x, same i
+  
   res_t_pdf_gw_32_method1[i] = err_densolog[1]
   smoothed_res_t_pdf_gw_32_method1[i] = err_densolog[2]
   res_t_pdf_gw_32_method2[i] = L2_from_res(x,t_grids[[3]],pdf_t)
@@ -1744,8 +1758,13 @@ for (i in 1:B) {
   
   # t Distribution - GW4
   
-  # res_t_pdf_gw_41_method1[i] = L1_Distance_calc(x,t_grids[[4]],pdf_t)
-  err_densolog = L2_Distance_calc_both(x,t_grids[[4]],pdf_t)
+  err_densolog <- try(
+    R.utils::withTimeout(L2_Distance_calc_both(x, t_grids[[4]], pdf_t),
+                         timeout = 60, onTimeout = "error"),
+    silent = TRUE
+  )
+  if (inherits(err_densolog, "try-error")) next  # draw new x, same i
+  
   res_t_pdf_gw_42_method1[i] = err_densolog[1]
   smoothed_res_t_pdf_gw_42_method1[i] = err_densolog[2]
   res_t_pdf_gw_42_method2[i] = L2_from_res(x,t_grids[[4]],pdf_t)
@@ -1754,8 +1773,12 @@ for (i in 1:B) {
   
   # t Distribution - GW5
   
-  # res_t_pdf_gw_51_method1[i] = L1_Distance_calc(x,t_grids[[5]],pdf_t)
-  err_densolog = L2_Distance_calc_both(x,t_grids[[5]],pdf_t)
+  err_densolog <- try(
+    R.utils::withTimeout(L2_Distance_calc_both(x, t_grids[[5]], pdf_t),
+                         timeout = 60, onTimeout = "error"),
+    silent = TRUE
+  )
+  if (inherits(err_densolog, "try-error")) next  # draw new x, same i
   res_t_pdf_gw_52_method1[i] = err_densolog[1]
   smoothed_res_t_pdf_gw_52_method1[i] = err_densolog[2]
   res_t_pdf_gw_52_method2[i] = L2_from_res(x,t_grids[[5]],pdf_t)
@@ -1764,49 +1787,31 @@ for (i in 1:B) {
   
   print(i)
   
+  i = i + 1 
+  
 }
 
 # Method #
 
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L1-GW/L1-PDF-1-t-gw-Method.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
 boxplot(res_t_pdf_gw_11_method1,res_t_pdf_gw_21_method1,res_t_pdf_gw_31_method1,res_t_pdf_gw_41_method1,res_t_pdf_gw_51_method1,
         names = c("2.5","2.0","1.5","1.0","0.5"),
         col = colors5,ylim=c(0,1.5),xlab('Grid Width'))
-dev.off()
 
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-t-gw-Method1.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
 boxplot(res_t_pdf_gw_12_method1,res_t_pdf_gw_22_method1,res_t_pdf_gw_32_method1,res_t_pdf_gw_42_method1,res_t_pdf_gw_52_method1,
         names = c("2.5","2.0","1.5","1.0","0.5"),
         col = colors5,ylim=c(0,0.5))
-dev.off()
 
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-t-gw-Method2.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
 boxplot(res_t_pdf_gw_12_method2,res_t_pdf_gw_22_method2,res_t_pdf_gw_32_method2,res_t_pdf_gw_42_method2,res_t_pdf_gw_52_method2,
         names = c("2.5","2.0","1.5","1.0","0.5"),
         col = colors5,ylim=c(0,0.5))
-dev.off()
 
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-t-gw-Method3.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
 boxplot(res_t_pdf_gw_12_method3,res_t_pdf_gw_22_method3,res_t_pdf_gw_32_method3,res_t_pdf_gw_42_method3,res_t_pdf_gw_52_method3,
         names = c("2.5","2.0","1.5","1.0","0.5"),
         col = colors5,ylim=c(0,0.5))
-dev.off()
 
-grDevices::pdf("Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-t-gw-Method4.pdf",width = 12, height = 10)
-par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
-    font.axis=1,cex.main=2)
 boxplot(res_t_pdf_gw_12_method4,res_t_pdf_gw_22_method4,res_t_pdf_gw_32_method4,res_t_pdf_gw_42_method4,res_t_pdf_gw_52_method4,
         names = c("2.5","2.0","1.5","1.0","0.5"),
         col = colors5,ylim=c(0,0.5))
-dev.off()
 
 # Data Save
 
@@ -1977,11 +1982,57 @@ df_t_n_method4 <- data.frame(
   `1e6` = res_t_pdf_n_52_method4
 )
 
+df_norm_n_method1_smoothed <- data.frame(
+  `1e2` = smoothed_res_norm_pdf_n_12_method1,
+  `1e3` = smoothed_res_norm_pdf_n_22_method1,
+  `1e4` = smoothed_res_norm_pdf_n_32_method1,
+  `1e5` = smoothed_res_norm_pdf_n_42_method1,
+  `1e6` = smoothed_res_norm_pdf_n_52_method1
+)
+
+df_beta_n_method1_smoothed <- data.frame(
+  `1e2` = smoothed_res_beta_pdf_n_12_method1,
+  `1e3` = smoothed_res_beta_pdf_n_22_method1,
+  `1e4` = smoothed_res_beta_pdf_n_32_method1,
+  `1e5` = smoothed_res_beta_pdf_n_42_method1,
+  `1e6` = smoothed_res_beta_pdf_n_52_method1
+)
+
+df_gamma_n_method1_smoothed <- data.frame(
+  `1e2` = smoothed_res_gamma_pdf_n_12_method1,
+  `1e3` = smoothed_res_gamma_pdf_n_22_method1,
+  `1e4` = smoothed_res_gamma_pdf_n_32_method1,
+  `1e5` = smoothed_res_gamma_pdf_n_42_method1,
+  `1e6` = smoothed_res_gamma_pdf_n_52_method1
+)
+
+df_logis_n_method1_smoothed <- data.frame(
+  `1e2` = smoothed_res_logis_pdf_n_12_method1,
+  `1e3` = smoothed_res_logis_pdf_n_22_method1,
+  `1e4` = smoothed_res_logis_pdf_n_32_method1,
+  `1e5` = smoothed_res_logis_pdf_n_42_method1,
+  `1e6` = smoothed_res_logis_pdf_n_52_method1
+)
+
+df_t_n_method1_smoothed <- data.frame(
+  `1e2` = smoothed_res_t_pdf_n_12_method1,
+  `1e3` = smoothed_res_t_pdf_n_22_method1,
+  `1e4` = smoothed_res_t_pdf_n_32_method1,
+  `1e5` = smoothed_res_t_pdf_n_42_method1,
+  `1e6` = smoothed_res_t_pdf_n_52_method1
+)
+
 write.csv(df_norm_n_method1, file = "~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/normal_sample_sim_data_method1.csv", row.names = FALSE)
 write.csv(df_beta_n_method1, file = "~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/beta_sample_sim_data_method1.csv", row.names = FALSE)
 write.csv(df_gamma_n_method1, file = "~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/gamma_sample_sim_data_method1.csv", row.names = FALSE)
 write.csv(df_logis_n_method1, file = "~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/logistic_sample_sim_data_method1.csv", row.names = FALSE)
 write.csv(df_t_n_method1, file = "~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/t_sample_sim_data_method1.csv", row.names = FALSE)
+
+write.csv(df_norm_n_method1_smoothed, file = "~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/normal_sample_sim_data_method1_smoothed.csv", row.names = FALSE)
+write.csv(df_beta_n_method1_smoothed, file = "~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/beta_sample_sim_data_method1_smoothed.csv", row.names = FALSE)
+write.csv(df_gamma_n_method1_smoothed, file = "~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/gamma_sample_sim_data_method1_smoothed.csv", row.names = FALSE)
+write.csv(df_logis_n_method1_smoothed, file = "~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/logistic_sample_sim_data_method1_smoothed.csv", row.names = FALSE)
+write.csv(df_t_n_method1_smoothed, file = "~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/t_sample_sim_data_method1_smoothed.csv", row.names = FALSE)
 
 write.csv(df_norm_n_method2, file = "~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/normal_sample_sim_data_method2.csv", row.names = FALSE)
 write.csv(df_beta_n_method2, file = "~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/beta_sample_sim_data_method2.csv", row.names = FALSE)
@@ -2166,11 +2217,57 @@ df_t_gw_method4 <- data.frame(
   `0.5` = res_t_pdf_gw_52_method4
 )
 
+df_norm_gw_method1_smoothed <- data.frame(
+  `2.5` = smoothed_res_norm_pdf_gw_12_method1,
+  `2.0` = smoothed_res_norm_pdf_gw_22_method1,
+  `1.5` = smoothed_res_norm_pdf_gw_32_method1,
+  `1.0` = smoothed_res_norm_pdf_gw_42_method1,
+  `0.5` = smoothed_res_norm_pdf_gw_52_method1
+)
+
+df_beta_gw_method1_smoothed <- data.frame(
+  `2.5` = smoothed_res_beta_pdf_gw_12_method1,
+  `2.0` = smoothed_res_beta_pdf_gw_22_method1,
+  `1.5` = smoothed_res_beta_pdf_gw_32_method1,
+  `1.0` = smoothed_res_beta_pdf_gw_42_method1,
+  `0.5` = smoothed_res_beta_pdf_gw_52_method1
+)
+
+df_gamma_gw_method1_smoothed <- data.frame(
+  `2.5` = smoothed_res_gamma_pdf_gw_12_method1,
+  `2.0` = smoothed_res_gamma_pdf_gw_22_method1,
+  `1.5` = smoothed_res_gamma_pdf_gw_32_method1,
+  `1.0` = smoothed_res_gamma_pdf_gw_42_method1,
+  `0.5` = smoothed_res_gamma_pdf_gw_52_method1
+)
+
+df_logis_gw_method1_smoothed <- data.frame(
+  `2.5` = smoothed_res_logis_pdf_gw_12_method1,
+  `2.0` = smoothed_res_logis_pdf_gw_22_method1,
+  `1.5` = smoothed_res_logis_pdf_gw_32_method1,
+  `1.0` = smoothed_res_logis_pdf_gw_42_method1,
+  `0.5` = smoothed_res_logis_pdf_gw_52_method1
+)
+
+df_t_gw_method1_smoothed <- data.frame(
+  `2.5` = smoothed_res_t_pdf_gw_12_method1,
+  `2.0` = smoothed_res_t_pdf_gw_22_method1,
+  `1.5` = smoothed_res_t_pdf_gw_32_method1,
+  `1.0` = smoothed_res_t_pdf_gw_42_method1,
+  `0.5` = smoothed_res_t_pdf_gw_52_method1
+)
+
 write.csv(df_norm_gw_method1, file = "~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/normal_grid_sim_data_method1.csv", row.names = FALSE)
 write.csv(df_beta_gw_method1, file = "~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/beta_grid_sim_data_method1.csv", row.names = FALSE)
 write.csv(df_gamma_gw_method1, file = "~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/gamma_grid_sim_data_method1.csv", row.names = FALSE)
 write.csv(df_logis_gw_method1, file = "~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/logistic_grid_sim_data_method1.csv", row.names = FALSE)
 write.csv(df_t_gw_method1, file = "~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/t_grid_sim_data_method1.csv", row.names = FALSE)
+
+write.csv(df_norm_gw_method1_smoothed, file = "~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/normal_grid_sim_data_method1_smoothed.csv", row.names = FALSE)
+write.csv(df_beta_gw_method1_smoothed, file = "~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/beta_grid_sim_data_method1_smoothed.csv", row.names = FALSE)
+write.csv(df_gamma_gw_method1_smoothed, file = "~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/gamma_grid_sim_data_method1_smoothed.csv", row.names = FALSE)
+write.csv(df_logis_gw_method1_smoothed, file = "~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/logistic_grid_sim_data_method1_smoothed.csv", row.names = FALSE)
+write.csv(df_t_gw_method1_smoothed, file = "~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/t_grid_sim_data_method1_smoothed.csv", row.names = FALSE)
 
 write.csv(df_norm_gw_method2, file = "~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/normal_grid_sim_data_method2.csv", row.names = FALSE)
 write.csv(df_beta_gw_method2, file = "~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/beta_grid_sim_data_method2.csv", row.names = FALSE)
@@ -2206,11 +2303,23 @@ df_gamma_n_method1 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/g
 df_logis_n_method1 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/logistic_sample_sim_data_method1.csv")
 df_t_n_method1     <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/t_sample_sim_data_method1.csv")
 
+df_norm_n_method1_smoothed  <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/normal_sample_sim_data_method1_smoothed.csv")
+df_beta_n_method1_smoothed  <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/beta_sample_sim_data_method1_smoothed.csv")
+df_gamma_n_method1_smoothed <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/gamma_sample_sim_data_method1_smoothed.csv")
+df_logis_n_method1_smoothed <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/logistic_sample_sim_data_method1_smoothed.csv")
+df_t_n_method1_smoothed     <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/t_sample_sim_data_method1_smoothed.csv")
+
 df_norm_gw_method1  <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/normal_grid_sim_data_method1.csv")
 df_beta_gw_method1  <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/beta_grid_sim_data_method1.csv")
 df_gamma_gw_method1 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/gamma_grid_sim_data_method1.csv")
 df_logis_gw_method1 <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/logistic_grid_sim_data_method1.csv")
 df_t_gw_method1     <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/t_grid_sim_data_method1.csv")
+
+df_norm_gw_method1_smoothed  <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/normal_grid_sim_data_method1_smoothed.csv")
+df_beta_gw_method1_smoothed  <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/beta_grid_sim_data_method1_smoothed.csv")
+df_gamma_gw_method1_smoothed <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/gamma_grid_sim_data_method1_smoothed.csv")
+df_logis_gw_method1_smoothed <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/logistic_grid_sim_data_method1_smoothed.csv")
+df_t_gw_method1_smoothed     <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/t_grid_sim_data_method1_smoothed.csv")
 
 # METHOD 2 #
 df_norm_n_method2  <- read.csv("~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/normal_sample_sim_data_method2.csv")
@@ -2386,6 +2495,110 @@ boxplot(df_t_gw_method1$X2.5, df_t_gw_method1$X2.0, df_t_gw_method1$X1.5,
         xlab = '',
         col = colors5, ylim=c(0,0.5))
 dev.off()
+
+plot_method1_smoothed_n <- function(df, file, cols, y_limits) {
+  grDevices::pdf(file, width = 6, height = 6)
+  par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
+      font.axis=1,cex.main=2)
+  boxplot(df$X1e2,
+          df$X1e3,
+          df$X1e4,
+          df$X1e5,
+          df$X1e6,
+          xlab = '',
+          names = c(expression(10^2), expression(10^3), expression(10^4), expression(10^5), expression(10^6)),
+          col = cols, ylim = y_limits)
+  dev.off()
+}
+
+plot_method1_smoothed_gw <- function(df, file, cols, y_limits) {
+  grDevices::pdf(file, width = 6, height = 6)
+  par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=5,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=2,cex.axis=2,
+      font.axis=1,cex.main=2)
+  boxplot(df$X2.5,
+          df$X2.0,
+          df$X1.5,
+          df$X1.0,
+          df$X0.5,
+          names = c("2.5","2.0","1.5","1.0","0.5"),
+          xlab = '',
+          col = cols, ylim = y_limits)
+  dev.off()
+}
+
+############################
+# METHOD 1 - SMOOTHED
+############################
+
+plot_method1_smoothed_n(
+  df_norm_n_method1_smoothed,
+  "~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-Normal-n-Method1-Smoothed.pdf",
+  colors1,
+  c(0,0.2)
+)
+
+plot_method1_smoothed_gw(
+  df_norm_gw_method1_smoothed,
+  "~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-Normal-gw-Method1-Smoothed.pdf",
+  colors1,
+  c(0,0.4)
+)
+
+plot_method1_smoothed_n(
+  df_beta_n_method1_smoothed,
+  "~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-Beta-n-Method1-Smoothed.pdf",
+  colors2,
+  c(0,0.45)
+)
+
+plot_method1_smoothed_gw(
+  df_beta_gw_method1_smoothed,
+  "~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-Beta-gw-Method1-Smoothed.pdf",
+  colors2,
+  c(0,1)
+)
+
+plot_method1_smoothed_n(
+  df_gamma_n_method1_smoothed,
+  "~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-Gamma-n-Method1-Smoothed.pdf",
+  colors3,
+  c(0,0.45)
+)
+
+plot_method1_smoothed_gw(
+  df_gamma_gw_method1_smoothed,
+  "~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-Gamma-gw-Method1-Smoothed.pdf",
+  colors3,
+  c(0,1)
+)
+
+plot_method1_smoothed_n(
+  df_logis_n_method1_smoothed,
+  "~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-Logistic-n-Method1-Smoothed.pdf",
+  colors4,
+  c(0,0.2)
+)
+
+plot_method1_smoothed_gw(
+  df_logis_gw_method1_smoothed,
+  "~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-Logistic-gw-Method1-Smoothed.pdf",
+  colors4,
+  c(0,0.4)
+)
+
+plot_method1_smoothed_n(
+  df_t_n_method1_smoothed,
+  "~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-n/L2-PDF-1-t-n-Method1-Smoothed.pdf",
+  colors5,
+  c(0,0.2)
+)
+
+plot_method1_smoothed_gw(
+  df_t_gw_method1_smoothed,
+  "~/Desktop/RA_Documents/RA-DOCUMENTS/PDF/Method/L2-GW/L2-PDF-1-t-gw-Method1-Smoothed.pdf",
+  colors5,
+  c(0,0.5)
+)
 
 ############################
 # METHOD 2
@@ -2785,3 +2998,4 @@ boxplot(df_t_gw_method4$X2.5, df_t_gw_method4$X2.0, df_t_gw_method4$X1.5,
         xlab = '',
         col = colors5, ylim=c(0,0.5))
 dev.off()
+
