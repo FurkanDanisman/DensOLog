@@ -135,11 +135,23 @@ qdensolog <- function(object, p, smooth = NULL, length_grid = 1001) {
   stats::approx(cdf, eval_grid, xout = p, ties = "ordered", rule = 2)$y
 }
 
-mean_densolog <- function(object) {
+mean_densolog <- function(object, smooth = NULL, length_grid = 1001) {
   if (!inherits(object, "DensOLog")) {
     stop("object must be a DensOLog fit.", call. = FALSE)
   }
-  object$mu_hat
+  if (is.null(smooth)) {
+    smooth <- isTRUE(object$smooth)
+  }
+  if (!smooth) {
+    return(object$mu_hat)
+  }
+
+  eval_grid <- .eval_grid_from_breaks(object$grid, length_grid = length_grid)
+  dens <- ddensolog(object, eval_grid, smooth = TRUE)
+  dx <- diff(eval_grid)
+  mid_x <- (eval_grid[-length(eval_grid)] + eval_grid[-1L]) / 2
+  mid_d <- (dens[-length(dens)] + dens[-1L]) / 2
+  sum(mid_x * mid_d * dx) / sum(mid_d * dx)
 }
 
 plot.DensOLog <- function(x, smooth = NULL, eval_grid = NULL, add = FALSE,
