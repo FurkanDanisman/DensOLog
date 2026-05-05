@@ -1,0 +1,364 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+
+\hypersetup{
+  colorlinks = true,
+  linkcolor = blue,
+  urlcolor = blue
+}
+
+\lstdefinestyle{Rstyle}{
+  language = R,
+  basicstyle = \ttfamily\small,
+  keywordstyle = \color{blue},
+  commentstyle = \color{gray},
+  stringstyle = \color{teal},
+  showstringspaces = false,
+  columns = fullflexible,
+  breaklines = true,
+  frame = single
+}
+\lstset{style = Rstyle}
+
+\title{\textbf{DensOLog Package Manual}\\
+\large Density Estimation from Ordered Log-Concave Discrete Data}
+\author{Furkan Danisman}
+\date{Version 0.1.0}
+
+\begin{document}
+\maketitle
+
+\tableofcontents
+\newpage
+
+\section{Overview}
+
+\texttt{DensOLog} implements density estimation from observed frequencies on a
+known grid. The package is designed for application settings where the raw
+sample is already aggregated into bin counts. The main estimator is
+\texttt{DensOLog()}, and the package also includes the three comparison methods
+used in the simulation study:
+
+\begin{enumerate}
+  \item \texttt{BK2002()}
+  \item \texttt{BinnedNP()}
+  \item \texttt{KernSmooth()}
+\end{enumerate}
+
+All fitting functions use the same basic input structure:
+
+\begin{itemize}
+  \item \texttt{counts}: observed frequencies for each grid interval.
+  \item \texttt{grid}: numeric grid breaks with length \texttt{length(counts) + 1}.
+\end{itemize}
+
+The DensOLog fit supports density, distribution, quantile, mean, and plotting
+methods. Kernel comparison fits support L2 evaluation through \texttt{Eval()}
+and visualization through \texttt{Plot\_Kernel()}.
+
+\section{Installation}
+
+The package can be installed from GitHub while the package branch is under
+development:
+
+\begin{lstlisting}
+install.packages("remotes")
+remotes::install_github("FurkanDanisman/DensOLog", ref = "package-format")
+\end{lstlisting}
+
+Then load the package:
+
+\begin{lstlisting}
+library(DensOLog)
+\end{lstlisting}
+
+\section{Input Format}
+
+\texttt{DensOLog()} does not accept raw observations. It accepts only observed
+frequencies and grid breaks.
+
+\begin{lstlisting}
+set.seed(1)
+x <- rnorm(1000)
+grid <- seq(-4, 4, by = 0.5)
+counts <- as.integer(table(cut(x, breaks = grid, include.lowest = TRUE)))
+\end{lstlisting}
+
+In direct package usage, the preprocessing step above can be done by the user
+or by an application before calling the package.
+
+\section{DensOLog Estimator}
+
+\subsection{Fit}
+
+\begin{lstlisting}
+fit <- DensOLog(counts, grid)
+fit_s <- DensOLog(counts, grid, smooth = TRUE)
+\end{lstlisting}
+
+\subsection*{Usage}
+
+\begin{lstlisting}
+DensOLog(counts, grid, smooth = FALSE, B = 10000, alpha = 2,
+         seed = 20180621, log_conc = TRUE)
+\end{lstlisting}
+
+\subsection*{Arguments}
+
+\begin{tabular}{ll}
+\toprule
+Argument & Description \\
+\midrule
+\texttt{counts} & Integer observed frequencies for each bin. \\
+\texttt{grid} & Numeric bin breaks. Must have length \texttt{length(counts) + 1}. \\
+\texttt{smooth} & Logical. If \texttt{TRUE}, downstream density functions use the smoothed fit. \\
+\texttt{B} & Number of Monte Carlo draws used internally. \\
+\texttt{alpha} & Shape parameter used in the beta perturbation. \\
+\texttt{seed} & Random seed used internally. \\
+\texttt{log\_conc} & Passed to \texttt{logcondens::logConDens()}. \\
+\bottomrule
+\end{tabular}
+
+\section{DensOLog Methods}
+
+\subsection{\texttt{ddensolog()}}
+
+Evaluate the fitted DensOLog density.
+
+\begin{lstlisting}
+x_eval <- seq(min(grid), max(grid), length.out = 200)
+d_hat <- ddensolog(fit, x_eval)
+\end{lstlisting}
+
+\subsection*{Usage}
+
+\begin{lstlisting}
+ddensolog(object, x)
+\end{lstlisting}
+
+\subsection{\texttt{pdensolog()}}
+
+Evaluate the fitted distribution function numerically.
+
+\begin{lstlisting}
+pdensolog(fit, c(-1, 0, 1))
+\end{lstlisting}
+
+\subsection*{Usage}
+
+\begin{lstlisting}
+pdensolog(object, q, length_grid = 1001)
+\end{lstlisting}
+
+\subsection{\texttt{qdensolog()}}
+
+Evaluate fitted quantiles numerically.
+
+\begin{lstlisting}
+qdensolog(fit, c(0.25, 0.50, 0.75))
+\end{lstlisting}
+
+\subsection*{Usage}
+
+\begin{lstlisting}
+qdensolog(object, p, length_grid = 1001)
+\end{lstlisting}
+
+\subsection{\texttt{mean\_densolog()}}
+
+Return the EM-step mean estimate stored in the fitted object. This is not a
+smoothed/non-smoothed choice; it is the mean estimate from the DensOLog fitting
+step.
+
+\begin{lstlisting}
+mean_densolog(fit)
+\end{lstlisting}
+
+\subsection*{Usage}
+
+\begin{lstlisting}
+mean_densolog(object)
+\end{lstlisting}
+
+\subsection{\texttt{Plot()}}
+
+Plot a fitted DensOLog density. The plotted density follows the \texttt{smooth}
+choice stored in the fitted object.
+
+\begin{lstlisting}
+Plot(fit)
+Plot(fit_s, col = "red")
+\end{lstlisting}
+
+\subsection*{Usage}
+
+\begin{lstlisting}
+Plot(object, ...)
+plot(x, eval_grid = NULL, add = FALSE, xlab = "x",
+     ylab = "Density", col = "navy", lwd = 2, ...)
+\end{lstlisting}
+
+\section{Comparison Methods}
+
+\subsection{\texttt{BK2002()}}
+
+Fit the BK2002 comparison estimator from observed frequencies and grid breaks.
+
+\begin{lstlisting}
+bk <- BK2002(counts, grid)
+\end{lstlisting}
+
+\subsection*{Usage}
+
+\begin{lstlisting}
+BK2002(counts, grid, h = NULL, bw_B = 50, bw_seed = 1,
+       bw_method = c("ste", "dpi"), max_iter = 200,
+       tol_L1 = 1e-6, verbose = FALSE)
+\end{lstlisting}
+
+\subsection{\texttt{BinnedNP()}}
+
+Fit the BinnedNP comparison estimator. The bandwidth choice is set at fitting
+time and stored in the fitted object.
+
+\begin{lstlisting}
+bn <- BinnedNP(counts, grid, bandwidth = "boot")
+bn_plugin <- BinnedNP(counts, grid, bandwidth = "plugin")
+\end{lstlisting}
+
+\subsection*{Usage}
+
+\begin{lstlisting}
+BinnedNP(counts, grid, bandwidth = c("boot", "plugin"),
+         seed_start = 1L, max_tries = 200L)
+\end{lstlisting}
+
+\subsection{\texttt{KernSmooth()}}
+
+Fit the KernSmooth comparison estimator from observed frequencies and grid
+breaks.
+
+\begin{lstlisting}
+ks <- KernSmooth(counts, grid)
+\end{lstlisting}
+
+\subsection*{Usage}
+
+\begin{lstlisting}
+KernSmooth(counts, grid, seed = 1, scalest = "minim",
+           level = 2L, kernel = "normal", canonical = FALSE,
+           truncate = TRUE)
+\end{lstlisting}
+
+\section{Kernel Plotting}
+
+\texttt{Plot\_Kernel()} plots any fitted comparison-method object returned by
+\texttt{BK2002()}, \texttt{BinnedNP()}, or \texttt{KernSmooth()}.
+
+\begin{lstlisting}
+Plot_Kernel(bk)
+Plot_Kernel(bn, add = TRUE, col = "red")
+Plot_Kernel(ks, add = TRUE, col = "blue")
+\end{lstlisting}
+
+\subsection*{Usage}
+
+\begin{lstlisting}
+Plot_Kernel(object, eval_grid = NULL, add = FALSE,
+            xlab = "x", ylab = "Density", col = "darkgreen",
+            lwd = 2, ...)
+\end{lstlisting}
+
+\section{L2 Evaluation}
+
+\texttt{Eval()} computes the numerical L2 distance between a fitted density
+estimator and a supplied true density function. It accepts both DensOLog fits
+and kernel-method fits.
+
+\begin{lstlisting}
+true_pdf <- function(z) dnorm(z)
+
+Eval(fit, true_pdf)
+Eval(fit_s, true_pdf)
+Eval(bk, true_pdf)
+Eval(bn, true_pdf)
+Eval(ks, true_pdf)
+\end{lstlisting}
+
+\subsection*{Usage}
+
+\begin{lstlisting}
+Eval(object, pdf, length_grid = 1001)
+\end{lstlisting}
+
+\subsection*{Arguments}
+
+\begin{tabular}{ll}
+\toprule
+Argument & Description \\
+\midrule
+\texttt{object} & Fitted object from \texttt{DensOLog()}, \texttt{BK2002()}, \texttt{BinnedNP()}, or \texttt{KernSmooth()}. \\
+\texttt{pdf} & True density function used for comparison. \\
+\texttt{length\_grid} & Number of numerical evaluation points. \\
+\bottomrule
+\end{tabular}
+
+\section{Complete Example}
+
+\begin{lstlisting}
+library(DensOLog)
+
+set.seed(1)
+x <- rnorm(1000)
+grid <- seq(-4, 4, by = 0.5)
+counts <- as.integer(table(cut(x, breaks = grid, include.lowest = TRUE)))
+
+fit <- DensOLog(counts, grid)
+fit_s <- DensOLog(counts, grid, smooth = TRUE)
+
+ddensolog(fit, seq(-2, 2, length.out = 5))
+pdensolog(fit, c(-1, 0, 1))
+qdensolog(fit, c(0.25, 0.50, 0.75))
+mean_densolog(fit)
+Plot(fit)
+
+bk <- BK2002(counts, grid)
+bn <- BinnedNP(counts, grid, bandwidth = "boot")
+ks <- KernSmooth(counts, grid)
+
+Plot_Kernel(bk)
+Plot_Kernel(bn, add = TRUE, col = "red")
+Plot_Kernel(ks, add = TRUE, col = "blue")
+
+true_pdf <- function(z) dnorm(z)
+Eval(fit, true_pdf)
+Eval(fit_s, true_pdf)
+Eval(bk, true_pdf)
+Eval(bn, true_pdf)
+Eval(ks, true_pdf)
+\end{lstlisting}
+
+\section{Exported Functions}
+
+\begin{itemize}
+  \item \texttt{DensOLog()}
+  \item \texttt{ddensolog()}
+  \item \texttt{pdensolog()}
+  \item \texttt{qdensolog()}
+  \item \texttt{mean\_densolog()}
+  \item \texttt{Plot()}
+  \item \texttt{BK2002()}
+  \item \texttt{BinnedNP()}
+  \item \texttt{KernSmooth()}
+  \item \texttt{Plot\_Kernel()}
+  \item \texttt{Eval()}
+\end{itemize}
+
+\end{document}

@@ -113,6 +113,7 @@ Eval(ks, true_pdf)
 2. Simulation codes and results to compare methods.
 3. Code to compare methods visually.
 4. Application of DensOLog on real data and synthetic data. 
+5. A package-style manual in `Manual/DensOLog-manual.pdf`, with LaTeX source in `Manual/DensOLog-manual.tex`.
 
 ### Repository structure
 
