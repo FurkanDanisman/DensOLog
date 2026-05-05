@@ -51,7 +51,8 @@ DensOLog <- function(counts, grid, smooth = FALSE, B = 10000, alpha = 2,
     sigma <- sqrt(sum(pn * (.left_centers(grid) - mu_mid)^2) + delta^2 / 12)
   }
 
-  mu_n <- EMemp_counts(counts, grid, start = mu_mid, sigma = sigma)$mu_hat
+  em_fit <- EMemp_counts(counts, grid, start = mu_mid, sigma = sigma)
+  mu_n <- em_fit$mu_hat
   Delta <- mu_n - mu_low
   beta <- 2 * alpha * (Delta / delta - 0.5)
   check_z <- min(alpha + beta, alpha - beta)
@@ -78,6 +79,8 @@ DensOLog <- function(counts, grid, smooth = FALSE, B = 10000, alpha = 2,
       B = B,
       alpha = alpha,
       beta = beta,
+      mu_hat = mu_n,
+      mu_vec = em_fit$mu_vec,
       sumphat = sum(phat),
       checkZ = check_z
     ),
@@ -132,13 +135,11 @@ qdensolog <- function(object, p, smooth = NULL, length_grid = 1001) {
   stats::approx(cdf, eval_grid, xout = p, ties = "ordered", rule = 2)$y
 }
 
-mean_densolog <- function(object, smooth = NULL, length_grid = 1001) {
-  eval_grid <- .eval_grid_from_breaks(object$grid, length_grid = length_grid)
-  dens <- ddensolog(object, eval_grid, smooth = smooth)
-  dx <- diff(eval_grid)
-  mid_x <- (eval_grid[-length(eval_grid)] + eval_grid[-1L]) / 2
-  mid_d <- (dens[-length(dens)] + dens[-1L]) / 2
-  sum(mid_x * mid_d * dx) / sum(mid_d * dx)
+mean_densolog <- function(object) {
+  if (!inherits(object, "DensOLog")) {
+    stop("object must be a DensOLog fit.", call. = FALSE)
+  }
+  object$mu_hat
 }
 
 plot.DensOLog <- function(x, smooth = NULL, eval_grid = NULL, add = FALSE,
