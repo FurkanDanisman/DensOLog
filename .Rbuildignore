@@ -1,0 +1,10 @@
+^\.git$
+^\.gitignore$
+^\.\.Rcheck$
+^Algorithms$
+^Application_Example$
+^Plot_Comparison$
+^Simulations$
+^Readme[.]md$
+^method_questions[.]md$
+^plots[.].*

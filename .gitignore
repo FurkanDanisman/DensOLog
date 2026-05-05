@@ -1,1 +1,4 @@
 method_questions.md
+*.Rcheck/
+..Rcheck/
+*.tar.gz

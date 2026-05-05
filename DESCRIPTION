@@ -1,0 +1,26 @@
+Package: DensOLog
+Type: Package
+Title: Density Estimation from Ordered Log-Concave Discrete Data
+Version: 0.1.0
+Authors@R: c(
+    person("Furkan", "Danisman", role = c("aut", "cre"),
+           email = "furkandanisman@example.com")
+    )
+Author: Furkan Danisman [aut, cre]
+Maintainer: Furkan Danisman <furkandanisman@example.com>
+Description: Implements DensOLog density estimation from observed frequencies
+    on a grid, together with comparison methods used in the accompanying
+    simulation study: BK2002, BinnedNP, and KernSmooth.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Imports:
+    binnednp,
+    KernSmooth,
+    logcondens,
+    logcondiscr,
+    stats
+Suggests:
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
