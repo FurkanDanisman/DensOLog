@@ -18,7 +18,7 @@ color <- c(
 for (country in Countries){
   
   HMD_CAN = readHMDweb(CNTRY = country,item = "Deaths_1x10",username = "furkanb@my.yorku.ca",
-                       password = "Mandalina01.",fixup = TRUE)
+                       password = "",fixup = TRUE)
   
   HMD_CAN_2010 = subset(HMD_CAN,Year == 2010)
   
@@ -36,20 +36,31 @@ for (country in Countries){
   n_male = HMD_CAN_2010_M$Male
   n_female = HMD_CAN_2010_F$Female
   
-  lcd_results_male = get_fhatn_with_n(n_male,grid)
+  lcd_results_male = get_fhatn_with_n(n_i = n_male,grid = grid)
   
-  lcd_results_male_mu = round(EMemp_with_n(n_male,grid))
+  lcd_results_male_mu = round(EMemp_with_n(n_male,grid)$mu_hat)
   
   grid2 <- seq(min(grid),max(grid), length.out=1001)
   
-  estimated_grid_density_male = evaluateLogConDens(grid2,lcd_results_male$fhatn,which = 4)[,5]
+  density_male = evaluateLogConDens(grid2,lcd_results_male$fhatn,which = c(4,5))
+  
+  cdf_male = density_male[,6]
+  
+  estimated_grid_density_male = density_male[,5]
   
   lcd_results_female = get_fhatn_with_n(n_female,grid)
   
-  lcd_results_female_mu = round(EMemp_with_n(n_female,grid))
+  lcd_results_female_mu = round(EMemp_with_n(n_female,grid)$mu_hat)
   
-  estimated_grid_density_female = evaluateLogConDens(grid2,lcd_results_female$fhatn,which = 4)[,5]
+  density_female = evaluateLogConDens(grid2,lcd_results_female$fhatn,which = c(4,5))
   
+  cdf_female = density_male[,6]
+  
+  estimated_grid_density_female = density_female[,5]
+  
+  hazard_func_male = estimated_grid_density_male / (1 - cdf_male)
+  hazard_func_female = estimated_grid_density_female / (1 - cdf_female)
+    
   grDevices::pdf(
     glue("/Users/furkandanisman/Desktop/RA_Documents/RA-DOCUMENTS/Mortaility_{country}.pdf"),
     width = 12, height = 10
@@ -59,13 +70,42 @@ for (country in Countries){
       font.axis=1,cex.main=3)
   
   plot(grid2, estimated_grid_density_female, type = "l",
-       xlab = "Age", ylab = "PDF",
+       xlab = "", ylab = "",
        main = "",col="purple",lwd = 5)
   
   lines(grid2, estimated_grid_density_male,col="brown3",lwd = 5)
 
   legend("topleft", 
          legend = c(glue("Female ({lcd_results_female_mu})"),glue("Male ({lcd_results_male_mu})")), 
+         col = c("purple","brown3"), 
+         lty = c(1,1),
+         lwd = c(5,5),
+         bty = "n", 
+         pt.cex = 2, 
+         cex = 2, 
+         text.col = "black", 
+         horiz = F, 
+         inset = c(0, 0),x.intersp = 0.2, y.intersp = 1,seg.len = 0.75) # -0.3
+  
+  dev.off()
+  
+  
+  grDevices::pdf(
+    glue("/Users/furkandanisman/Desktop/RA_Documents/RA-DOCUMENTS/Hazard_{country}.pdf"),
+    width = 12, height = 10
+  )
+  
+  par(bg='white', mar = c(4, 5, 4, 1), xpd=T,cex=6,bty="l",font.lab=1,mfrow=c(1,1),cex.lab=3,cex.axis=3,
+      font.axis=1,cex.main=3)
+  
+  plot(grid2, hazard_func_male, type = "l",
+       xlab = "", ylab = "",
+       main = "",col="brown3",lwd = 5)
+  
+  lines(grid2, hazard_func_female,col="purple",lwd = 5)
+  
+  legend("topleft", 
+         legend = c(glue("Female"),glue("Male")), 
          col = c("purple","brown3"), 
          lty = c(1,1),
          lwd = c(5,5),
@@ -98,7 +138,7 @@ Countries = c("NOR","USA","JPN","CAN","KOR","AUS")
 for (country in Countries){
   
   HMD_CAN = readHMDweb(CNTRY = country,item = "Deaths_1x10",username = "furkanb@my.yorku.ca",
-                       password = "Mandalina01.",fixup = TRUE)
+                       password = "",fixup = TRUE)
   
   HMD_CAN_2010 = subset(HMD_CAN,Year == 2010)
   
@@ -176,7 +216,7 @@ color <- c(
 
 # --- NOR ---
 HMD_NOR <- readHMDweb(CNTRY = "NOR", item = "Deaths_1x10", username = "furkanb@my.yorku.ca",
-                      password = "Mandalina01.", fixup = TRUE)
+                      password = "", fixup = TRUE)
 HMD_NOR_2010 <- subset(HMD_NOR, Year == 2010)
 HMD_NOR_2010 <- HMD_NOR_2010[1:(nrow(HMD_NOR_2010) - 1), ]
 HMD_NOR_2010$Total <- round(HMD_NOR_2010$Total)
@@ -206,7 +246,7 @@ d <- d + 1
 
 # --- USA ---
 HMD_USA <- readHMDweb(CNTRY = "USA", item = "Deaths_1x10", username = "furkanb@my.yorku.ca",
-                      password = "Mandalina01.", fixup = TRUE)
+                      password = "", fixup = TRUE)
 HMD_USA_2010 <- subset(HMD_USA, Year == 2010)
 HMD_USA_2010 <- HMD_USA_2010[1:(nrow(HMD_USA_2010) - 1), ]
 HMD_USA_2010$Total <- round(HMD_USA_2010$Total)
@@ -225,7 +265,7 @@ d <- d + 1
 
 # --- JPN ---
 HMD_JPN <- readHMDweb(CNTRY = "JPN", item = "Deaths_1x10", username = "furkanb@my.yorku.ca",
-                      password = "Mandalina01.", fixup = TRUE)
+                      password = "", fixup = TRUE)
 HMD_JPN_2010 <- subset(HMD_JPN, Year == 2010)
 HMD_JPN_2010 <- HMD_JPN_2010[1:(nrow(HMD_JPN_2010) - 1), ]
 HMD_JPN_2010$Total <- round(HMD_JPN_2010$Total)
@@ -244,7 +284,7 @@ d <- d + 1
 
 # --- CAN ---
 HMD_CAN <- readHMDweb(CNTRY = "CAN", item = "Deaths_1x10", username = "furkanb@my.yorku.ca",
-                      password = "Mandalina01.", fixup = TRUE)
+                      password = "", fixup = TRUE)
 HMD_CAN_2010 <- subset(HMD_CAN, Year == 2010)
 HMD_CAN_2010 <- HMD_CAN_2010[1:(nrow(HMD_CAN_2010) - 1), ]
 HMD_CAN_2010$Total <- round(HMD_CAN_2010$Total)
@@ -263,7 +303,7 @@ d <- d + 1
 
 # --- KOR ---
 HMD_KOR <- readHMDweb(CNTRY = "KOR", item = "Deaths_1x10", username = "furkanb@my.yorku.ca",
-                      password = "Mandalina01.", fixup = TRUE)
+                      password = "", fixup = TRUE)
 HMD_KOR_2010 <- subset(HMD_KOR, Year == 2010)
 HMD_KOR_2010 <- HMD_KOR_2010[1:(nrow(HMD_KOR_2010) - 1), ]
 HMD_KOR_2010$Total <- round(HMD_KOR_2010$Total)
@@ -282,7 +322,7 @@ d <- d + 1
 
 # --- AUS ---
 HMD_AUS <- readHMDweb(CNTRY = "AUS", item = "Deaths_1x10", username = "furkanb@my.yorku.ca",
-                      password = "Mandalina01.", fixup = TRUE)
+                      password = "", fixup = TRUE)
 HMD_AUS_2010 <- subset(HMD_AUS, Year == 2010)
 HMD_AUS_2010 <- HMD_AUS_2010[1:(nrow(HMD_AUS_2010) - 1), ]
 HMD_AUS_2010$Total <- round(HMD_AUS_2010$Total)
