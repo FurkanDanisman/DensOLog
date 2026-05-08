@@ -16,6 +16,9 @@ EMemp <- function(x, grid, sigma=1, start=0, max_step=1000, eps2=1e-10, eps1=1e-
   n <- length(x)
   pn <- (hist(x, breaks=grid,plot = FALSE)$counts)/n
   
+  n = sum(n_i)
+  pn <- n_i/n
+  
   mu_new <- start
   mu_vec <- mu_new
   delta  <- 10
@@ -40,7 +43,7 @@ EMemp <- function(x, grid, sigma=1, start=0, max_step=1000, eps2=1e-10, eps1=1e-
   
 }
 
-EMemp_with_n = function(n_i,grid){
+EMemp_with_n = function(n_i,grid, sigma=1, start=0, max_step=1000, eps2=1e-10, eps1=1e-5){
   
   delta = max(diff(grid)) # Taking the interval gap if [a_i, b_i) => delta = b_i - a_i 
   # (Assuming a uniform grid, delta remains the same for any i)
@@ -55,9 +58,33 @@ EMemp_with_n = function(n_i,grid){
   mid_point <- sum(interval_centers * pn) 
   weighted_variance <- sum(pn * (interval_centers - mid_point)^2)
   
-  mu_hat = EMemp(n_i,grid,start = mid_point,sigma = sqrt(weighted_variance))$mu_hat
+  start = mid_point
+  sigma = sqrt(weighted_variance)
   
-  return(mu_hat)
+  n = sum(n_i)
+  pn <- n_i/n
+  
+  mu_new <- start
+  mu_vec <- mu_new
+  delta  <- 10
+  
+  for(i in 1:max_step){
+    
+    mu_old <- mu_new
+    
+    alpha <- (grid-mu_old)/sigma
+    temp  <- (diff(G2(alpha))+eps2)/(diff(G1(alpha))+eps2)
+    
+    mu_new <- mu_old - sigma*sum(pn*temp)
+    mu_vec <- c(mu_new, mu_vec)
+    
+    delta <- abs(mu_new-mu_old)
+    
+    if(delta<eps1) break
+    
+  }
+  
+  return(list(mu_hat = mu_new, mu_vec=mu_vec))
   
 }
 
